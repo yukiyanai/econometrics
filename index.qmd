@@ -16,7 +16,7 @@
 
 - シラバス（講義要項）：[PDF](https://yukiyanai.github.io/jp/classes/metrics1/docs/syllabus-econometrics_2024-1Q.pdf)
 - 講義スライドは [KUTLMS](https://lms.kochi-tech.ac.jp/course/view.php?id=3880) で配布する
-- [KUTLMS](https://lms.kochi-tech.ac.jp/course/view.php?id=XXXX)
+- [KUTLMS](https://lms.kochi-tech.ac.jp/course/view.php?id=3880)
     - 登録キーはポータルで通知する
 - [授業用のSlackグループ](https://kut-metrics-2024.slack.com)
     - [登録](https://join.slack.com/t/kut-metrics-2024/signup) には大学ドメイン のメールアドレスが必要
