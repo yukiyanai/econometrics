@@ -1,0 +1,92 @@
+# 実習の準備
+
+この授業の実習資料は、永国寺キャンパスの情報演習室に設置されているPCで、「高知工科大学」の環境にログインしていることを前提に作られている。個人所有のコンピュータを使う場合は、以下の環境を用意すること。
+
+- [R](https://www.r-project.org/index.html)（version 4.3.2 以降）
+- [RStudio](https://posit.co/download/rstudio-desktop/) （version 2023.12.1）
+
+
+:::callout-caution
+高知県立大学の環境にもログインできてしまうので注意。
+ログイン画面では必ず「高知工科大学」を選択すること。
+:::
+
+この授業ではRとRStudio の基本操作については**説明しない**ので、基本操作については[統計学1](https://yukiyanai.github.io/stat1/)や[統計学2](https://yukiyanai.github.io/stat2/)の資料を参照されたい。
+
+
+## プロジェクトの作成
+
+まずは、授業用のプロジェクトを作ろう。
+
+- RStudio を起動する。
+- 上部のメニューから、`File` -> `New Project...` を選択する
+- `New Directory` を選ぶ
+- `New Project` を選ぶ
+- `Directory Name:` にプロジェクト名を**英数字で**入力する（例：`econometrics`）
+  - プロジェクトを保存する場所を変えたい場合は、`Create project as subdirectory of:` の内容を変える（変える必要はない）
+- 入力内容に誤りがないことを確認して、`Cretea Project` をクリックする
+
+プロジェクトができたら、データを保存するための `data` ディレクトリをプロジェクト内に作ろう。
+プロジェクトを開いた状態で、**Console** に以下のコマンドを入力して実行する。
+
+```{r}
+#| eval: false
+dir.create("data")
+```
+
+スペルミスに注意 ("date" ではない！)。
+
+
+
+
+## 必要なパッケージのインストール
+
+### 大学のPCを使う場合
+
+すべてインストール済みのはずなので、新たにインストールする必要ない。
+
+インストールが必要な場合は、
+
+- `install.packages()`（CRANからインストールする場合）
+- `remotes::install_github()`（GitHub からインストールする場合）
+
+などを使ってインストールする。
+
+Proxy の設定を行わないとインストールできない可能性があるが、その場合は授業中に手順を説明する。
+
+
+### 自分のパソコンを使う場合
+
+あらかじめ（自宅等で）必要なパッケージをインストールしておくと、実習の際に時間を節約できる。
+以下のコマンドを実行してパッケージをインストールすれば、この実習資料で扱う内容には対応できる。
+
+
+```{r}
+#| eval: false
+pkgs <- c("tidyverse",
+          "remotes",
+          "pacman",
+          "texreg",
+          "haven",
+          "readxl",
+          "broom",
+          "shiny",
+          "coefplot",
+          "interplot")
+
+install.packages(pkgs, dependencies = TRUE)
+remotes::install_github("Gedevan-Aleksizde/fontregisterer", upgrade = "never")
+```
+
+
+
+
+授業で追加のパッケージが必要になったときは、授業中にインストール法を説明する。
+各自のレポート執筆のためにここに挙げられているものの他にパッケージが必要になったら、
+
+- `install.packages()`（CRANからインストールする場合）
+- `remotes::install_github()`（GitHub からインストールする場合）
+
+などを使ってインストールする。ただし、大学のネットワークを利用すると、proxy の設定が必要になる可能性がある（自宅等でインストールするほうが簡単である）。
+
+

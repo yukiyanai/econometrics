@@ -1,0 +1,49 @@
+project:
+  type: book
+  output-dir: docs
+language: jayy.yml
+
+book:
+  title: "KUT 計量経済学"
+  author: "矢内 勇生"
+  date: "April 2, 2024"
+  sidebar:
+    style: docked
+    background: light
+  page-navigation: true
+  page-footer:
+    center: "Copyright 2024, Yuki Yanai"
+    background: light
+    border: false
+  search: true
+  site-url: https://yukiyanai.github.io/metrics/
+  repo-url: https://github.com/yukiyanai/metrics/
+  repo-branch: main
+  sharing: [twitter, facebook]
+  chapters:
+    - index.qmd
+    - econometrics-prep.qmd
+    - regression-intro.qmd
+    - data-handling.qmd
+    - regression-estimation.qmd
+    - regression-test-inference.qmd
+    - multiple-regression.qmd
+    - regression-misc.qmd
+    - regression-reports.qmd
+    - interaction.qmd
+    - multiple-comparison.qmd
+format:
+  html:
+    theme: yeti
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    highlight-style: arrow
+    html-math-method: mathjax
+    code-link: true
+    fig-width: 5
+    fig-height: 4
+    link-external-newwindow: true
+
+crossref:
+  ref-hyperlink: true

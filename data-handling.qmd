@@ -1,0 +1,462 @@
+# Rによるデータ操作
+
+**今回の目標**
+
+- 様々な形式のデータをRに読み込ませる方法を身につける
+- データの整形方法を理解する
+
+## 準備
+
+準備として、必要なパッケージを読み込み、図の日本語が正しく表示されるようにする。
+
+```{r}
+#| message: false
+pacman::p_load(tidyverse,
+               haven,
+               readxl)
+```
+
+（大学のPCで）`pacman::p_load()` がうまくいかない場合は、以下のようにパッケージを1つずつ読み込む（**次回以降も同じようにする**）。
+
+```{r}
+#| eval: false
+library(tidyverse)
+library(haven)
+library(readxl)
+```
+
+
+次に、ggplot2のテーマとフォントの設定を行う。自分好みの設定がある場合は自由に変えてよい。Linuxには[IPAexフォント](https://moji.or.jp/ipafont/) がインストールされていることを想定している（IPAex はインストールすれば maxOSやWindows でも使える）。
+```{r}
+if (.Platform$OS.type == "windows") { 
+  if (require(fontregisterer)) {
+    my_font <- "Yu Gothic"
+  } else {
+    my_font <- "Japan1"
+  }
+} else if (capabilities("aqua")) {
+  my_font <- "HiraginoSans-W3"
+} else {
+  my_font <- "IPAexGothic"
+}
+
+theme_set(theme_gray(base_size = 9,
+                     base_family = my_font))
+```
+
+
+
+
+
+
+## データの読み込み
+
+### CSV 形式のデータを読む
+
+データの形式として最もよく使われるものの1つが、CSV (comma separated values) という形式である。これはただのテキストファイルであり、値がカンマで区切られているだけである。
+
+この形式のファイルの中身を理解するために、 [fake_data_02.csv](https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_02.csv) を利用しよう。
+まずは、上のダウンロードして、プロジェクト内の data ディレクトリ（フォルダ）にファイルを保存する。
+
+
+
+```{r, eval = FALSE}
+download.file(
+    url = "https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_02.csv",
+    destfile = "data/fake_data_02.csv"
+)
+```
+**ダウンロードがうまくできないとき（この後開いてみたら中身が壊れているとき）は、ブラウザ上でデータのリンクをクリック（あるいは右クリック; 副クリック）してファイルを保存し、プロジェクト内の data フォルダにダウンロードしたファイルをを移動しよう（以下で登場するファイルについても同様）**。
+
+ファイルがダウンロードできたら、そのファイルを開いてみよう。
+
+まず、エクスプローラー（Macの場合はファインダ）でこのファイルを右クリック（副クリックまたは control を押しながらクリック）し、「プログラムから開く」を選び、LibreOffice Calc または Microsoft Excel で開いてみよう。見慣れた形式（スプレッドシート）でデータが見えるはずだ。確認できたらCalc/Excelを閉じよう。
+
+次に、同じファイルを同様に「プログラムから開く」で**Visual Studio Code**（またはその他のテキストエディタ）で開いてみよう。ファイルの中身が見えるはずだ。CSV ファイルは、1行目は変数の名前、2行目以降は各行が1つの観測（このデータの場合は1人）、各行で異なる変数の間にカンマがある（そのため、カンマ区切りデータと呼ばれる）という特徴がある。
+
+この形式のメリットとして、
+
+- テキストファイルなのでファイルの中身が単純明快
+- 容量が小さい
+- どんな統計ソフトでも読める
+- 統計ソフトがなくてもメモ帳さえあれば編集可能
+
+などがあげられる（**注意：このファイルを Word 等のワープロソフトで編集しないように。余分な内容が追加されてデータの中身が変わってしまう。**）。
+
+Excel 等に自分でデータを打ち込んで新しいデータセットを作るときは、できるだけこのCSV 形式を選んだ方がよい。
+
+CSV形式のデータは、`readr::read_csv()` でRに読み込むことができる。
+```{r}
+mycsv1 <- read_csv('data/fake_data_02.csv')
+```
+プロジェクト内の data という名前のフォルダに入っていることを `data/` の部分で示し、そのフォルダ内の `fake_data_02.csv` を指定して開いている。
+このとき、引用符を忘れないように注意する。引用符はシングル「'」でも、ダブル 「"」でもよい。
+
+RStudio でデータを読み込むと、右下の **Environment**タブの**Data**のところに読み込んだデータセットが表示される。
+
+念のために中身を少しだけ確認しておこう。
+```{r}
+glimpse(mycsv1)
+```
+
+
+### Excel 形式のデータを読む
+
+Excel のデータは、**.xlsx** または **.xls** というファイル名拡張子付きで保存されている。
+このデータをRで読む方法もあるが、ここではExcel 形式のデータをCSV形式に変換し、それを上で説明した方法で読むことにする。
+
+例として、[fake_data_03.xlsx](https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_03.xlsx) を使う。まず、このデータをダウンロードし、Excel で開こう。
+```{r, eval = FALSE}
+download.file(
+    url = "https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_03.xlsx",
+    destfile = "data/fake_data_03.xlsx"
+)
+```
+
+これを、CSV形式に変換し、プロジェクト内の data フォルダに保存する。そのために、以下を実行する。
+
+1. Calc/Excel 左上の「ファイル」から「名前を付けて保存」を選ぶ
+1. 保存先として、プロジェクト（例：ドキュメント/econometrics）内の **data** フォルダを選ぶ
+1. ポップアップで出てきたウィンドウの「ファイルの種類」で、__CSV（カンマ区切り）(\*.csv)__ を選び、保存する
+
+保存できたら、RStudioの右下の data フォルダをクリックし、**fake_data_03.csv** が保存されていることを確かめよう。
+
+あとは先ほどと同様の方法でデータを読めばいいので、
+```{r}
+mycsv2 <- read_csv("data/fake_data_03.csv")
+```
+と、する。RStudio の Environment タブで、データが読み込めたこと（`mycsv2`というデータが追加されたこと）を確認しよう。
+
+念のために中身を少しだけ確認しておこう。
+```{r}
+glimpse(mycsv2)
+```
+
+あるいは、`readxl::read_excel()` でExcelファイルを読み込むこともできる。
+```{r}
+#pacman::p_load(readxl)
+myxl <- read_excel("data/fake_data_03.xlsx")
+```
+念のために中身を少しだけ確認しておこう。
+```{r}
+glimpse(myxl)
+```
+
+
+### 複数のデータセットの扱い
+
+ここまでで3つのデータセットを読み込んだ（そのうち2つの内容は同じだが）ので、RStudioのEvironment タブには、3つのデータセット（データフレーム）、`mycsv1`,  `mycsv2`, `myxl` が表示されているはずである。このように、Rには複数のデータを同時に利用できるというメリットがある。
+
+このうち、csvファイルから読み込んだデータセットについて、データに含まれる変数を確認してみよう。
+```{r}
+names(mycsv1)
+names(mycsv2)
+```
+2つのデータセットに含まれる変数名は同じようである。
+
+では、2つのデータはまったく同じものだろうか。ためしに、それぞれのデータセット身長 (height) の平均値を求めてみよう。
+
+```{r}
+mean(mycsv1$height)
+mean(mycsv2$height)
+```
+平均値が異なる。つまり、変数名は同じでも、データの中身は違うようだ。
+
+このように、異なるデータセットが同じ名前の変数を含んでいることがあるので注意が必要だ。既に学習したとおり、Rでは `データセット名$変数名` とすることで、同じ名前の変数でも、異なるデータセットに属している場合にはそれらを区別して利用することができる。
+
+### 他の統計ソフト用のデータを読む
+
+#### **Stata**
+
+R以外に計量経済学でよく利用される分析ソフトとして、Stataというものがある。Stata のデータセットには、**.dta** というファイル名拡張子が付いている。
+
+StataのファイルをRで読みたいときは、**haven** というパッケージに含まれる `read_dta()`という関数を使う。
+
+例として、[fake_data_stata.dta](https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_stata.dta) をダウンロードし、**data** フォルダに保存しよう。
+```{r, eval = FALSE}
+download.file(
+    url = "https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_stata.dta",
+    destfile = "data/fake_data_stata.dta"
+)
+```
+
+これを読むには、まず **haven** パッケージを読み込むことが必要である（インストールされていない場合はまずインストールする）。
+```{r}
+#| eval: false
+#pacman::p_load(haven)
+```
+パッケージが読み込めたら、データを読む。
+```{r}
+mydta <- read_dta("data/fake_data_stata.dta")
+```
+RStudio の Environment タブで、データが読み込めたことを確認しよう。
+
+念のために中身も少しだけ確認しておこう。
+```{r}
+glimpse(mydta)
+```
+
+#### **SPSS**
+
+かつてよく使われた（今でも経済学以外の分野では使われることがある）統計分析ソフトに、SPSSというものがある。
+SPSS 形式のデータには、**.sav**という拡張子が付いている。
+Rでは、`haven::read_sav()` （または `haven::read_spss()`）で読み込める。
+
+例として、[fake_data_spss.sav](https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_spss.sav) をダウンロードし、**data** フォルダに保存しよう。
+```{r, eval = FALSE}
+download.file(url = "https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_spss.sav",
+              destfile = "data/fake_data_spss.sav")
+```
+
+このファイルは、以下のコマンドで読み込める。
+```{r}
+mysav <- read_sav("data/fake_data_spss.sav")
+```
+RStudio の Environment タブで、データが読み込めたことを確認しよう。
+
+念のために中身も少しだけ確認しておこう。
+```{r}
+glimpse(mysav)
+```
+
+
+#### **その他**
+
+Rはこの他には様々な形式のデータを読むことができる。必要に応じて他の方法も解説するが、この授業で他の形式が必要になることはないはずである。
+
+
+## データの前処理
+
+当たり前のことだが、データ分析にはデータが必要である。データはどうやって手に入れればいいだろうか。
+
+現代では、インターネットを通じて様々なデータセットを手に入れることができる。例えば、日本の政府が集めたデータ（政府統計）の多くは、[総務省統計局のウェブサイト](https://https://www.stat.go.jp/) や [e-Stat](https://www.e-stat.go.jp/) から入手できる。あるいは、先進諸国の経済指標は、[OECD.Stat](https://stats.oecd.org/) からダウンロードすることができる。
+
+データを入手したらすぐ分析したくなるだろう。しかし、たいていの場合、入手したデータをそのままの状態で分析するのは難しい。インターネットからダウンロードしたデータセットは、データ分析に適した形式でなかったり、分析対象となる変数以外の余計な情報を含んでいたり、変数の中におかしな値（典型的には、入力ミス）をもっていたりする。そのようなデータセットをありのままで分析しようとすると、誤った推論をしたり、分析を実行するためのRコードがそもそも動かないという問題に直面する。
+
+そこで必要になるのが、データの**前処理 (pre-processing)** である。データの収集から分析結果の報告までの一連の過程全体を「データ分析」と呼ぶことにすると、通常、データ分析でもっとも多くの時間を割くのが「前処理」の部分である。たとえば、線形回帰分析を実行することを考えよう。自分が推定した特定の統計モデル（統計モデルについては今後の授業で説明する）とそのために必要なデータフレームさえあれば、回帰分析は `lm()` ですぐに実行可能である。つまり、統計モデルを推定するのは、1つのコマンドで実行可能である。
+
+しかし、これを可能にするためには、`lm()` が期待する形式でデータフレームを用意する必要がある。具体的には、行列形式のデータセットで、各行$i$が1ひとつの観測個体を表しており、各列$j$が各変数を表し、各セル ($i, j$) が個体$i$の変数$j$の値を保持している必要がある。これまではすでにこの形式で用意されたデータセットを使って実習してきたが、この形式のデータを作るのは、必ずしも楽ではない。少なくとも、決まったRのコマンドを1つ実行しさえすれば望んだデータフレームができるというような簡単な作業ではない。
+
+データの前処理は、データ分析をする上で避けて通れない道である。今回は、Rでデータの前処理をするための便利な方法を学習しよう。
+
+### Tidy なデータ
+
+まず、最終的にどのようなデータフレームが必要かを理解しよう。ここでは、データ分析の方法として一般的な線形回帰分析（あるいは、一般化線形モデル; GLM）を行うためのデータフレームを考える（他の方法で分析を行う場合は、異なる形式のデータフレームを用意する必要があるかもしれない。たとえば、コンジョイント分析を行う場合には、今回説明するものとは異なるデータフレームが必要である）。
+
+私たちが通常必要とするのは、**tidy data**（整然データ）と呼ばれるものである。整然データについては、[宋・矢内『私たちのR』第16章](https://www.jaysong.net/RBook/tidydata.html)を参照されたい。整然データを用意すれば、回帰分析だけでなく、ggplot2 を使った作図にも使える。
+
+Tidy data は、次の4つの条件を満たすデータである。
+
+1. 1つの列は、1つの変数を表す。
+1. 1つの行は、1つの観測を表す。
+1. 1つのセル（特定の列の特定の行）は、1つの値を表す。
+1. 1つの表は、1つの観測単位 (unit of observation) をもつ（異なる観測単位が混ざっていない）
+
+データを入手したら（あるいは、自分でデータセットを作るときは）、この条件がすべて満たされているか確認しよう。満たされていなければ、tidy data に変換するための前処理が必要になる。
+
+### 様々な前処理
+
+CSVファイルは用意されていると仮定する。
+
+官庁のウェブサイト等で公開されているデータは、ファイルの冒頭にデータの説明文などの、データセットの中身ではない情報が含まれている場合がある。例えば、最初の3行が余計だとすると、その3行をとばしてデータを読み込みたい。そういう場合は、`readr::read_csv()` の `skip` 引数を指定する。**foo.csv** というデータセットがあるとすると（実際にはないので、以下のコマンドを実行してもエラーになる。以下、「あるとする」と言った場合は同様）、次のようにして読める。
+```{r, eval = FALSE}
+MYD <- read_csv("foo.csv", skip = 3)
+```
+
+Rでは欠測値（本来ならセルに入っているべき値が、何らかの理由 [アンケートでの回答拒否、政府が情報を公開していない、etc.] で欠けている場合）は、`NA` で表すことになっている。
+自分が用意したCSVファイル（あるいはその元になったMS Excel ファイル）で、 NA と入力されているか完全に空欄になっているセルがある場合、`readr::read_csv()` は自動的にRの`NA` に変換してくれる。しかし、インターネット等でダウンロードしたファイルでは、欠測を他の方法で表記している場合があり、対応が必要である。`read_csv()` では、**na** 引数を指定すればよい。例えば、欠測が`.`（ドット）で表されている **foo.csv** があるとすれば、
+```{r, eval = FALSE}
+MYD <- read_csv("foo.csv", na = '.') 
+```
+とすればよい。あるいは、欠測が 99 または -9 のいずれかで表現されているなら、
+```{r, eval = FALSE}
+MYD <- read_csv("foo.csv", na = c(99, -9))
+```
+とする。
+
+ここからは、実際のデータを使って実習しよう。
+『Rによる計量政治学』（浅野正彦, 矢内勇生. 2018）で使用されているデータ（[hr-data.csv](https://raw.githubusercontent.com/yukiyanai/quant-methods-R/master/data/hr-data.csv)）を使う。
+
+まず、データをダウンロードして保存する。
+```{r, eval = FALSE}
+download.file(
+    url = "https://raw.githubusercontent.com/yukiyanai/quant-methods-R/master/data/hr-data.csv",
+    destfile = "data/hr-data.csv"
+)
+```
+
+データを読み込む。
+```{r}
+myd <- read_csv("data/hr-data.csv")
+```
+
+`download.file()` でダウンロードできなかったり、ダウンロードしたファイルが壊れているときは、データのリンクをクリック（または右クリック）して手動でダウンロードして使う（今後も同様）。
+
+既に学習済みのはずだが、特定の条件を満たす部分だけ利用したい場合は、`dplyr::filter()` を使う。
+`year` の値が1996で、`party_jpn` が自民党のものだけ取り出してみよう。
+取り出す前のデータを確認する。
+```{r}
+with(myd, table(year, party_jpn))
+```
+
+`filter` で条件（1996年の自民党候補）を満たすものを取り出す。
+```{r}
+LDP1996 <- filter(myd, year == 1996, 
+                  party_jpn == "自民党")
+```
+
+確認する。
+```{r}
+with(LDP1996, table(year, party_jpn))
+```
+
+上の操作は、パイプ `|>` を使うと次のように書ける。
+```{r}
+LDP1996 <- myd |> 
+    filter(year == 1996, 
+           party_jpn == "自民党")
+```
+
+特定の変数だけを残したい場合は、`dplyr::select()` で変数を指定する。
+まず、`myd` にどんな変数があるのか見てみよう。
+```{r}
+names(myd)
+```
+
+この中で、`year` と `name` と `vs` だけ残してみよう。
+```{r}
+sub1 <- myd |> 
+    select(year, name, vs)
+names(sub1)
+```
+
+`kun` から`party` までの変数をすべて残したいときは、次のように書ける。
+```{r}
+sub2 <- myd |> 
+    select(kun:party)
+names(sub2)
+```
+
+特定の変数だけ除外したいときは、`!`を使って指定する。`status` と `vs` だけ消してみよう。
+```{r}
+sub3 <- myd |> 
+    select(!c(status, vs))
+names(sub3)
+```
+
+特定の文字から始まる変数だけ残したいときは、`starts_with()` が使える。変数名が "e" から始まるものだけ残してみよう（この例には特に意味はないが、変数名が `x1`, `x2`, `x3`, `y1`, `y2`, `y3`,... のようになっていて、`x`から始まる変数だけ取り出したいときなどに便利である）。
+```{r}
+sub4 <- myd |> 
+    select(starts_with("e"))
+names(sub4)
+```
+
+同じように、特定の文字で終わるものは、`ends_with()` で取り出せる。変数名が "d" で終わるものだけ残してみよう（この例には特に意味はないが、変数名が `x2000`, `x2001`, `x2002`, ..., `y2000`, `y2001`, `y2002`,... のようになっていて、"2000"で終わる変数だけ取り出したいときなどに便利である）。
+```{r}
+sub5 <- myd |> 
+    select(ends_with("d"))
+names(sub5)
+```
+
+変数名に特定の文字列を含むものは、`contains()` で取り出せる。変数名に"te" が含まれるものだけ取り出してみよう。
+```{r}
+sub6 <- myd |> 
+    select(contains("te"))
+names(sub6)
+```
+
+`filter()`してから`select()` するなど、複数の操作を行いたいときは、パイプでつなぐ。例えば、
+```{r}
+LDP1996_sub1 <- myd |> 
+    filter(year == 1996, 
+           party_jpn == "自民党") |> 
+    select(year, name, vs)
+names(LDP1996_sub1)
+```
+ということができる。つまり、`|>` （パイプ）は、"and then" という接続詞である考えることができる。
+
+これをパイプを使わずに実行するには、次のように書く必要がある。
+```{r}
+LDP1996_sub1_2 <- select(filter(myd, year == 1996, party_jpn == "自民党"), year, name, vs)
+names(LDP1996_sub1_2)
+```
+書くのも読むのも大変である。
+
+新しい変数を作りたいときは、`dplyr::mutate()` を使う。例えば、パーセント（0以上100以下）で測定されている turnout（投票率）という変数を元に、0から1の範囲で投票率を測るturnout2という変数を作りたいなら、次のようにする。
+```{r}
+myd <- myd |> 
+    mutate(turnout2 = turnout / 100)
+rbind(
+  summary(myd$turnout),
+  summary(myd$turnout2)
+)
+```
+
+複数の変数を同時に作ることもできる。自民党候補であることを表す `LDP` というダミー変数と、民主党候補の`DPJ`ダミーを作ろう。
+```{r}
+myd <- myd |> 
+    mutate(LDP = ifelse(party_jpn == "自民党", 1, 0),
+           DPJ = ifelse(party_jpn == "民主党", 1, 0))
+with(myd, table(party_jpn, LDP))
+with(myd, table(party_jpn, DPJ))
+```
+
+変数名を変えるには、`dplyr::rename()` を使う。
+
+例えば、`turnout2` の名前を `tohyoritsu` に変更するには、次のようにする。
+```{r}
+myd <- myd |>  
+    rename(tohyoritsu = turnout2)
+names(myd)
+```
+
+教科書 5.3.3節 (p.78から) の例を考える。
+まず、[横長データ](https://git.io/fAnmx) を手に入れる（`download.file()` がうまくいかないときは、リンクをクリックして保存）。
+```{r}
+download.file(url = "https://git.io/fAnmx",
+              destfile = "data/wide-table.csv")
+```
+データファイルを読んで中身を確認する。
+```{r, message = FALSE}
+GDP <- read_csv("data/wide-table.csv")
+```
+
+```{r}
+GDP
+```
+
+これを縦長に変更する。（教科書第1刷では、`tidyr::gather()` の使い方が紹介されているが、）ここでは`tidyr::pivot_longer()` を使おう。
+```{r}
+GDP_long <- GDP |> 
+    pivot_longer(cols = !country,      # 縦長にする範囲：country 以外
+                 names_to = "year",    # 元の列がどれだっかを区別する変数：年
+                 names_prefix = "gdp", # 元の変数名のうち、区別に不要な部分
+                 values_to = "gdp")    # 元の値を保持する変数名
+GDP_long
+```
+
+このように、望んだ形式のデータに一発で変換できる。
+
+これを横長に戻してみよう。（教科書1刷で紹介されている`tidyr::spread()` の代わりに、）`tidyr::pivot_wider()` を使おう。
+```{r}
+GDP_wide <- GDP_long |>  
+    pivot_wider(names_from = year,    # 横長にした後の列を区別する変数
+                names_prefix = "gdp", # 横長にした後の変数名の冒頭につける文字列（オプション）
+                values_from = gdp)    # 縦長から横長に分配する値
+GDP_wide
+```
+
+このように、元の横長データに戻すことができる。
+
+`pivot_longer()` と`pivot_wider()` を比較して、対応関係を理解しよう。
+
+自分でデータフレームを作りたいときは、`tibble::tibble()` を使う。
+```{r}
+newd <- tibble(id = 1:100,
+               x = rnorm(100, mean = 10, sd = 2)) |> 
+    mutate(y = 1.2 + 0.8 * x + rnorm(100, mean = 0, sd = 1))
+glimpse(newd)
+```
+
+複数のデータセットを結合する方法については、教科書第5章と[宋・矢内『私たちのR』第14章](https://www.jaysong.net/RBook/datahandling2.html)を参照されたい。
+

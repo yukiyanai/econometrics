@@ -1,0 +1,60 @@
+# はじめに
+
+これは、[高知工科大学](https://www.kochi-tech.ac.jp/) [経済・マネジメント学群](https://www.kochi-tech.ac.jp/academics/mng/)で開講されている「計量経済学」（担当：[矢内勇生](https://yukiyanai.github.io/jp/)）の講義用資料である。
+
+
+:::callout-warning
+これは授業の**補助教材**である。
+
+- 大切なことは授業で説明する。この資料にすべて書かれているわけではない。
+- この資料に書かれていない内容も授業で説明する。よって、この資料に書かれていない事項でも授業で説明した内容はすべて試験範囲である。
+- 受講生全員が [教科書](index.html#sec-textbook) と [KUTLMS](https://lms.kochi-tech.ac.jp/course/view.php?id=3880) で配布する予習・復習用資料 の指定範囲を読んでいるという前提で授業を進める。教科書と予習・復習用資料（以下、教科書等）の内容をこのウェブ資料で詳しく説明することはないので、必ず教科書等を読むように。
+:::
+
+ 
+## 基本情報 {#sec-basicinfo}
+
+- シラバス（講義要項）：[PDF](https://yukiyanai.github.io/jp/classes/metrics1/docs/syllabus-econometrics_2024-1Q.pdf)
+- 講義スライドは [KUTLMS](https://lms.kochi-tech.ac.jp/course/view.php?id=3880) で配布する
+- [KUTLMS](https://lms.kochi-tech.ac.jp/course/view.php?id=XXXX)
+    - 登録キーはポータルで通知する
+- [授業用のSlackグループ](https://kut-metrics-2024.slack.com)
+    - [登録](https://join.slack.com/t/kut-metrics-2024/signup) には大学ドメイン のメールアドレスが必要
+
+## 教科書・副読本 {#sec-refs}
+
+### 教科書 {#sec-textbook}
+
+- 浅野正彦, 矢内勇生. 2018.『Rによる計量政治学』オーム社（[サポートページ](https://github.com/yukiyanai/quant-methods-R)）
+
+![](https://yukiyanai.github.io/jp/textbooks/images/quant-methods-R-cover.png){fig-alt="Rによる計量政治学" width="200"}
+
+### 副読本 {#sec-rn4e}
+
+- 宋財泫, 矢内勇生 （執筆中）『[私たちのR：ベストプラクティスの探求](http://www.jaysong.net/RBook/)』(web book、無料) 
+
+
+## 講義トピックとウェブ資料の対応 {#sec-topics}
+
+授業の内容は、10のトピックに分かれている。[シラバス (PDF)](https://yukiyanai.github.io/jp/classes/stat1/docs/syllabus-econometrics_2024-1Q.pdf) にはトピックごとの予習課題と参考文献が記載されている。 各トピックとこのウェブ資料の対応は以下の通りである。
+
+| トピック                          | ウェブ資料                          |
+|:----------------------------------|:----------------------------------- |
+| 1\. イントロダクション            | [実習の準備](econometrics-prep.html)     |
+| 2\. 回帰分析の基礎　　　　　　　　| [回帰分析の基礎](regression-intro.html)  |
+| 3\. データの収集・クリーニング    | [Rによるデータ操作](data-handling.html)  |
+| 4\. 回帰分析による統計的推測 I    | なし                                |
+| 5\. 回帰分析による統計的推測 II   | [統計的推定](regression-estimation.html) |
+|                                   | [統計的検定と推論](regression-test-inference.html)|
+| 6\. 因果推論入門　                | なし                                |
+| 7\. 回帰分析の応用                | [重回帰分析](multiple-regression.html)  |
+|                                   | [回帰分析の応用](regression-misc.html)|
+| 8\. 分布結果を効果的に伝える方法  | [分析結果の提示法](regression-reports.html)|
+| 9\. 交差項の利用                  | [交差項の利用](interaction.html)        |
+| 10\. 多重比較                     | [多重比較](multiple-comparison.html)    |
+
+:::callout-warning
+一部の例外を除いて、各ページ（各章）の内容を実行するために必要なパッケージはページの冒頭で読み込むことにする。ページの途中から実行しても動かないことがあると思われるので、その際はページの最初から実行してほしい。
+
+各ページは（パッケージのインストールとデータファイルの入手を除き）独立なので、ページ単位で実行することができる。
+:::

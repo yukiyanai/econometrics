@@ -1,0 +1,236 @@
+# 回帰分析の基礎
+
+**今回の目標**
+
+- Rで回帰直線を求める方法を身につける
+- 記述統計としての回帰直線の意味を理解する
+
+## 準備
+
+まず、必要なパッケージを読み込む。
+```{r}
+#| message: false
+pacman::p_load(tidyverse,
+               broom, 
+               texreg)
+
+if (.Platform$OS.type == "windows") { 
+  if (require(fontregisterer)) {
+    my_font <- "Yu Gothic"
+  } else {
+    my_font <- "Japan1"
+  }
+} else if (capabilities("aqua")) {
+  my_font <- "HiraginoSans-W3"
+} else {
+  my_font <- "IPAexGothic"
+}
+
+theme_set(theme_gray(base_size = 9,
+                     base_family = my_font))
+```
+
+<br>
+
+
+説明のために『Rによる計量政治学』（浅野正彦, 矢内勇生. 2018）で使用されているデータ（[hr-data.csv](https://raw.githubusercontent.com/yukiyanai/quant-methods-R/master/data/hr-data.csv)）を使う。
+
+まず、このデータをダウンロードして読み込む（データへのパスは各自の状況に応じて変えること。ここでは、RStudioのプロジェクトを利用していて、プロジェクトが存在するフォルダ内にdata という名前のフォルダがあり、その中にデータセットが保存されていると仮定している）。`download.file()` でダウンロードしたデータが読み込めない（「データが破損している」などの警告がでる）場合は、Webブラウザを使ってデータをダウンロードすること。
+```{r load-data}
+#| eval: false
+download.file(
+  url = "https://raw.githubusercontent.com/yukiyanai/quant-methods-R/master/data/hr-data.csv",
+  destfile = "data/hr-data.csv")
+```
+
+データが入手できたら、データを読み込み、中身を確認する。
+```{r}
+HR <- read_csv("data/hr-data.csv")
+glimpse(HR)
+```
+
+衆議院議員経験があることを表す変数（ダミー変数）と選挙費用を100万 (`1e6` $=10^6$) 円単位で測定する変数を作る。
+新しい変数は `dplyr::mutate()` で作る。
+```{r dummy-experience}
+HR <- HR |>
+    mutate(experience = as.numeric(status == "現職" | status == "元職"),
+           expm = exp / 1e6)
+```
+
+次に、データから2009年の結果だけ抜き出し、HR09として保存する。特定の条件に合致するデータを抜き出したいときは、`dplyr::filter()` を使う。
+```{r subset09}
+HR09 <- HR |> 
+  filter(year == 2009)
+```
+<br>
+
+
+## Rで線形回帰分析を行う
+
+### 説明変数が二値しかとらないとき（モデル1）
+
+得票率（結果変数）を議員経験（説明変数）で説明するモデルを考えよう。
+議員経験は、現職または元職の候補者なら1、そうでなければ0をとる二値 (binary) 変数（ダミー変数）である。
+このモデルを式で表すと、
+$$
+得票率_i = \beta_1 + \beta_2 \cdot 議員経験_i + e_i
+$$
+と、なる。
+
+Rでは、`lm()` で回帰式を推定することができる。
+```{r fit1}
+fit_1 <- lm(voteshare ~ experience, data = HR09)
+```
+これで、`fit_1` に推定結果（係数の推定値など）が保存される。
+
+基本的な結果は、`summary()` で見ることができる。
+```{r summary-fit1}
+summary(fit_1)
+```
+この結果は少し読みにくいので、代わりに `broom:tidy()` を利用しよう。
+```{r display-fit1}
+tidy(fit_1)
+```
+この出力の、**estimate** の列に係数の推定値 (coefficient estimates) が示されている。
+これにより、$\hat{\beta}_1=$ `r round(coef(fit_1)[1], 2)`, 
+$\hat{\beta}_2=$ `r round(coef(fit_1)[2], 2)`, 
+$\hat{\sigma}=$ `r round(summary(fit_1)$sigma, 2)` が得られた。
+したがって、
+$$\widehat{得票率} = `r round(coef(fit_1)[1], 2)` +  `r round(coef(fit_1)[2], 2)` \cdot 議員経験$$
+と、なる。
+
+傾きの値を、分散と共分散を利用して求めてみよう（Slack で配布する補足資料を参照）。分散は `var()`、共分散 は `cov()` で計算できる。
+```{r}
+with(HR09, cov(voteshare, experience) / var(experience)) 
+```
+`lm()` で求めた傾きの値と一致することが確認できる。
+
+次に、行列計算で回帰係数を求めてみよう（Slack で配布する補足資料を参照）。応答変数の$N$次元列ベクトルを $N \times 1$行列として用意する。
+```{r}
+y <- matrix(HR09$voteshare, ncol = 1)
+```
+計画行列は、第1列がすべて1、第2列が議員経験なので、
+```{r}
+N <- length(y)
+X <- matrix(c(rep(1, N), HR09$experience), ncol = 2)
+```
+行列の掛け算は `%*%`、転置は `t()`、逆行列は `solve()` で求められるので、回帰係数 `b_hat` は、
+```{r}
+b_hat <- solve(t(X) %*% X) %*% t(X) %*% y
+b_hat
+```
+`lm()` を使った場合と同じ結果が得られる。
+
+
+この結果を図示しよう。
+```{r plot-fit1}
+p1 <- ggplot(HR09, aes(x = experience, y = voteshare)) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  geom_jitter(position = position_jitter(width = 0.05), size = 1) +
+　geom_smooth(method = "lm", se = FALSE) + 
+  labs(x = "議員経験", y = "得票率（%）")
+plot(p1 + ggtitle("得票率と議員経験の関係"))
+```
+
+```{r save-plot-voteshare-exp, include=FALSE, eval=FALSE}
+quartz(file = "figs/plot-model1.pdf", family = "sans", type = "pdf",
+       width = 3, height = 2.7)
+print(p1)
+dev.off()
+```
+
+この図に推定の不確実性を示すには、`geom_smooth(method = 'lm', se = TRUE)` とすればよい（が、
+`se = TRUE` はデフォルトなので、`se`を指定する必要はない）。
+デフォルトでは、95パーセント信頼区間が回帰直線の周りに表示される（この例では、区間が狭すぎてよく見えない）。
+```{r plot-fit1-ci95}
+p1_ci95 <- p1 + geom_smooth(method = "lm")
+plot(p1_ci95 + ggtitle('得票率と議員経験の関係'))
+```
+
+信頼度を変えたいとき、例えば99.99パーセント信頼区間を表示したいときは、次のように**level**を指定する。
+```{r plot-fit1-ci50}
+p1_ci50 <- p1 + geom_smooth(method = "lm", level = 0.9999)
+plot(p1_ci50 + ggtitle("得票率と議員経験の関係"))
+```
+
+
+この直線の切片である`r round(coef(fit_1)[1], 2)`は、議員経験がない候補者の平均得票率（予測得票率）である。
+予測値の式の「議員経験」に0を代入すれば、これは明らかである。
+議員経験がある候補者の平均得票率（予測得票率）は、「議員経験」に1を代入することで得られる。
+代入してみると、
+$`r round(coef(fit_1)[1], 2)` +`r round(coef(fit_1)[2], 2)` \cdot 1 = `r round(sum(coef(fit_1)), 2)`$ となる。
+
+Rで議員経験ごとに平均得票率を求め、上の式から求めた予測値と一致するか確かめよう。
+`dplyr::group_by()` を使うと、指定した変数の値が同じグループを作ることができる。
+```{r average-binary}
+HR09 |> 
+  group_by(experience) |>
+  summarize(voteshare = mean(voteshare),
+            .groups = "drop")
+```
+このように、予測値は説明変数の値を与えられたときの、結果変数の平均値であることがわかる。
+
+<br>
+
+### 説明変数が連続値をとるとき（モデル2）
+
+同様に、得票率を選挙費用（測定単位：100万円）で説明するモデルは、次のように推定できる。
+
+```{r fit2}
+fit_2 <- lm(voteshare ~ expm, data = HR09)
+tidy(fit_2)
+```
+
+傾きの値を、分散と共分散を利用して求めてみよう。`expm` には欠測値があるので、で欠測値がない個体のみを利用する。
+```{r}
+HR09 |> 
+  filter(!is.na(expm)) |> 
+  with(cov(voteshare, expm) / var(expm)) 
+```
+`lm()` で求めた傾きの値と一致することが確認できる。
+
+
+回帰直線を図示する。
+```{r plot-fit2}
+p2 <- ggplot(HR09, aes(x = expm, y = voteshare)) + 
+  geom_point(size = 1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "選挙費用（100万円）", y = "得票率（%）") 
+plot(p2 + ggtitle("得票率と選挙費用の関係"))
+```
+```{r save-plot-cont-single,include=FALSE, eval = FALSE}
+quartz(file = paste0(figpath,"plot-model2.pdf"), family = "sans", type = "pdf",
+       width = 3, height = 2.7)
+print(p2)
+dev.off()
+```
+
+95パーセント信頼区間を加える。
+```{r plot-fit2-ci95}
+p2_ci95 <- p2 + geom_smooth(method = "lm")
+plot(p2_ci95 + ggtitle("得票率と選挙費用の関係"))
+```
+
+複数のモデルで回帰分析を実行し、結果を一つの表にまとめたいときは、`texreg::screenreg()` が便利である（HTMLに出力するなら `htmlreg()`、LaTeX (PDF) 用には `texreg()`を使う）。
+```{r}
+models <- list(`Model 1` = fit_1,
+               `Model 2` = fit_2)
+screenreg(models, stars = NULL)
+```
+
+HTMLに出力する場合。
+```{r, results = 'asis'}
+htmlreg(models, 
+        stars = NULL,
+        doctype = FALSE,
+        caption = "回帰分析の結果",
+        caption.above = TRUE)
+```
+
+PDFに knit する場合には、`texreg()` を使う（出力は省略する）。
+```{r, eval = FALSE}
+texreg(models, 
+       stars = NULL,
+       caption = "回帰分析の結果",
+       caption.above = TRUE)
+```

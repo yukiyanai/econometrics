@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.542">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>KUT 計量経済学 - 7&nbsp; 重回帰分析</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./regression-misc.html" rel="next">
+<link href="./regression-test-inference.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./multiple-regression.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">重回帰分析</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">KUT 計量経済学</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/yukiyanai/metrics/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+<li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=%7Curl%7C">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=%7Curl%7C">
+              <i class="bi bi-bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+</div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">はじめに</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./econometrics-prep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">実習の準備</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regression-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">回帰分析の基礎</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data-handling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Rによるデータ操作</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regression-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">回帰分析による統計的推定</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regression-test-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">回帰分析による統計的検定と推論</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiple-regression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">重回帰分析</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regression-misc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">回帰分析の応用</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regression-reports.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">分析結果の提示法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./interaction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">交差項の利用</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiple-comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">多重比較法</span></span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">このページの内容</h2>
+   
+  <ul>
+<li><a href="#%E6%BA%96%E5%82%99" id="toc-準備" class="nav-link active" data-scroll-target="#%E6%BA%96%E5%82%99"><span class="header-section-number">7.1</span> 準備</a></li>
+  <li>
+<a href="#%E9%87%8D%E5%9B%9E%E5%B8%B0%E5%88%86%E6%9E%90" id="toc-重回帰分析" class="nav-link" data-scroll-target="#%E9%87%8D%E5%9B%9E%E5%B8%B0%E5%88%86%E6%9E%90"><span class="header-section-number">7.2</span> 重回帰分析</a>
+  <ul class="collapse">
+<li><a href="#r%E3%81%A7%E9%87%8D%E5%9B%9E%E5%B8%B0%E5%88%86%E6%9E%90%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B" id="toc-rで重回帰分析を実行する" class="nav-link" data-scroll-target="#r%E3%81%A7%E9%87%8D%E5%9B%9E%E5%B8%B0%E5%88%86%E6%9E%90%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B"><span class="header-section-number">7.2.1</span> Rで重回帰分析を実行する</a></li>
+  <li><a href="#%E9%87%8D%E5%9B%9E%E5%B8%B0%E5%88%86%E6%9E%90%E3%81%AE%E4%BF%A1%E9%A0%BC%E5%8C%BA%E9%96%93%E3%82%92%E5%9B%B3%E7%A4%BA%E3%81%99%E3%82%8B" id="toc-重回帰分析の信頼区間を図示する" class="nav-link" data-scroll-target="#%E9%87%8D%E5%9B%9E%E5%B8%B0%E5%88%86%E6%9E%90%E3%81%AE%E4%BF%A1%E9%A0%BC%E5%8C%BA%E9%96%93%E3%82%92%E5%9B%B3%E7%A4%BA%E3%81%99%E3%82%8B"><span class="header-section-number">7.2.2</span> 重回帰分析の信頼区間を図示する</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#%E6%AC%A0%E8%90%BD%E5%A4%89%E6%95%B0%E3%83%90%E3%82%A4%E3%82%A2%E3%82%B9%E3%81%A8%E5%87%A6%E7%BD%AE%E5%BE%8C%E5%A4%89%E6%95%B0%E3%83%90%E3%82%A4%E3%82%A2%E3%82%B9" id="toc-欠落変数バイアスと処置後変数バイアス" class="nav-link" data-scroll-target="#%E6%AC%A0%E8%90%BD%E5%A4%89%E6%95%B0%E3%83%90%E3%82%A4%E3%82%A2%E3%82%B9%E3%81%A8%E5%87%A6%E7%BD%AE%E5%BE%8C%E5%A4%89%E6%95%B0%E3%83%90%E3%82%A4%E3%82%A2%E3%82%B9"><span class="header-section-number">7.3</span> 欠落変数バイアスと処置後変数バイアス</a>
+  <ul class="collapse">
+<li><a href="#%E6%AC%A0%E8%90%BD%E5%A4%89%E6%95%B0%E3%83%90%E3%82%A4%E3%82%A2%E3%82%B9" id="toc-欠落変数バイアス" class="nav-link" data-scroll-target="#%E6%AC%A0%E8%90%BD%E5%A4%89%E6%95%B0%E3%83%90%E3%82%A4%E3%82%A2%E3%82%B9"><span class="header-section-number">7.3.1</span> 欠落変数バイアス</a></li>
+  <li><a href="#%E5%87%A6%E7%BD%AE%E5%BE%8C%E5%A4%89%E6%95%B0%E3%83%90%E3%82%A4%E3%82%A2%E3%82%B9" id="toc-処置後変数バイアス" class="nav-link" data-scroll-target="#%E5%87%A6%E7%BD%AE%E5%BE%8C%E5%A4%89%E6%95%B0%E3%83%90%E3%82%A4%E3%82%A2%E3%82%B9"><span class="header-section-number">7.3.2</span> 処置後変数バイアス</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">
+<span class="chapter-number">7</span>&nbsp; <span class="chapter-title">重回帰分析</span>
+</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><p><strong>今回の目標</strong></p>
+<ul>
+<li>重回帰分析の意味を理解する</li>
+<li>Rで重回帰分析を実行する方法を身につける</li>
+</ul>
+<section id="準備" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="準備">
+<span class="header-section-number">7.1</span> 準備</h2>
+<p>今回使うパッケージを読み込む。</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyverse</span>,</span>
+<span>               <span class="va">broom</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span> <span class="op">==</span> <span class="st">"windows"</span><span class="op">)</span> <span class="op">{</span> </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">fontregisterer</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"Yu Gothic"</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"Japan1"</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/capabilities.html">capabilities</a></span><span class="op">(</span><span class="st">"aqua"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"HiraginoSans-W3"</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"IPAexGothic"</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">theme_set</span><span class="op">(</span><span class="fu">theme_gray</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">9</span>,</span>
+<span>                     base_family <span class="op">=</span> <span class="va">my_font</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="重回帰分析" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="重回帰分析">
+<span class="header-section-number">7.2</span> 重回帰分析</h2>
+<p>説明のために『Rによる計量政治学』（浅野正彦, 矢内勇生. 2018）で使用されているデータ（<a href="https://raw.githubusercontent.com/yukiyanai/quant-methods-R/master/data/hr-data.csv">hr-data.csv</a>）を使う。</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">HR</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/hr-data.csv"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 8803 Columns: 22
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ku, status, name, party, wl, smd, party_jpn
+dbl (15): year, kun, party_code, previous, voteshare, age, nocand, rank, vot...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#glimpse(HR)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>衆議院議員経験があることを表すダミー変数と選挙費用を100万円単位で測定する変数を作る。</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">HR</span> <span class="op">&lt;-</span> <span class="va">HR</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>experience <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">status</span> <span class="op">==</span> <span class="st">"現職"</span> <span class="op">|</span> <span class="va">status</span> <span class="op">==</span> <span class="st">"元職"</span><span class="op">)</span>,</span>
+<span>         expm <span class="op">=</span> <span class="va">exp</span> <span class="op">/</span> <span class="fl">10</span><span class="op">^</span><span class="fl">6</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>2009年の結果だけ抜き出し、HR09として保存する（<code>expm</code> が欠測しているものを除外する）。</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">HR09</span> <span class="op">&lt;-</span> <span class="va">HR</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2009</span>,</span>
+<span>         <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">expm</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<section id="rで重回帰分析を実行する" class="level3" data-number="7.2.1"><h3 data-number="7.2.1" class="anchored" data-anchor-id="rで重回帰分析を実行する">
+<span class="header-section-number">7.2.1</span> Rで重回帰分析を実行する</h3>
+<p>得票率 (<code>voteshare</code>, <span class="math inline">\(V\)</span>) を議員経験 (<code>experience</code>, <span class="math inline">\(X\)</span>) と選挙費用 [100万円] (<code>expm</code>, <span class="math inline">\(M\)</span>) で説明するモデルを推定する。モデルは次のように表記できる。 <span class="math display">\[
+V_i \sim \mbox{Normal}(\beta_0 + \beta_1 X_i + \beta_2 M_i, \sigma)
+\]</span></p>
+<p><code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> で重回帰を行うときは、説明変数を <code>+</code> でつなぐ。</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">voteshare</span> <span class="op">~</span> <span class="va">experience</span> <span class="op">+</span> <span class="va">expm</span>, </span>
+<span>            data <span class="op">=</span> <span class="va">HR09</span><span class="op">)</span></span>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_3</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)     7.89     0.691      11.4 1.17e-28     6.54      9.25
+2 experience     18.4      1.23       15.0 1.99e-46    16.0      20.8 
+3 expm            1.83     0.120      15.2 1.40e-47     1.59      2.07</code></pre>
+</div>
+</div>
+<p><strong>課題</strong>：この結果を解釈してみよう。˙1つひとつの数字 (<code>p.value</code> を除く）は何を表しているのだろうか。</p>
+<p>###　重回帰分析の係数の意味</p>
+<p>重回帰分析の結果として得られた各説明変数の係数は、偏回帰係数と呼ばれる。偏回帰係数は、どんな意味をもっているのだろうか。これには、2つの解釈がある。</p>
+<ol type="1">
+<li>他の説明変数の値を一定としたとき（固定したとき）、特定の説明変数1単位の増加が、応答変数をどれだけ変化させるか。</li>
+<li>ある説明変数が応答変数に与える影響から、その他の説明変数の影響を取り除いたもの。</li>
+</ol>
+<p>これらのそれぞれについて、以下で検討しよう。</p>
+<p><br></p>
+<p><strong>他の値を一定にしたときの、説明変数の影響</strong></p>
+<p>上のモデルで推定した、選挙費用 <code>expm</code> の偏回帰係数について考える。推定された値は、約 1.83 である。つまり、他の説明変数である「議員経験」が同じ候補者同士を比べると、選挙費用が1単位すなわち100万円増加するごとに、得票率が平均1.83ポイント上昇することが予測される。（回帰式から明らかではあるが）これを確認しよう。</p>
+<p>このデータにおける選挙費用は、</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">HR09</span><span class="op">$</span><span class="va">expm</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+ 0.01002  1.79454  4.80944  6.11818  9.10911 25.35407 </code></pre>
+</div>
+</div>
+<p>なので、最小値が約0.01（つまり1万円）、最大値が25.35（2,535万円）である。様々な選挙費用について考えるために、 選挙費用 [百万円]を0から25（つまり、2,500万円）まで、1刻み（つまり、実際には100万円刻み）で測るベクトルを作る。</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">money</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">25</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>選挙費用の各値について、得票率の予測値がいくつになるか考える。</p>
+<p>まず、議員経験がない場合について考えよう。得票率の予測値は、</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_3</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span>       <span class="co"># 切片</span></span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_3</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="fl">0</span>  <span class="op">+</span>  <span class="co"># 議員経験なしなので0</span></span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_3</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">*</span> <span class="va">money</span> <span class="co"># 選挙費用の値ごとに計算する</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>選挙費用ごとに異なる得票率の予測値が得られる。最初の3つだけ表示してみよう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred0</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  7.891485  9.722161 11.552836</code></pre>
+</div>
+</div>
+<p>この結果をデータフレーム (tibble) にまとめる。</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df0</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>money <span class="op">=</span> <span class="va">money</span>,</span>
+<span>              predicted0 <span class="op">=</span> <span class="va">pred0</span><span class="op">)</span></span>
+<span><span class="va">df0</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 26 × 2
+   money predicted0
+   &lt;int&gt;      &lt;dbl&gt;
+ 1     0       7.89
+ 2     1       9.72
+ 3     2      11.6 
+ 4     3      13.4 
+ 5     4      15.2 
+ 6     5      17.0 
+ 7     6      18.9 
+ 8     7      20.7 
+ 9     8      22.5 
+10     9      24.4 
+# ℹ 16 more rows</code></pre>
+</div>
+</div>
+<p>この結果から、得票率の予測値は、選挙費用が0のときは 7.8914854、100万円のときは 9.7221608、<span class="math inline">\(\dots\)</span> ということがわかる。百万円増えるごとの得票率の変化は、</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">money</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pred0</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">-</span> <span class="va">pred0</span><span class="op">[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675</code></pre>
+</div>
+</div>
+<p>となり、常に一定であることがわかる（当たり前だが）。つまり、議員経験がない者だけを比べると、選挙費用が100万円増えるごとに、得票率が約1.83ポイント上昇する。</p>
+<p>同様に、議員経験がある場合についても考えよう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_3</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span>       <span class="co"># 切片</span></span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_3</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="fl">1</span>  <span class="op">+</span>  <span class="co"># 議員経験ありなので1</span></span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_3</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">*</span> <span class="va">money</span> <span class="co"># 選挙費用の値ごとに計算する</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>選挙費用ごとに異なる得票率の予測値が得られる。最初の3つだけ表示してみよう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 26.26251 28.09319 29.92386</code></pre>
+</div>
+</div>
+<p>この結果をデータフレーム (tibble) にまとめる。</p>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>money <span class="op">=</span> <span class="va">money</span>,</span>
+<span>              predicted1 <span class="op">=</span> <span class="va">pred1</span><span class="op">)</span></span>
+<span><span class="va">df1</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 26 × 2
+   money predicted1
+   &lt;int&gt;      &lt;dbl&gt;
+ 1     0       26.3
+ 2     1       28.1
+ 3     2       29.9
+ 4     3       31.8
+ 5     4       33.6
+ 6     5       35.4
+ 7     6       37.2
+ 8     7       39.1
+ 9     8       40.9
+10     9       42.7
+# ℹ 16 more rows</code></pre>
+</div>
+</div>
+<p>この結果から、得票率の予測値は、選挙費用が0のときは 26.2625109、100万円のときは 28.0931863、<span class="math inline">\(\dots\)</span> ということがわかる。百万円増えるごとの得票率の変化は、</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">money</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pred1</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">-</span> <span class="va">pred1</span><span class="op">[</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675
+[1] 1.830675</code></pre>
+</div>
+</div>
+<p>となり、常に一定であることがわかる（当たり前だが）。つまり、議員経験がある者だけを比べると、選挙費用が100万円増えるごとに、得票率が約1.83ポイント上昇する。</p>
+<p>次に、議員経験の偏回帰係数について考えよう。 そのために、以上の結果を、1つのデータフレームにまとめる。</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df01</span> <span class="op">&lt;-</span> <span class="va">df0</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">right_join</span><span class="op">(</span><span class="va">df1</span>, by <span class="op">=</span> <span class="st">"money"</span><span class="op">)</span></span>
+<span><span class="va">df01</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 26 × 3
+   money predicted0 predicted1
+   &lt;int&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1     0       7.89       26.3
+ 2     1       9.72       28.1
+ 3     2      11.6        29.9
+ 4     3      13.4        31.8
+ 5     4      15.2        33.6
+ 6     5      17.0        35.4
+ 7     6      18.9        37.2
+ 8     7      20.7        39.1
+ 9     8      22.5        40.9
+10     9      24.4        42.7
+# ℹ 16 more rows</code></pre>
+</div>
+</div>
+<p>このデータフレームに、<code>predicted1</code> と <code>predicted0</code> の差 <code>dif_experience</code>を加えてみよう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df01</span> <span class="op">&lt;-</span> <span class="va">df01</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>dif_experience <span class="op">=</span> <span class="va">predicted1</span> <span class="op">-</span> <span class="va">predicted0</span><span class="op">)</span></span>
+<span><span class="va">df01</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 26 × 4
+   money predicted0 predicted1 dif_experience
+   &lt;int&gt;      &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;
+ 1     0       7.89       26.3           18.4
+ 2     1       9.72       28.1           18.4
+ 3     2      11.6        29.9           18.4
+ 4     3      13.4        31.8           18.4
+ 5     4      15.2        33.6           18.4
+ 6     5      17.0        35.4           18.4
+ 7     6      18.9        37.2           18.4
+ 8     7      20.7        39.1           18.4
+ 9     8      22.5        40.9           18.4
+10     9      24.4        42.7           18.4
+# ℹ 16 more rows</code></pre>
+</div>
+</div>
+<p><code>dif_experience</code> の値は、すべて、約18.37になっている。この値は、重回帰における<code>experience</code>の偏回帰係数である。ここから、選挙費用（このデータフレームでは<code>money</code> の値）を一定にしたとき、議員経験があると得票率の予測値が18.37 ポイント上昇することがわかる。</p>
+<p>以上の結果から、「他の説明変数の値を一定にしたとき」に、ある説明変数1単位の増加が応答変数をどれだけ変化させるかが、偏回帰係数であることがわかる。</p>
+<p><br></p>
+<p><strong>他の変数を取り除いた、特定の説明変数の影響</strong></p>
+<p>再び、選挙費用の偏回帰係数について考えよう。 回帰モデルには「得票率」、「選挙費用」、「議員経験」という3つの変数が登場する。 選挙費用の額と得票率は、どちらも議員経験と関連しているかもしれない（関連していると想定されるので、回帰式に含められている）ので、その関連を取り除いてみよう。</p>
+<p>まず、選挙費用から議員経験に関連する部分（変動）を取り除く。そのために、選挙費用を議員経験に回帰する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">expm</span> <span class="op">~</span> <span class="va">experience</span>, </span>
+<span>           data <span class="op">=</span> <span class="va">HR09</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>この単回帰の残差 (residuals) を取り出す。</p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="va">reg1</span><span class="op">$</span><span class="va">residuals</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>この残差は、議員経験によっては説明できない選挙費用の変動だと考えられる。つまり、この残差は、選挙費用から議員経験の影響を取り除いたものであると考えることができる。</p>
+<p>同様に、得票率から議員経験に関連する部分（変動）を取り除く。そのために、得票率を議員経験に回帰する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">voteshare</span> <span class="op">~</span> <span class="va">experience</span>, </span>
+<span>           data <span class="op">=</span> <span class="va">HR09</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>この単回帰の残差 (residuals) を取り出す。</p>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="va">reg2</span><span class="op">$</span><span class="va">residuals</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>この残差は、議員経験によっては説明できない得票率の変動だと考えられる。つまり、この残差は、得票率から議員経験の影響を取り除いたものであると考えることができる。</p>
+<p>これらの残差を使い、「得票率のうち議員経験とは関係ない部分」を「選挙費用のうち、議員経験とは関係ない部分」に回帰する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">res2</span> <span class="op">~</span> <span class="va">res1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">reg3</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> (Intercept)         res1 
+4.775712e-16 1.830675e+00 </code></pre>
+</div>
+</div>
+<p>この単回帰によって得られた係数 1.83は、重回帰によって得られた選挙費用の偏回帰係数に一致することがわかる。 ここから、偏回帰係数が、他の変数の影響を取り除いた後に、ある説明変数が応答変数に与える影響であることが読み取れる。</p>
+<p><strong>課題</strong></p>
+<p>上と同じ方法（単回帰で得られる残差同士の単回帰で、重回帰の偏回帰係数を求める方法; この方法を回帰解剖と呼ぶ）で、議員経験の偏回帰係数 18.3710255 を求めなさい。</p>
+<hr></section><section id="重回帰分析の信頼区間を図示する" class="level3" data-number="7.2.2"><h3 data-number="7.2.2" class="anchored" data-anchor-id="重回帰分析の信頼区間を図示する">
+<span class="header-section-number">7.2.2</span> 重回帰分析の信頼区間を図示する</h3>
+<p>上の重回帰分析の結果を図示しよう。</p>
+<p>議員経験を<span class="math inline">\(\{0, 1\}\)</span>のいずれかとして、選挙費用 [100万円] を最小値から最大値まで動かし、それぞれの組み合わせで <span class="math inline">\(\hat{V}_i\)</span> を計算したい。そのために、まずは2つの変数の値の組み合わせ考慮するためのデータフレームを作る。2つ以上の変数のすべての組み合わせを作るために、<code><a href="https://tidyr.tidyverse.org/reference/expand_grid.html">tidyr::expand_grid()</a></code> を利用する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu">expand_grid</span><span class="op">(</span></span>
+<span>  expm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">HR09</span><span class="op">$</span><span class="va">expm</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>             to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">HR09</span><span class="op">$</span><span class="va">expm</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>             length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
+<span>  experience <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>これを利用して予測値を計算する。予測値は、<code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> で求めることができる。</p>
+<div class="cell">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="va">pred</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>v_hat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_3</span>, newdata <span class="op">=</span> <span class="va">pred</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>このデータを使って重回帰の結果を図示する。散布図の点 （観測値） は元データ <code>HR09</code> で描き、回帰直線は予測値 <code>pred</code> で描く</p>
+<div class="cell">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">HR09</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">expm</span>,</span>
+<span>                       color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">experience</span><span class="op">)</span>,</span>
+<span>                       shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">experience</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span>, <span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">voteshare</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>data <span class="op">=</span> <span class="va">pred</span>, <span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">v_hat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span>,</span>
+<span>                     name <span class="op">=</span> <span class="st">'議員経験'</span>, </span>
+<span>                     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'なし'</span>, <span class="st">'あり'</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_shape_discrete</span><span class="op">(</span>name <span class="op">=</span> <span class="st">'議員経験'</span>,</span>
+<span>                       labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'なし'</span>, <span class="st">'あり'</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">guides</span><span class="op">(</span>color <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>         shape <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"選挙費用（100万円）"</span>, </span>
+<span>       y <span class="op">=</span> <span class="st">"得票率（%）"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"得票率と選挙費用の関係"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">p3</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multiple-regression_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>この図からわかるように、このモデルは2つの直線が平行になる（傾きが同じになる）ように<strong>設定されて</strong>いる。これは、私たちが選んだ統計モデルの仮定による。</p>
+<p>この図に95パーセント信頼区間を加えよう。 信頼区間を求めるために標準誤差を利用する。 また、標準誤差は<span class="math inline">\(t\)</span> 分布に従うので、<code><a href="https://rdrr.io/r/stats/TDist.html">qt()</a></code> で分布の95%が収まる範囲を求める （標準正規分布で近似し、<span class="math inline">\(\pm 1.96\)</span> を使っても結果に大きな違いはないが、せっかくRを使っているのだから、より正確な数値を利用したほうがよい）。</p>
+<p>予測値と標準誤差を求める。<code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> で <code>se.fit = TRUE</code> とすると、予測値とともに標準誤差（の推定値）も計算される。</p>
+<div class="cell">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">err</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_3</span>, </span>
+<span>               newdata <span class="op">=</span> <span class="va">pred</span>, </span>
+<span>               se.fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>この予測値と標準誤差を使って95パーセント信頼区間を求める。両側から2.5パーセントずつの領域を除外したいので、下側の臨界値までの累積確率は2.5パーセント、上側臨界値までは97.5パーセントである。</p>
+<div class="cell">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred</span><span class="op">$</span><span class="va">lower</span> <span class="op">&lt;-</span> <span class="va">err</span><span class="op">$</span><span class="va">fit</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.025</span>, df <span class="op">=</span> <span class="va">err</span><span class="op">$</span><span class="va">df</span><span class="op">)</span> <span class="op">*</span> <span class="va">err</span><span class="op">$</span><span class="va">se.fit</span></span>
+<span><span class="va">pred</span><span class="op">$</span><span class="va">upper</span> <span class="op">&lt;-</span> <span class="va">err</span><span class="op">$</span><span class="va">fit</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.975</span>, df <span class="op">=</span> <span class="va">err</span><span class="op">$</span><span class="va">df</span><span class="op">)</span> <span class="op">*</span> <span class="va">err</span><span class="op">$</span><span class="va">se.fit</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>この信頼区間を図に上書きする。<code>geom_smooth()</code> を使う。（ggplot2 が計算する値ではなく）自分で計算した値を使うために、<code>stat = "identity"</code> を指定する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p3_ci95</span> <span class="op">&lt;-</span> <span class="va">p3</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_smooth</span><span class="op">(</span>data <span class="op">=</span> <span class="va">pred</span>, </span>
+<span>                <span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">v_hat</span>, ymin <span class="op">=</span> <span class="va">lower</span>, ymax <span class="op">=</span> <span class="va">upper</span><span class="op">)</span>, </span>
+<span>                stat <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">p3_ci95</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multiple-regression_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section></section><section id="欠落変数バイアスと処置後変数バイアス" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="欠落変数バイアスと処置後変数バイアス">
+<span class="header-section-number">7.3</span> 欠落変数バイアスと処置後変数バイアス</h2>
+<p>重回帰分析では複数の説明変数を使う。複数の説明変数を使う理由の1つは、ある結果（応答変数）に影響を与える原因が複数あると考えられるからである。そのようなとき、原因と考えられる複数の説明変数を回帰分析に含めるというの自然な発想である。しかし、応答変数の原因の中には、必ず回帰分析に含める必要があるものもあれば、回帰分析に入れても入れなくてもよいものや、回帰分析に入れてはいけないものもある。回帰分析では主な説明変数以外の変数を統制変数 (control variables) や共変量 (covariates) と呼ぶことがあるが、回帰分析で統制 (control) すべき変数はどのようなものだろうか。</p>
+<p><br></p>
+<section id="欠落変数バイアス" class="level3" data-number="7.3.1"><h3 data-number="7.3.1" class="anchored" data-anchor-id="欠落変数バイアス">
+<span class="header-section-number">7.3.1</span> 欠落変数バイアス</h3>
+<p>2つの変数 <span class="math inline">\(y\)</span> と<span class="math inline">\(x\)</span> があり、この2変数の間に強い相関があるとする。このとき、<span class="math inline">\(x\)</span>が<span class="math inline">\(y\)</span>の原因であるとは限らない。1つの可能性は、<span class="math inline">\(y\)</span>が<span class="math inline">\(x\)</span>の原因であるというものである。因果の向きが逆の場合は比較的見抜きやすいので、ここではその可能性はとりあえず考えない（実際の研究では、フィードバック効果などもあり、注意すべき問題である。どちらが原因でどちらが結果なのか判別できない場合もある）。</p>
+<p>もう1つの可能性は、第三の変数 <span class="math inline">\(z\)</span> が存在し、<span class="math inline">\(z\)</span>が<span class="math inline">\(x\)</span>の原因でもあると同時に、<span class="math inline">\(y\)</span>の原因でもあるという場合である。 <span class="math inline">\(x\)</span>と<span class="math inline">\(y\)</span>の相関が<span class="math inline">\(z\)</span>によって説明されてしまうとき、<span class="math inline">\(x\)</span>と<span class="math inline">\(y\)</span>の相関は、<strong>見せかけの因果関係 (spurious correlation)</strong> と呼ばれる。また、実際に<span class="math inline">\(x\)</span>が<span class="math inline">\(y\)</span>の原因だとしても、 <span class="math inline">\(z\)</span>のように<span class="math inline">\(x\)</span>と<span class="math inline">\(y\)</span>の両者に影響する変数があるかもしれない。このような<span class="math inline">\(z\)</span> は、<strong>交絡変数 (confouding variable or confounder) </strong> と呼ばれる。</p>
+<p><strong>交絡変数は、必ず統制する必要がある</strong>。交絡変数を統制しないと、推定にバイアスが生じる。このバイアスを<strong>欠落変数バイアス (omitted variable bias)</strong> と呼ぶ。経済学では、<strong>セレクションバイアス（selection bias）</strong> とも呼ばれる。</p>
+<p><span class="math inline">\(y\)</span>と<span class="math inline">\(x\)</span>の両者に影響を与える<span class="math inline">\(z\)</span>という変数があるとき、<span class="math inline">\(z\)</span>を無視して、 <span class="math display">\[y_i = \beta_0 + \beta_1 x_i + u_i\]</span> という式を考えると、<span class="math inline">\(z\)</span> は誤差項<span class="math inline">\(u\)</span>に含まれることになる。 そうすると、当然ながら、説明変数<span class="math inline">\(x\)</span>と誤差項<span class="math inline">\(u\)</span>の間に相関があるので、最小二乗法を使うための前提（「誤差の独立性」教科書 pp.245-246）が満たされず、<span class="math inline">\(\beta_1\)</span> の推定が偏ったもの（つまり、バイアスをもったもの）になってしまうのである。</p>
+<p>このことを、シミュレーションで確認してみよう。 まず、データを作る。ここでは、<code>x</code>, <code>z1</code>, <code>z2</code> という3つの変数がyの原因となっている（<code>mu</code>を計算する行を参照）。また、<code>z1</code>は<code>x</code>の原因でもあるので、<code>z1</code>は交絡変数である。したがって、<code>z1</code>を統制(（コントロール）しないと、<code>x</code>の係数が正しく推定できないはずである。<code>z3</code>は応答変数とは無関係の変数である。</p>
+<div class="cell">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># シミュレーションを再度実行したときに同じ結果が得られるように、乱数の種を指定する</span></span>
+<span><span class="co"># 異なる結果を得たいときは、set.seed() の中身を変える</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">777</span><span class="op">)</span>   </span>
+<span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span><span class="va">z1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">z2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span> </span>
+<span><span class="va">z3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">0.2</span> <span class="op">*</span> <span class="va">z1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span></span>
+<span><span class="va">mu</span> <span class="op">&lt;-</span> <span class="fl">1.5</span> <span class="op">+</span> <span class="fl">0.4</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="va">z1</span> <span class="op">-</span> <span class="fl">0.2</span> <span class="op">*</span> <span class="va">z2</span> </span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span>, mean <span class="op">=</span> <span class="va">mu</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">y</span>, <span class="va">x</span>, <span class="va">z1</span>, <span class="va">z2</span>, <span class="va">z3</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>まず、正しいモデルを作り、パラメタを推定する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">true_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z1</span> <span class="op">+</span> <span class="va">z2</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">true_model</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    1.58     0.114      13.8  1.55e-24
+2 x              0.419    0.104       4.04 1.07e- 4
+3 z1             0.507    0.0432     11.7  3.19e-20
+4 z2            -0.159    0.0415     -3.83 2.26e- 4</code></pre>
+</div>
+</div>
+<p><code>x</code>の係数に注目すると、パラメタとして設定した 0.4 にある程度近い値0.42 が得られる。</p>
+<p>次に、交絡変数である<code>z1</code>を除外した「正しくない」モデルでパラメタを推定する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">omitted_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z2</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">omitted_1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    1.55     0.177       8.77 6.16e-14
+2 x              0.983    0.142       6.91 5.14e-10
+3 z2            -0.157    0.0644     -2.44 1.64e- 2</code></pre>
+</div>
+</div>
+<p>このモデルでは、<code>x</code>の係数の推定値が 0.98 になり、<code>x</code>の<code>y</code>に対する影響がかなり過大に推定されている。</p>
+<p>続いて、<span class="math inline">\(y\)</span> の原因ではあるが、交絡変数ではない<code>z2</code> を除外してみる。</p>
+<div class="cell">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">omitted_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z1</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">omitted_2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    1.62     0.121      13.3  1.18e-23
+2 x              0.384    0.110       3.48 7.48e- 4
+3 z1             0.506    0.0462     11.0  1.16e-18</code></pre>
+</div>
+</div>
+<p>ここでは、xの係数は、正しい値である0.4に近い。</p>
+<p>最後に、<code>y</code>の原因ではない（関係のない）<code>z3</code> を加えて回帰分析をしてみよう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">extra_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z1</span> <span class="op">+</span> <span class="va">z2</span> <span class="op">+</span> <span class="va">z3</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">extra_model</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)  1.57       0.115     13.7   2.82e-24
+2 x            0.422      0.105      4.02  1.17e- 4
+3 z1           0.507      0.0435    11.7   5.21e-20
+4 z2          -0.159      0.0417    -3.81  2.46e- 4
+5 z3          -0.00954    0.0395    -0.241 8.10e- 1</code></pre>
+</div>
+</div>
+<p><code>x</code>の係数についてはほぼ正しい値に近い推定値が得られた。また、<code>z3</code>の係数が0に近く、影響がないという事実に合致する結果が得られた。</p>
+<p>ここまでのシミュレーションは、データセットを1つ生成し、それを分析しただけである。1つのデータだけでは偶然そうなっただけかもしれないので、上のシミュレーションを繰り返し行い、推定結果を調べてみよう。</p>
+<p>まず、繰り返しシミュレーションを行うための関数を作る。</p>
+<div class="cell">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim_regression</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">trials</span> <span class="op">=</span> <span class="fl">200</span>, <span class="va">n</span> <span class="op">=</span> <span class="fl">50</span>, <span class="va">beta</span> <span class="op">=</span> <span class="fl">.4</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="co">## 重回帰分析をシミュレートするための関数</span></span>
+<span>    <span class="co">## 引数：trials = シミュレーションの繰り返し回数（既定値は200)</span></span>
+<span>    <span class="co">##       n = 標本サイズ（既定値は50）</span></span>
+<span>    <span class="co">##       beta = x 係数 (beta) の母数（パラメタ）</span></span>
+<span>    <span class="co">## 返り値：res = 係数の推定値を要素にもつ行列</span></span>
+<span>    </span>
+<span>    <span class="va">z1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">trials</span> <span class="op">*</span> <span class="va">n</span>, <span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">n</span><span class="op">)</span></span>
+<span>    <span class="va">z2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">trials</span> <span class="op">*</span> <span class="va">n</span>, <span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">n</span><span class="op">)</span></span>
+<span>    <span class="va">z3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">trials</span> <span class="op">*</span> <span class="va">n</span>, <span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">n</span><span class="op">)</span></span>
+<span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">0.2</span><span class="op">*</span><span class="va">z1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">trials</span> <span class="op">*</span> <span class="va">n</span><span class="op">)</span></span>
+<span>    <span class="va">mu</span> <span class="op">&lt;-</span> <span class="fl">1.5</span> <span class="op">+</span> <span class="va">beta</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="va">z1</span> <span class="op">-</span> <span class="fl">0.2</span> <span class="op">*</span> <span class="va">z2</span> </span>
+<span>    <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">mu</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">trials</span><span class="op">*</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">beta_hat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="va">trials</span>, ncol <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">beta_hat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'true'</span>, <span class="st">'omit1'</span>, <span class="st">'omit2'</span>, <span class="st">'extra'</span><span class="op">)</span></span>
+<span>   </span>
+<span>    <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">trials</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>y <span class="op">=</span> <span class="va">y</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span>, </span>
+<span>                     x <span class="op">=</span> <span class="va">x</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span>, </span>
+<span>                     z1 <span class="op">=</span> <span class="va">z1</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span>, </span>
+<span>                     z2 <span class="op">=</span> <span class="va">z2</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span>, </span>
+<span>                     z3 <span class="op">=</span> <span class="va">z3</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span>        <span class="va">true_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z1</span> <span class="op">+</span> <span class="va">z2</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span>        <span class="va">fit_omit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z2</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span>        <span class="va">fit_omit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z1</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span>        <span class="va">fit_extra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z1</span> <span class="op">+</span> <span class="va">z2</span> <span class="op">+</span> <span class="va">z3</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span>  </span>
+<span>        <span class="va">beta_hat</span><span class="op">[</span><span class="va">i</span>, <span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">true_fit</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, </span>
+<span>                           <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_omit1</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>                           <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_omit2</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, </span>
+<span>                           <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_extra</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">beta_hat</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>作った関数を使い、シミュレーションを実行する。<code>x</code>の係数のパラメタ（母数）は0.4に設定する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">0.4</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">-</span><span class="fl">11</span><span class="op">-</span><span class="fl">11</span><span class="op">)</span></span>
+<span><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu">sim_regression</span><span class="op">(</span>trials <span class="op">=</span> <span class="fl">200</span>, n <span class="op">=</span> <span class="fl">50</span>, beta <span class="op">=</span> <span class="va">beta</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>各モデルの係数の最小二乗推定値の平均値を確認する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sim1</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     true     omit1     omit2     extra 
+0.4143817 1.0331296 0.4128824 0.4135912 </code></pre>
+</div>
+</div>
+<p>この結果をみると問題がある（推定値の平均が母数である0.4から外れている）のは<code>omit1</code>だけである。それぞれのモデルから得られた係数<code>beta</code>の推定値の分布を図示してみよう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim1_beta</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="va">sim1</span><span class="op">)</span>  <span class="co"># ggplot2 を使うためにデータフレームに変換</span></span>
+<span><span class="co"># 全モデルに共通する図のベースを作る</span></span>
+<span><span class="va">plt_base</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">sim1_beta</span>, <span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">xlab</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">beta</span>, <span class="st">"の推定値"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ylab</span><span class="op">(</span><span class="st">"確率密度"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>正しいモデル。</p>
+<div class="cell">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plt_true</span> <span class="op">&lt;-</span> <span class="va">plt_base</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">true</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">'black'</span>, bins <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">beta</span>, color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"正しいモデルの推定値の分布"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt_true</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multiple-regression_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>交絡変数を除外したモデル。</p>
+<div class="cell">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plt_omit1</span> <span class="op">&lt;-</span> <span class="va">plt_base</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">omit1</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">'black'</span>, bins <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">beta</span>, color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"交絡変数を除外したモデルの推定値の分布"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt_omit1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multiple-regression_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>交絡ではない原因を除外したモデル。</p>
+<div class="cell">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plt_omit2</span> <span class="op">&lt;-</span> <span class="va">plt_base</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">omit2</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">'black'</span>, bins <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">beta</span>, color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"交絡ではない原因を除外したモデルの推定値の分布"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt_omit2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multiple-regression_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>応答変数の原因ではない余分な変数を加えたモデル。</p>
+<div class="cell">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plt_extra</span> <span class="op">&lt;-</span> <span class="va">plt_base</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">extra</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">'black'</span>, bins <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">beta</span>, color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"余分な変数を追加したモデルの推定値の分布"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt_extra</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multiple-regression_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>このシミュレーションから、交絡変数ではない原因を入れ損ねたり、原因ではない変数を入れてしまうのは問題ないが、交絡変数を説明変数に加え忘れると、平均して誤った分析結果を出してしまうことがわかる。したがって、<strong>交絡変数は必ず回帰分析に加える</strong>必要がある。</p>
+<p>交絡を入れ損ねるとバイアスが生じ、関係ない変数を入れても問題がないのであれば、できるだけ多くの変数を統制した方がよさそうである。実際、欠落変数バイアスを防ぐためには、できるだけたくさんの要因を統制した方がよい。ただし、手当たり次第に変数を投入すると起きる問題が、（少なくとも）2つある。</p>
+<p>まず、モデルが現実（真実）から乖離する確率が大きくなる。 この問題が起きるのは、モデルに含む説明変数が増えるにつれて、変数同士の関係のあり方のパタン（例えば、2変数以上の相互作用があるかどうか）が増えるのに対し、実際に正しいモデル（実際にデータが生成される過程）は1つしかないはずだからである。この問題は、ノンパラメトリックな方法を使えば、回避することができる（今回は考えない）。</p>
+<p>2つ目の問題は、処置後変数バイアスという異なる種類のバイアスが生じる可能性である。 この問題は、以下のシミュレーションで理解しよう。</p>
+<p><br></p>
+</section><section id="処置後変数バイアス" class="level3" data-number="7.3.2"><h3 data-number="7.3.2" class="anchored" data-anchor-id="処置後変数バイアス">
+<span class="header-section-number">7.3.2</span> 処置後変数バイアス</h3>
+<p>処置後変数バイアス（post treatment variable bias）とは、<span class="math inline">\(y\)</span> の原因の1つであるが、主な説明変数（因果推論の文脈ではこれを処置変数 [treatment variable] と呼ぶ）である<span class="math inline">\(x\)</span>の結果でもあるような変数、つまり、<span class="math inline">\(x\)</span>と<span class="math inline">\(y\)</span>の関係を仲介するような変数である<span class="math inline">\(z\)</span>や、<span class="math inline">\(x\)</span>からも<span class="math inline">\(y\)</span>からも影響を受ける合流点<span class="math inline">\(z\)</span>を予測変数として使うことによって生じるバイアスである。処置後変数バイアスがあると、<span class="math inline">\(x\)</span>が<span class="math inline">\(y\)</span>に及ぼす効果を正しく推定することができない。</p>
+<p>以下のシミュレーションで、処置後変数バイアス（特に、媒介変数によるバイアス）を確認してみよう。</p>
+<p>まず、<span class="math inline">\(x\)</span>が<span class="math inline">\(y\)</span>に与える効果を設定する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">true_effect</span> <span class="op">&lt;-</span> <span class="fl">.25</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>次に、処置後変数を含むデータ生成過程を表す関数を作る。</p>
+<div class="cell">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ptb_dgp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span> <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="co"># 処置後変数バイアス問題をシミュレートする関数</span></span>
+<span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span>
+<span>    <span class="va">z</span> <span class="op">&lt;-</span> <span class="fl">0.3</span> <span class="op">+</span> <span class="fl">0.2</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
+<span>    <span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">0.2</span> <span class="op">+</span> <span class="op">(</span><span class="va">true_effect</span> <span class="op">/</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">*</span> <span class="va">z</span>  <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu">tibble</span><span class="op">(</span><span class="va">y</span>, <span class="va">x</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>試しにデータセットを1つ作る。</p>
+<div class="cell">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2011</span><span class="op">-</span><span class="fl">11</span><span class="op">-</span><span class="fl">06</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">ptb_dgp</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">glimpse</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 100
+Columns: 3
+$ y &lt;dbl&gt; 0.5931201, 0.8924408, 0.8392817, 0.8599872, 0.9411503, 0.3442116, 0.…
+$ x &lt;int&gt; 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1,…
+$ z &lt;dbl&gt; 0.3249840, 0.5714314, 0.4143175, 0.5307784, 0.5359589, 0.1685075, 0.…</code></pre>
+</div>
+</div>
+<p>ここで、<span class="math inline">\(x\)</span>と<span class="math inline">\(z\)</span>の相関関係を確認してみよう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6949966</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(z\)</span>と<span class="math inline">\(x\)</span>の間に正の相関があることがわかる。また、<span class="math inline">\(y\)</span>と<span class="math inline">\(z\)</span>については、</p>
+<div class="cell">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8771216</code></pre>
+</div>
+</div>
+<p>となり、やはり正の相関を示している。</p>
+<p>そこで、「欠落変数バイアスを避けるために」（モチベーションは正しいが、方法が間違っている）、<span class="math inline">\(z\)</span>を予測変数に含む以下のモデルを考える。 <span class="math display">\[y_i = \alpha + \beta x_i + \gamma z_i + u.\]</span> このモデルのパラメタを推定してみよう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_with</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_with</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)   0.167     0.0353     4.72  7.96e- 6
+2 x            -0.0257    0.0282    -0.911 3.65e- 1
+3 z             1.37      0.101     13.6   3.00e-24</code></pre>
+</div>
+</div>
+<p>推定値を見ると、<code>x</code>の係数<span class="math inline">\(\beta\)</span>は過小推定（本当は 0.25）されている。</p>
+<p>ここで、説明変数 <span class="math inline">\(z\)</span>を除外して、以下のモデルを考えてみよう。 <span class="math display">\[y_i = \alpha + \beta x_i + u.\]</span> このモデルのパラメタを推定しよう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_wo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_wo</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    0.601    0.0258     23.3  9.02e-42
+2 x              0.241    0.0344      7.01 3.09e-10</code></pre>
+</div>
+</div>
+<p>コントロールすべきと考えていた <span class="math inline">\(z\)</span> を除外したモデルなのに、<span class="math inline">\(\beta\)</span>の推定値は設定した値である0.25 に近い。 これは偶然だろうか？シミュレーションで確かめてみよう。</p>
+<p>1回シミュレーションを実行し、処置後変数を含むモデルと含まないモデルの係数の推定値を返す関数を作る。</p>
+<div class="cell">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim_ptb</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">true_effect</span> <span class="op">=</span> <span class="fl">0.25</span>, <span class="va">n</span> <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">ptb_dgp</span><span class="op">(</span>n <span class="op">=</span> <span class="va">n</span><span class="op">)</span></span>
+<span>    <span class="va">fit_with</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span>    <span class="va">fit_wo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span>    <span class="va">betas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_with</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_wo</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">betas</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'with'</span>, <span class="st">'without'</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">betas</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>この関数を、<code><a href="https://rdrr.io/r/base/lapply.html">replicate()</a></code> で複数回実行する。500回繰り返してみよう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ptb_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fu">sim_ptb</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>結果をヒストグラムで確認する。処置後変数を含む場合。</p>
+<div class="cell">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dd</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>with <span class="op">=</span> <span class="va">ptb_1</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>,</span>
+<span>             without <span class="op">=</span> <span class="va">ptb_1</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span><span class="op">)</span>  <span class="co"># ggplot で使うためのデータセット</span></span>
+<span><span class="va">hist_with</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">dd</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">with</span>, y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span>, </span>
+<span>                 bins <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">true_effect</span>, </span>
+<span>             color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"処置後変数を含むモデルの推定値"</span>, </span>
+<span>       y <span class="op">=</span> <span class="st">"確率密度"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">hist_with</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multiple-regression_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>処置後変数を含まない場合。</p>
+<div class="cell">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hist_wo</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">dd</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">without</span>, y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span>, </span>
+<span>                 bins <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">true_effect</span>, </span>
+<span>             color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"処置後変数を含まない（正しい）モデルの推定値"</span>, </span>
+<span>       y <span class="op">=</span> <span class="st">"確率密度"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">hist_wo</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multiple-regression_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>このように、ある変数<span class="math inline">\(x\)</span>の効果を推定したいときは、その変数の結果として出てくる変数を<strong>統制してはいけない</strong>。変数間に時間的な前後関係があれば、このバイアスを回避するのは比較的容易である。しかし、時間的な前後関係が不明なとき、ある変数が交絡変数か処置後変数かを見抜くのは難しい場合がある。統計モデルを作るときには、自分が統制する変数は交絡であり、処置後変数ではないことを理論的に示す必要がある。</p>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/yukiyanai\.github\.io\/metrics\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./regression-test-inference.html" class="pagination-link  aria-label=">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">回帰分析による統計的検定と推論</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./regression-misc.html" class="pagination-link" aria-label="<span class='chapter-number'>8</span>&nbsp; <span class='chapter-title'>回帰分析の応用</span>">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">回帰分析の応用</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2024, Yuki Yanai</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+</body></html>
