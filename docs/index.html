@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.542">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -274,7 +274,7 @@ Warning
 <section id="sec-basicinfo" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="sec-basicinfo"><span class="header-section-number">1.1</span> 基本情報</h2>
 <ul>
-<li>シラバス（講義要項）：<a href="https://yukiyanai.github.io/jp/classes/metrics1/docs/syllabus-econometrics_2024-1Q.pdf">PDF</a></li>
+<li>シラバス（講義要項）：<a href="https://yukiyanai.github.io/jp/classes/econometrics1/docs/syllabus-econometrics_2024-1Q.pdf">PDF</a></li>
 <li>講義スライドは <a href="https://lms.kochi-tech.ac.jp/course/view.php?id=3880">KUTLMS</a> で配布する</li>
 <li><a href="https://lms.kochi-tech.ac.jp/course/view.php?id=3880">KUTLMS</a>
 <ul>
@@ -562,7 +562,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -787,7 +792,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./econometrics-prep.html" class="pagination-link" aria-label="<span class='chapter-number'>2</span>&nbsp; <span class='chapter-title'>実習の準備</span>">
+      <a href="./econometrics-prep.html" class="pagination-link" aria-label="実習の準備">
         <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">実習の準備</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

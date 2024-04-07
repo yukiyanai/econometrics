@@ -14,7 +14,7 @@
  
 ## 基本情報 {#sec-basicinfo}
 
-- シラバス（講義要項）：[PDF](https://yukiyanai.github.io/jp/classes/metrics1/docs/syllabus-econometrics_2024-1Q.pdf)
+- シラバス（講義要項）：[PDF](https://yukiyanai.github.io/jp/classes/econometrics1/docs/syllabus-econometrics_2024-1Q.pdf)
 - 講義スライドは [KUTLMS](https://lms.kochi-tech.ac.jp/course/view.php?id=3880) で配布する
 - [KUTLMS](https://lms.kochi-tech.ac.jp/course/view.php?id=3880)
     - 登録キーはポータルで通知する

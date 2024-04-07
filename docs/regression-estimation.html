@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.542">
+<meta name="generator" content="quarto-1.4.550">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>KUT 計量経済学 - 5&nbsp; 回帰分析による統計的推定</title>
 <style>
@@ -369,11 +369,11 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <pre><code># A tibble: 2 × 5
   term        estimate std.error statistic p.value
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-1 (Intercept)     3.79      0.66      5.78    0.01
-2 x               0.59      0.22      2.71    0.07</code></pre>
+1 (Intercept)     2.34      1.44      1.62    0.2 
+2 x               0.43      0.5       0.87    0.45</code></pre>
 </div>
 </div>
-<p><span class="math inline">\(\beta_0\)</span>と<span class="math inline">\(\beta_1\)</span>の推定値をそれぞれ <span class="math inline">\(b_0\)</span>、<span class="math inline">\(b_1\)</span> とすると、<span class="math inline">\(b_0\)</span>=3.79、<span class="math inline">\(b_1\)</span>=0.59 である。推定はどれくらい正確だろうか？</p>
+<p><span class="math inline">\(\beta_0\)</span>と<span class="math inline">\(\beta_1\)</span>の推定値をそれぞれ <span class="math inline">\(b_0\)</span>、<span class="math inline">\(b_1\)</span> とすると、<span class="math inline">\(b_0\)</span>=2.34、<span class="math inline">\(b_1\)</span>=0.43 である。推定はどれくらい正確だろうか？</p>
 </section><section id="複数回のシミュレーション" class="level3" data-number="5.3.2"><h3 data-number="5.3.2" class="anchored" data-anchor-id="複数回のシミュレーション">
 <span class="header-section-number">5.3.2</span> 複数回のシミュレーション</h3>
 <p>1回だけのシミュレーションでは、その結果が偶然得られたものなのか、必然的な結果なのかの区別がつかない。そこで、上のシミュレーションを繰り返す。複数のコマンドを何度も実行するのは面倒なので、シミュレーション用の関数を <code>function()</code> で定義してしまおう。</p>
@@ -408,7 +408,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">simple_reg</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, beta0 <span class="op">=</span> <span class="fl">2</span>, beta1 <span class="op">=</span> <span class="fl">0.8</span>, sigma <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-   2.167688    0.863019 </code></pre>
+  2.5469506   0.9807717 </code></pre>
 </div>
 </div>
 <p>もう1度やってみよう。</p>
@@ -416,7 +416,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">simple_reg</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, beta0 <span class="op">=</span> <span class="fl">2</span>, beta1 <span class="op">=</span> <span class="fl">0.8</span>, sigma <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-  2.1796208   0.8065424 </code></pre>
+ -0.1090080   0.3118554 </code></pre>
 </div>
 </div>
 <p>もう1度やってみよう。</p>
@@ -424,7 +424,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">simple_reg</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, beta0 <span class="op">=</span> <span class="fl">2</span>, beta1 <span class="op">=</span> <span class="fl">0.8</span>, sigma <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-  3.0935072   0.6617355 </code></pre>
+  2.4922408   0.6920176 </code></pre>
 </div>
 </div>
 <p>このように、実行する度に異なる結果が得られる。</p>
@@ -464,12 +464,12 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           b0         b1
-[1,] 2.264046 1.09615513
-[2,] 1.235551 1.69013679
-[3,] 3.127155 0.07764862
-[4,] 1.905262 0.53226678
-[5,] 2.278781 0.52566235</code></pre>
+<pre><code>            b0        b1
+[1,] 1.7149743 0.3521188
+[2,] 1.5272431 0.4034422
+[3,] 0.8485352 1.4109607
+[4,] 2.5715007 0.9114845
+[5,] 2.4098839 0.3374894</code></pre>
 </div>
 </div>
 <p>シミュレーションの実行結果が保存されていることがわかる。</p>
@@ -494,7 +494,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="cell">
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">res_data</span><span class="op">$</span><span class="va">b0</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.028783</code></pre>
+<pre><code>[1] 1.980265</code></pre>
 </div>
 </div>
 <p>であり、真の値である2に近い。</p>
@@ -517,7 +517,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="cell">
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">res_data</span><span class="op">$</span><span class="va">b1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.781811</code></pre>
+<pre><code>[1] 0.8123114</code></pre>
 </div>
 </div>
 <p>であり、真の値である0.8に近い。</p>
@@ -754,7 +754,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -975,12 +980,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./data-handling.html" class="pagination-link  aria-label=">
+      <a href="./data-handling.html" class="pagination-link" aria-label="Rによるデータ操作">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Rによるデータ操作</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./regression-test-inference.html" class="pagination-link" aria-label="<span class='chapter-number'>6</span>&nbsp; <span class='chapter-title'>回帰分析による統計的検定と推論</span>">
+      <a href="./regression-test-inference.html" class="pagination-link" aria-label="回帰分析による統計的検定と推論">
         <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">回帰分析による統計的検定と推論</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
