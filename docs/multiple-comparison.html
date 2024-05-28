@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.542">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>KUT 計量経済学 - 11&nbsp; 多重比較法</title>
 <style>
@@ -592,7 +592,7 @@ window.Quarto = {
 <pre><code>[1] 0.4908</code></pre>
 </div>
 </div>
-<p>ファミリーの有意水準が0.49になった。1つひとつの検定で利用する<code>alpha</code>の値を「めったにない」と言えそうな5%にしても、全体では「めったにない」とは決して言えない52%に なってしまっており、多重比較の調整が必要であることがわかる。</p>
+<p>ファミリーの有意水準が0.49になった。1つひとつの検定で利用する<code>alpha</code>の値を「めったにない」と言えそうな5%にしても、全体では「めったにない」とは決して言えない49%に なってしまっており、多重比較の調整が必要であることがわかる。</p>
 <p>そこで、ボンフェローニの方法で有意水準を補正する。 <span class="math inline">\(K=20\)</span> なので<code>alpha = 0.05 / 20</code> にすればよいはずだ。</p>
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">bonferroni_k20b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">10000</span>, </span>
@@ -785,7 +785,7 @@ window.Quarto = {
 <pre><code>[1] 0.4931</code></pre>
 </div>
 </div>
-<p>49.8%について、正しくない帰無仮説を棄却することに失敗している。</p>
+<p>49.3%について、正しくない帰無仮説を棄却することに失敗している。</p>
 <p>次に、ホルムの方法を試す。</p>
 <div class="cell">
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res_h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">10000</span>, </span>
@@ -1027,12 +1027,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
+      return note.innerHTML;
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1253,7 +1248,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./interaction.html" class="pagination-link" aria-label="交差項の利用">
+      <a href="./interaction.html" class="pagination-link  aria-label=">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">交差項の利用</span></span>
       </a>          
   </div>
