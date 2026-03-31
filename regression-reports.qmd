@@ -16,11 +16,7 @@ pacman::p_load(tidyverse,
                texreg)
 
 if (.Platform$OS.type == "windows") { 
-  if (require(fontregisterer)) {
-    my_font <- "Yu Gothic"
-  } else {
-    my_font <- "Japan1"
-  }
+  my_font <- "Yu Gothic"
 } else if (capabilities("aqua")) {
   my_font <- "HiraginoSans-W3"
 } else {
@@ -60,6 +56,37 @@ fit_3 <- lm(voteshare ~ experience + expm, data = HR09)
 fit_4 <- lm(voteshare ~ experience * expm, data = HR09)
 ```
 
+
+::: callout-tip
+複数のモデルを推定するときは、以下のように書くこともできる。
+```{r}
+models <- alist(
+  m1 = voteshare ~ experience,
+  m2 = voteshare ~ expm,
+  m3 = voteshare ~ experience + expm,
+  m4 = voteshare ~ experience * expm
+)
+
+fits <- models |> 
+  map(.f = formula) |> 
+  map(.f = lm, data = HR09)
+```
+このように書くと、`fits`の中に推定結果が保存されており、`fit_1` と同じ内容を取り出すには`fits$m1`と書けばよいので、
+```{r}
+fits$m1 |> 
+  tidy()
+```
+とできる。
+
+さらに、すべてのモデルの推定結果を tibble にまとめることもできる。
+```{r}
+Fits <- enframe(fits)
+Fits
+```
+:::
+
+
+
 ---
 
 ## 分析結果の提示
@@ -68,7 +95,11 @@ fit_4 <- lm(voteshare ~ experience * expm, data = HR09)
 
 説明変数の数がそれほど多くない場合は、式で結果を示しても良い。
 
-例えば、`fit_1` の推定結果は、次の式にまとめられる。
+例えば、`fit_1` の推定結果は、
+```{r}
+fit_1 |> tidy()
+```
+なので、次の式にまとめられる。
 $$
 \begin{aligned}
 \widehat{得票率} = &`r round(coef(fit_1)[1], 2)` & + & `r round(coef(fit_1)[2], 2)` & \cdot 議員経験\\
@@ -82,7 +113,7 @@ $$
 $$
 \begin{aligned}
   \widehat{得票率} 
-   = & `r round(coef(fit_1)[1], 2)` 
+   = & `r round(coef(fit_1)[1], 2)`
       & + & `r round(coef(fit_1)[2], 2)` &  議員経験 \\
      & (`r round(summary(fit_1)$coefficients[1, 2], 2)`) 
       &   & (`r round(summary(fit_1)$coefficients[2, 2], 2)`) & 
@@ -90,7 +121,7 @@ $$
 $$
 ```
 
-このように、Quarto文書では`$$`で囲んだブロックに $\TeX$ 形式の数式を書くことができる（注意：Quarto [あるいは R Markdown] 以外で$\LaTeX$ の数式を書く際は、日本語を `\mathrm{}` または `\mbox{}` に入れる必要がある）。また、数式の中に推定値を利用する場合、数値を打ち込む代わりにRで計算した結果を利用することができる。上の例では、傾きである$31.18$ をタイプする代わりに、`round(coef(fit_1)[2], 2)` というRコードを使っている。数式ブロックを独立させずに、文章中に数式を入れる場合は、`$` で囲む（`$` の数が異なるだけ）。
+このように、Quarto文書では`$$`で囲んだブロックに $\TeX$ 形式の数式を書くことができる（注意：Quarto [あるいは R Markdown] 以外で$\LaTeX$ の数式を書く際は、日本語を `\mathrm{}` または `\mbox{}` に入れる必要がある）。また、数式の中に推定値を利用する場合、数値を打ち込む代わりにRで計算した結果を利用することができる。上の例では、傾きである$31.18$ をタイプする代わりに、&#96;r round(coef(fit_1)[2], 2)&#96; というRコードを使っている。数式ブロックを独立させずに、文章中に数式を入れる場合は、`$` で囲む（`$` の数が異なるだけ）。
 
 これに加え、サンプルサイズと決定係数（重回帰なら自由度調整済み決定係数）を表示する必要がある。サンプルサイズは、
 `length(fit_1$residuals)` で、決定係数は `summary(fit1)$r.squared`、自由度調整済み決定係数は `summary(fit1)$adj.r.squared`で表示することができるので、その値を記載する。
@@ -121,31 +152,26 @@ msummary(fit_1,
 ```
 である。
 
-この表には（少なくとも）2つの問題がある。
+この表には（少なくとも）1つ問題がある。これまでの授業では扱っていない（よって何を表しているのかわからない）統計量が表示されている。推定値以外にサンプルサイズ（`nobs`）と決定係数 (`r.squared``) のみ表示するように手を加えよう。
 
-1. 表のキャプション（タイトルが表の下にある）：上に置きたい！
-2. これまでの授業では扱っていない（よって何を表しているのかわからない）統計量が表示されている：推定値以外にサンプルサイズ（`nobs`）と決定係数 (`r.squared``) のみ表示したい！
-
-そこで、コードを以下のように書き換える（最後の1行はとりあえず**おまじない**だと思ってかまわない）。
+そのために、コードを以下のように書き換える。
 ```{r}
 msummary(fit_1,
          title = "得票率を応答変数とする単回帰の推定結果",
          gof_map = tibble(raw = c("nobs", "r.squared"),
                           clean = c("N", "R<sup>2</sup>"),
-                          fmt = c(0, 3))) |> 
-  style_tt(bootstrap_class = "table caption-top")
+                          fmt = c(0, 3))) 
 ```
 
 
-日本語で論文・レポートを書くなら、表の中身も日本語にすべきである。そこで次のようにする。
+日本語で論文・レポートを書くなら、**表の中身も日本語にすべき**である。そこで次のようにする。
 ```{r}
 msummary(fit_1,
          title = "得票率を応答変数とする単回帰の推定結果",
          coef_rename = c("切片", "議員経験"),
          gof_map = tibble(raw = c("r.squared", "nobs"),
                           clean = c("R<sup>2</sup>", "観測数"),
-                          fmt = c(3, 0))) |> 
-  style_tt(bootstrap_class = "table caption-top")
+                          fmt = c(3, 0))) 
 ```
 
 
@@ -163,12 +189,37 @@ msummary(list(`モデル 1` = fit_1,
                           clean = c("R<sup>2</sup>", 
                                     "自由度調整済みR<sup>2</sup>", 
                                     "観測数"),
-                          fmt = c(3, 3, 0))) |> 
-   style_tt(bootstrap_class = "table caption-top")
+                          fmt = c(3, 3, 0)))
 ```
 
 
-結果をTeXの表にするときは、`ouput = "latetex"` とすればよい（出力は省略する）。
+::: callout-tip
+上の tip で説明した方法で複数のモデルをまとめて推定した場合は、次のようにできる（出力は省略）。
+```{r}
+#| eval: false
+msummary(fits,
+         title = "得票率を応答変数とする回帰分析の推定結果",
+         coef_rename = c("切片", "議員経験", "選挙費用 (百万円)",
+                         "議員経験 x 選挙費用"),
+         gof_map = tibble(raw = c("r.squared", "adj.r.squared", "nobs"),
+                          clean = c("R<sup>2</sup>", 
+                                    "自由度調整済みR<sup>2</sup>", 
+                                    "観測数"),
+                          fmt = c(3, 3, 0)))
+```
+
+:::
+
+
+
+
+
+結果をPDFに出力する（すなわちTeXの表にするとき）は、`ouput = "latetex"` とすればよい（この資料はPDFではないので出力は省略する)。ただし、チャンクオプションで `results: "asis"` を指定する。つまり、コードチャンクの冒頭が、
+```{{r}}
+#| results: "asis"
+```
+のようになる。
+
 ```{r}
 #| eval: false
 msummary(list(`モデル 1` = fit_1,
@@ -183,8 +234,7 @@ msummary(list(`モデル 1` = fit_1,
                                     "自由度調整済みR<sup>2</sup>", 
                                     "観測数"),
                           fmt = c(3, 3, 0))),
-         output = "latex") |> 
-   style_tt(bootstrap_class = "table caption-top")
+         output = "latex")
 ```
 
 ファイルに出力したい場合は、`ouput` に保存先のファイル名を指定すればよい。
@@ -222,14 +272,11 @@ screenreg(fit_1,
 
 である。**`stars = NULL` は必ず指定するようにしよう！**
 
-この資料のように、HTML にknit するときは、次のようにする。ただし、チャンクオプションで `results: 'asis'` を指定する。つまり、コードチャンクの冒頭が、
-```{{r}}
-#| results: 'asis'
-```
-のようになる。
+この資料のように、HTML にknit するときは、次のようにする。 チャンクオプション `results: "asis"` 
+も忘れずに。
 
 ```{r}
-#| results: 'asis'
+#| results: "asis"
 htmlreg(fit_1, 
         stars = NULL,
         caption = "得票率を応答変数とする単回帰の推定結果",
@@ -238,7 +285,7 @@ htmlreg(fit_1,
 
 <br>
 
-**PDF にrenderする場合**は、次のようにする（この資料はPDFではないので、結果は省略する）。`results: 'asis'` は必要。
+**PDF にrenderする場合**は、次のようにする（この資料はPDFではないので、結果は省略する）。この場合も`results: "asis"` は必要。
 ```{r}
 #| eval: false
 texreg(fit_1, 
@@ -267,7 +314,7 @@ htmlreg(models,
         custom.note = "注：括弧内は標準誤差。")
 ```
 
-ただし、`texreg()`を使ってPDF にrender するときは、`"R<sup>2</sup>"` の代わりに `"$R^2$` とする。
+ただし、`texreg()`を使ってPDF にrender するときは、`"R<sup>2</sup>"`（html表記）の代わりに `"$R^2$` （$\LaTeX$表記）とする。
 
 
 <br>
@@ -278,7 +325,15 @@ htmlreg(models,
 
 上で推定した4つのモデルについて、キャタピラプロットを作ってみよう。
 
- 1つのモデルを図示するときは、`coefplot::coefplot()` を使う。チャンクオプションに `fig.cap = "ここに図のキャプションを書く"` を加えると図にキャプションをつけることができる。例えば、コードチャンクの冒頭に`{r, fig.width = 5, fig.height = 3, fig.cap = "モデル3の推定結果"}` とする。
+ 1つのモデルを図示するときは、`coefplot::coefplot()` を使う。チャンクオプションに `fig.cap = "ここに図のキャプションを書く"` を加えると図にキャプションをつけることができる。例えば、コードチャンクの冒頭を
+```{{r}}
+#| fig-width = 5
+#| fig-height = 3
+#| fig.cap = "モデル3の推定結果"
+```
+のようにする。
+ 
+ `{r, 
 ```{r}
 #| fig-width: 10
 #| fig-cap: "モデル3の推定結果"
@@ -335,4 +390,3 @@ print(plt_multi)
 これ（この程度の調整）で満足いく図ができるときは、ここで説明したように`coefplot::coefplot()`や `coefplot::multiplot()` を使うのが楽だ。さらなる微調整をしたいなら`ggplot2::geom_pointrange()` などを使って自力で作図することもできる。
 
 レポートや論文に載せる図表には必ず通し番号（図と表の番号は別々）とキャプションを付ける必要がある。これについては[「統計学2」で学習済み](https://yukiyanai.github.io/stat2/how2quarto.html#%E5%9B%B3%E8%A1%A8) なので、復習しておこう。
-

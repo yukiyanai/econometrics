@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.4.542">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>4&nbsp; Rによるデータ操作 – KUT 計量経済学</title>
+<title>KUT 計量経済学 - 4&nbsp; Rによるデータ操作</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -67,10 +67,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4cf0b346808cf8b54da9051ae5af4cb2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -96,7 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -127,13 +127,13 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data-handling.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Rによるデータ操作</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -145,17 +145,17 @@ window.Quarto = {
         <div class="sidebar-tools-main">
     <a href="https://github.com/yukiyanai/metrics/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
-      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
 <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=%7Curl%7C">
-              <i class="bi bi-twitter pe-1"></i>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
             Twitter
             </a>
           </li>
           <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=%7Curl%7C">
-              <i class="bi bi-facebook pe-1"></i>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-bi-facebook pe-1"></i>
             Facebook
             </a>
           </li>
@@ -295,27 +295,17 @@ window.Quarto = {
 <span>               <span class="va">haven</span>,</span>
 <span>               <span class="va">readxl</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>（大学のPCで）<code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">pacman::p_load()</a></code> がうまくいかない場合は、以下のようにパッケージを1つずつ読み込む（<strong>次回以降も同じようにする</strong>）。</p>
-<div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://haven.tidyverse.org">haven</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>次に、ggplot2のテーマとフォントの設定を行う。自分好みの設定がある場合は自由に変えてよい。Linuxには<a href="https://moji.or.jp/ipafont/">IPAexフォント</a> がインストールされていることを想定している（IPAex はインストールすれば maxOSやWindows でも使える）。</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span> <span class="op">==</span> <span class="st">"windows"</span><span class="op">)</span> <span class="op">{</span> </span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">fontregisterer</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"Yu Gothic"</span></span>
-<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"Japan1"</span></span>
-<span>  <span class="op">}</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span> <span class="op">==</span> <span class="st">"windows"</span><span class="op">)</span> <span class="op">{</span> </span>
+<span>  <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"Yu Gothic"</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/capabilities.html">capabilities</a></span><span class="op">(</span><span class="st">"aqua"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"HiraginoSans-W3"</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span>  <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"IPAexGothic"</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_gray</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">9</span>,</span>
+<span><span class="fu">theme_set</span><span class="op">(</span><span class="fu">theme_gray</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">9</span>,</span>
 <span>                     base_family <span class="op">=</span> <span class="va">my_font</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="データの読み込み" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="データの読み込み">
@@ -324,15 +314,15 @@ window.Quarto = {
 <span class="header-section-number">4.2.1</span> CSV 形式のデータを読む</h3>
 <p>データの形式として最もよく使われるものの1つが、CSV (comma separated values) という形式である。これはただのテキストファイルであり、値がカンマで区切られているだけである。</p>
 <p>この形式のファイルの中身を理解するために、 <a href="https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_02.csv">fake_data_02.csv</a> を利用しよう。 まずは、上のダウンロードして、プロジェクト内の data ディレクトリ（フォルダ）にファイルを保存する。</p>
+<p>Windows 機の一部を除いて、次のコードが使える。</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span></span>
 <span>    url <span class="op">=</span> <span class="st">"https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_02.csv"</span>,</span>
 <span>    destfile <span class="op">=</span> <span class="st">"data/fake_data_02.csv"</span></span>
 <span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>ダウンロードがうまくできないとき（この後開いてみたら中身が壊れているとき）は、ブラウザ上でデータのリンクをクリック（あるいは右クリック; 副クリック）してファイルを保存し、プロジェクト内の data フォルダにダウンロードしたファイルをを移動しよう（以下で登場するファイルについても同様）</strong>。</p>
 <p>ファイルがダウンロードできたら、そのファイルを開いてみよう。</p>
-<p>まず、エクスプローラー（Macの場合はファインダ）でこのファイルを右クリック（副クリックまたは control を押しながらクリック）し、「プログラムから開く」を選び、LibreOffice Calc または Microsoft Excel で開いてみよう。見慣れた形式（スプレッドシート）でデータが見えるはずだ。確認できたらCalc/Excelを閉じよう。</p>
+<p>まず、エクスプローラー（macOSの場合はファインダ）でこのファイルを右クリック（副クリックまたは control を押しながらクリック）し、「プログラムから開く」を選び、LibreOffice Calc または Microsoft Excel で開いてみよう。見慣れた形式（スプレッドシート）でデータが見えるはずだ。確認できたらCalc/Excelを閉じよう。</p>
 <p>次に、同じファイルを同様に「プログラムから開く」で<strong>Visual Studio Code</strong>（またはその他のテキストエディタ）で開いてみよう。ファイルの中身が見えるはずだ。CSV ファイルは、1行目は変数の名前、2行目以降は各行が1つの観測（このデータの場合は1人）、各行で異なる変数の間にカンマがある（そのため、カンマ区切りデータと呼ばれる）という特徴がある。</p>
 <p>この形式のメリットとして、</p>
 <ul>
@@ -342,10 +332,10 @@ window.Quarto = {
 <li>統計ソフトがなくてもメモ帳さえあれば編集可能</li>
 </ul>
 <p>などがあげられる（<strong>注意：このファイルを Word 等のワープロソフトで編集しないように。余分な内容が追加されてデータの中身が変わってしまう。</strong>）。</p>
-<p>Excel 等に自分でデータを打ち込んで新しいデータセットを作るときは、できるだけこのCSV 形式を選んだ方がよい。</p>
+<p>LibreOffice Calc や MS Excel等を使い、自分でデータを打ち込んで新しいデータセットを作るときは、できるだけこのCSV 形式を選んだ方がよい。</p>
 <p>CSV形式のデータは、<code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv()</a></code> でRに読み込むことができる。</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mycsv1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">'data/fake_data_02.csv'</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mycsv1</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/fake_data_02.csv"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 100 Columns: 6
 ── Column specification ────────────────────────────────────────────────────────
@@ -361,7 +351,7 @@ dbl (5): id, age, height, weight, income
 <p>RStudio でデータを読み込むと、右下の <strong>Environment</strong>タブの<strong>Data</strong>のところに読み込んだデータセットが表示される。</p>
 <p>念のために中身を少しだけ確認しておこう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">mycsv1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">glimpse</span><span class="op">(</span><span class="va">mycsv1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 100
 Columns: 6
@@ -375,10 +365,10 @@ $ income &lt;dbl&gt; 3475810, 457018, 1627793, 6070642, 1083052, 2984929, 148106
 </div>
 </section><section id="excel-形式のデータを読む" class="level3" data-number="4.2.2"><h3 data-number="4.2.2" class="anchored" data-anchor-id="excel-形式のデータを読む">
 <span class="header-section-number">4.2.2</span> Excel 形式のデータを読む</h3>
-<p>Excel のデータは、<strong>.xlsx</strong> または <strong>.xls</strong> というファイル名拡張子付きで保存されている。 このデータをRで読む方法もあるが、ここではExcel 形式のデータをCSV形式に変換し、それを上で説明した方法で読むことにする。</p>
+<p>Excel のデータは、<strong>.xlsx</strong> または <strong>.xls</strong> というファイル名拡張子で保存されている。 このデータをRで読む方法もあるが、ここではExcel 形式のデータをCSV形式に変換し、それを上で説明した方法で読むことにする。</p>
 <p>例として、<a href="https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_03.xlsx">fake_data_03.xlsx</a> を使う。まず、このデータをダウンロードし、Excel で開こう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span></span>
 <span>    url <span class="op">=</span> <span class="st">"https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_03.xlsx"</span>,</span>
 <span>    destfile <span class="op">=</span> <span class="st">"data/fake_data_03.xlsx"</span></span>
 <span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -392,7 +382,7 @@ $ income &lt;dbl&gt; 3475810, 457018, 1627793, 6070642, 1083052, 2984929, 148106
 <p>保存できたら、RStudioの右下の data フォルダをクリックし、<strong>fake_data_03.csv</strong> が保存されていることを確かめよう。</p>
 <p>あとは先ほどと同様の方法でデータを読めばいいので、</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mycsv2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/fake_data_03.csv"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mycsv2</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/fake_data_03.csv"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 100 Columns: 6
 ── Column specification ────────────────────────────────────────────────────────
@@ -407,7 +397,7 @@ dbl (5): id, age, height, weight, income
 <p>と、する。RStudio の Environment タブで、データが読み込めたこと（<code>mycsv2</code>というデータが追加されたこと）を確認しよう。</p>
 <p>念のために中身を少しだけ確認しておこう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">mycsv2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">glimpse</span><span class="op">(</span><span class="va">mycsv2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 100
 Columns: 6
@@ -421,12 +411,12 @@ $ income &lt;dbl&gt; 2102061, 2729262, 1193016, 3014919, 3982087, 3702544, 79306
 </div>
 <p>あるいは、<code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code> でExcelファイルを読み込むこともできる。</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#pacman::p_load(readxl)</span></span>
-<span><span class="va">myxl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/fake_data_03.xlsx"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#pacman::p_load(readxl)</span></span>
+<span><span class="va">myxl</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="st">"data/fake_data_03.xlsx"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>念のために中身を少しだけ確認しておこう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">myxl</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">glimpse</span><span class="op">(</span><span class="va">myxl</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 100
 Columns: 6
@@ -443,11 +433,11 @@ $ income &lt;dbl&gt; 2102061, 2729262, 1193016, 3014919, 3982087, 3702544, 79306
 <p>ここまでで3つのデータセットを読み込んだ（そのうち2つの内容は同じだが）ので、RStudioのEvironment タブには、3つのデータセット（データフレーム）、<code>mycsv1</code>, <code>mycsv2</code>, <code>myxl</code> が表示されているはずである。このように、Rには複数のデータを同時に利用できるというメリットがある。</p>
 <p>このうち、csvファイルから読み込んだデータセットについて、データに含まれる変数を確認してみよう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mycsv1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mycsv1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "id"     "sex"    "age"    "height" "weight" "income"</code></pre>
 </div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mycsv2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mycsv2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "id"     "sex"    "age"    "height" "weight" "income"</code></pre>
 </div>
@@ -455,11 +445,11 @@ $ income &lt;dbl&gt; 2102061, 2729262, 1193016, 3014919, 3982087, 3702544, 79306
 <p>2つのデータセットに含まれる変数名は同じようである。</p>
 <p>では、2つのデータはまったく同じものだろうか。ためしに、それぞれのデータセット身長 (height) の平均値を求めてみよう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mycsv1</span><span class="op">$</span><span class="va">height</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mycsv1</span><span class="op">$</span><span class="va">height</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 163.746</code></pre>
 </div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mycsv2</span><span class="op">$</span><span class="va">height</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mycsv2</span><span class="op">$</span><span class="va">height</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 162.907</code></pre>
 </div>
@@ -472,26 +462,27 @@ $ income &lt;dbl&gt; 2102061, 2729262, 1193016, 3014919, 3982087, 3702544, 79306
 <span class="header-section-number">4.2.4.1</span> <strong>Stata</strong>
 </h4>
 <p>R以外に計量経済学でよく利用される分析ソフトとして、Stataというものがある。Stata のデータセットには、<strong>.dta</strong> というファイル名拡張子が付いている。</p>
-<p>StataのファイルをRで読みたいときは、<strong>haven</strong> というパッケージに含まれる <code><a href="https://haven.tidyverse.org/reference/read_dta.html">read_dta()</a></code>という関数を使う。</p>
+<p>StataのファイルをRで読みたいときは、<strong>haven</strong> というパッケージに含まれる <code>read_dta()</code>という関数を使う。</p>
 <p>例として、<a href="https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_stata.dta">fake_data_stata.dta</a> をダウンロードし、<strong>data</strong> フォルダに保存しよう。</p>
+<p>Windows の一部以外は以下のコードを使ってもよい。</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span></span>
 <span>    url <span class="op">=</span> <span class="st">"https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_stata.dta"</span>,</span>
 <span>    destfile <span class="op">=</span> <span class="st">"data/fake_data_stata.dta"</span></span>
 <span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>これを読むには、まず <strong>haven</strong> パッケージを読み込むことが必要である（インストールされていない場合はまずインストールする）。</p>
 <div class="cell">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#pacman::p_load(haven)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">haven</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>パッケージが読み込めたら、データを読む。</p>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mydta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://haven.tidyverse.org/reference/read_dta.html">read_dta</a></span><span class="op">(</span><span class="st">"data/fake_data_stata.dta"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mydta</span> <span class="op">&lt;-</span> <span class="fu">read_dta</span><span class="op">(</span><span class="st">"data/fake_data_stata.dta"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>RStudio の Environment タブで、データが読み込めたことを確認しよう。</p>
 <p>念のために中身も少しだけ確認しておこう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">mydta</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">glimpse</span><span class="op">(</span><span class="va">mydta</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 100
 Columns: 6
@@ -508,18 +499,19 @@ $ income &lt;dbl&gt; 1094707, 370882, 12449508, 25811696, 1182427, 706000, 82543
 </h4>
 <p>かつてよく使われた（今でも経済学以外の分野では使われることがある）統計分析ソフトに、SPSSというものがある。 SPSS 形式のデータには、<strong>.sav</strong>という拡張子が付いている。 Rでは、<code><a href="https://haven.tidyverse.org/reference/read_spss.html">haven::read_sav()</a></code> （または <code><a href="https://haven.tidyverse.org/reference/read_spss.html">haven::read_spss()</a></code>）で読み込める。</p>
 <p>例として、<a href="https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_spss.sav">fake_data_spss.sav</a> をダウンロードし、<strong>data</strong> フォルダに保存しよう。</p>
+<p>例によって一部を除いては次のコードが使える。</p>
 <div class="cell">
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_spss.sav"</span>,</span>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_data_spss.sav"</span>,</span>
 <span>              destfile <span class="op">=</span> <span class="st">"data/fake_data_spss.sav"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>このファイルは、以下のコマンドで読み込める。</p>
 <div class="cell">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mysav</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://haven.tidyverse.org/reference/read_spss.html">read_sav</a></span><span class="op">(</span><span class="st">"data/fake_data_spss.sav"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mysav</span> <span class="op">&lt;-</span> <span class="fu">read_sav</span><span class="op">(</span><span class="st">"data/fake_data_spss.sav"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>RStudio の Environment タブで、データが読み込めたことを確認しよう。</p>
 <p>念のために中身も少しだけ確認しておこう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">mysav</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">glimpse</span><span class="op">(</span><span class="va">mysav</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 100
 Columns: 6
@@ -539,9 +531,9 @@ $ income &lt;dbl&gt; 1659808, 1550051, 3139595, 4563089, 1864069, 5311530, 42952
 <span class="header-section-number">4.3</span> データの前処理</h2>
 <p>当たり前のことだが、データ分析にはデータが必要である。データはどうやって手に入れればいいだろうか。</p>
 <p>現代では、インターネットを通じて様々なデータセットを手に入れることができる。例えば、日本の政府が集めたデータ（政府統計）の多くは、<a href="https://https://www.stat.go.jp/">総務省統計局のウェブサイト</a> や <a href="https://www.e-stat.go.jp/">e-Stat</a> から入手できる。あるいは、先進諸国の経済指標は、<a href="https://stats.oecd.org/">OECD.Stat</a> からダウンロードすることができる。</p>
-<p>データを入手したらすぐ分析したくなるだろう。しかし、たいていの場合、入手したデータをそのままの状態で分析するのは難しい。インターネットからダウンロードしたデータセットは、データ分析に適した形式でなかったり、分析対象となる変数以外の余計な情報を含んでいたり、変数の中におかしな値（典型的には、入力ミス）をもっていたりする。そのようなデータセットをありのままで分析しようとすると、誤った推論をしたり、分析を実行するためのRコードがそもそも動かないという問題に直面する。</p>
+<p>データを入手したらすぐ分析したくなるだろう。しかし、たいていの場合、入手したデータをそのままの状態で分析するのは難しい。インターネットからダウンロードしたデータセットは、データ分析に適した形式でなかったり、分析対象となる変数以外の余計な情報を含んでいたり、変数の中におかしな値（典型的には入力ミス）をもっていたりする。そのようなデータセットをありのままで分析しようとすると、誤った推論をしたり、分析を実行するためのRコードがそもそも動かないという問題に直面する。</p>
 <p>そこで必要になるのが、データの<strong>前処理 (pre-processing)</strong> である。データの収集から分析結果の報告までの一連の過程全体を「データ分析」と呼ぶことにすると、通常、データ分析でもっとも多くの時間を割くのが「前処理」の部分である。たとえば、線形回帰分析を実行することを考えよう。自分が推定した特定の統計モデル（統計モデルについては今後の授業で説明する）とそのために必要なデータフレームさえあれば、回帰分析は <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> ですぐに実行可能である。つまり、統計モデルを推定するのは、1つのコマンドで実行可能である。</p>
-<p>しかし、これを可能にするためには、<code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> が期待する形式でデータフレームを用意する必要がある。具体的には、行列形式のデータセットで、各行<span class="math inline">\(i\)</span>が1ひとつの観測個体を表しており、各列<span class="math inline">\(j\)</span>が各変数を表し、各セル (<span class="math inline">\(i, j\)</span>) が個体<span class="math inline">\(i\)</span>の変数<span class="math inline">\(j\)</span>の値を保持している必要がある。これまではすでにこの形式で用意されたデータセットを使って実習してきたが、この形式のデータを作るのは、必ずしも楽ではない。少なくとも、決まったRのコマンドを1つ実行しさえすれば望んだデータフレームができるというような簡単な作業ではない。</p>
+<p>しかし、これを可能にするためには、<code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> が期待する形式でデータフレームを用意する必要がある。具体的には、行列形式のデータセットで、各行<span class="math inline">\(i\)</span>がひとつの観測個体を表しており、各列<span class="math inline">\(j\)</span>が各変数を表し、各セル (<span class="math inline">\(i, j\)</span>) が個体<span class="math inline">\(i\)</span>についての変数<span class="math inline">\(j\)</span>の値を保持している必要がある。これまではすでにこの形式で用意されたデータセットを使って実習してきたが、この形式のデータを作るのは、必ずしも楽ではない。少なくとも、決まったRのコマンドを1つ実行しさえすれば望んだデータフレームができるというような簡単な作業ではない。</p>
 <p>データの前処理は、データ分析をする上で避けて通れない道である。今回は、Rでデータの前処理をするための便利な方法を学習しよう。</p>
 <section id="tidy-なデータ" class="level3" data-number="4.3.1"><h3 data-number="4.3.1" class="anchored" data-anchor-id="tidy-なデータ">
 <span class="header-section-number">4.3.1</span> Tidy なデータ</h3>
@@ -549,10 +541,10 @@ $ income &lt;dbl&gt; 1659808, 1550051, 3139595, 4563089, 1864069, 5311530, 42952
 <p>私たちが通常必要とするのは、<strong>tidy data</strong>（整然データ）と呼ばれるものである。整然データについては、<a href="https://www.jaysong.net/RBook/tidydata.html">宋・矢内『私たちのR』第16章</a>を参照されたい。整然データを用意すれば、回帰分析だけでなく、ggplot2 を使った作図にも使える。</p>
 <p>Tidy data は、次の4つの条件を満たすデータである。</p>
 <ol type="1">
-<li>1つの列は、1つの変数を表す。</li>
-<li>1つの行は、1つの観測を表す。</li>
-<li>1つのセル（特定の列の特定の行）は、1つの値を表す。</li>
-<li>1つの表は、1つの観測単位 (unit of observation) をもつ（異なる観測単位が混ざっていない）</li>
+<li>1つの列は1つの変数を表す。</li>
+<li>1つの行は1つの観測を表す。</li>
+<li>1つのセル（特定の列の特定の行）は1つの値を表す。</li>
+<li>1つの表は1つの観測単位 (unit of observation) をもつ（異なる観測単位が混ざっていない）</li>
 </ol>
 <p>データを入手したら（あるいは、自分でデータセットを作るときは）、この条件がすべて満たされているか確認しよう。満たされていなければ、tidy data に変換するための前処理が必要になる。</p>
 </section><section id="様々な前処理" class="level3" data-number="4.3.2"><h3 data-number="4.3.2" class="anchored" data-anchor-id="様々な前処理">
@@ -560,28 +552,28 @@ $ income &lt;dbl&gt; 1659808, 1550051, 3139595, 4563089, 1864069, 5311530, 42952
 <p>CSVファイルは用意されていると仮定する。</p>
 <p>官庁のウェブサイト等で公開されているデータは、ファイルの冒頭にデータの説明文などの、データセットの中身ではない情報が含まれている場合がある。例えば、最初の3行が余計だとすると、その3行をとばしてデータを読み込みたい。そういう場合は、<code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv()</a></code> の <code>skip</code> 引数を指定する。<strong>foo.csv</strong> というデータセットがあるとすると（実際にはないので、以下のコマンドを実行してもエラーになる。以下、「あるとする」と言った場合は同様）、次のようにして読める。</p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">MYD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"foo.csv"</span>, skip <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">MYD</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"foo.csv"</span>, skip <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Rでは欠測値（本来ならセルに入っているべき値が、何らかの理由 [アンケートでの回答拒否、政府が情報を公開していない、etc.] で欠けている場合）は、<code>NA</code> で表すことになっている。 自分が用意したCSVファイル（あるいはその元になったMS Excel ファイル）で、 NA と入力されているか完全に空欄になっているセルがある場合、<code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv()</a></code> は自動的にRの<code>NA</code> に変換してくれる。しかし、インターネット等でダウンロードしたファイルでは、欠測を他の方法で表記している場合があり、対応が必要である。<code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> では、<strong>na</strong> 引数を指定すればよい。例えば、欠測が<code>.</code>（ドット）で表されている <strong>foo.csv</strong> があるとすれば、</p>
+<p>Rでは欠測値（本来ならセルに入っているべき値が、何らかの理由 [アンケートでの回答拒否、政府が情報を公開していない、etc.] で欠けている場合）は、<code>NA</code> で表すことになっている。 自分が用意したCSVファイル（あるいはその元になったMS Excel ファイル）で、 NA と入力されているか完全に空欄になっているセルがある場合、<code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv()</a></code> は自動的にRの<code>NA</code> に変換してくれる。しかし、インターネット等でダウンロードしたファイルでは、欠測を他の方法で表記している場合があり、対応が必要である。<code>read_csv()</code> では、<strong>na</strong> 引数を指定すればよい。例えば、欠測が<code>.</code>（ドット）で表されている <strong>foo.csv</strong> があるとすれば、</p>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">MYD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"foo.csv"</span>, na <span class="op">=</span> <span class="st">'.'</span><span class="op">)</span> </span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">MYD</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"foo.csv"</span>, na <span class="op">=</span> <span class="st">'.'</span><span class="op">)</span> </span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>とすればよい。あるいは、欠測が 99 または -9 のいずれかで表現されているなら、</p>
 <div class="cell">
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">MYD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"foo.csv"</span>, na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">99</span>, <span class="op">-</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">MYD</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"foo.csv"</span>, na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">99</span>, <span class="op">-</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>とする。</p>
 <p>ここからは、実際のデータを使って実習しよう。 『Rによる計量政治学』（浅野正彦, 矢内勇生. 2018）で使用されているデータ（<a href="https://raw.githubusercontent.com/yukiyanai/quant-methods-R/master/data/hr-data.csv">hr-data.csv</a>）を使う。</p>
 <p>まず、データをダウンロードして保存する。</p>
 <div class="cell">
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span></span>
 <span>    url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/yukiyanai/quant-methods-R/master/data/hr-data.csv"</span>,</span>
 <span>    destfile <span class="op">=</span> <span class="st">"data/hr-data.csv"</span></span>
 <span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>データを読み込む。</p>
 <div class="cell">
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/hr-data.csv"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myd</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/hr-data.csv"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 8803 Columns: 22
 ── Column specification ────────────────────────────────────────────────────────
@@ -596,7 +588,7 @@ dbl (15): year, kun, party_code, previous, voteshare, age, nocand, rank, vot...
 <p><code><a href="https://rdrr.io/r/utils/download.file.html">download.file()</a></code> でダウンロードできなかったり、ダウンロードしたファイルが壊れているときは、データのリンクをクリック（または右クリック）して手動でダウンロードして使う（今後も同様）。</p>
 <p>既に学習済みのはずだが、特定の条件を満たす部分だけ利用したい場合は、<code><a href="https://dplyr.tidyverse.org/reference/filter.html">dplyr::filter()</a></code> を使う。 <code>year</code> の値が1996で、<code>party_jpn</code> が自民党のものだけ取り出してみよう。 取り出す前のデータを確認する。</p>
 <div class="cell">
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">myd</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">party_jpn</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">myd</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">party_jpn</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      party_jpn
 year   さきがけ その他 みんな 保守党 保守新党 公明党 共産党 国民党 国民新党
@@ -642,12 +634,12 @@ year   自由連合
 </div>
 <p><code>filter</code> で条件（1996年の自民党候補）を満たすものを取り出す。</p>
 <div class="cell">
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LDP1996</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">myd</span>, <span class="va">year</span> <span class="op">==</span> <span class="fl">1996</span>, </span>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LDP1996</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">myd</span>, <span class="va">year</span> <span class="op">==</span> <span class="fl">1996</span>, </span>
 <span>                  <span class="va">party_jpn</span> <span class="op">==</span> <span class="st">"自民党"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>確認する。</p>
 <div class="cell">
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">LDP1996</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">party_jpn</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">LDP1996</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">party_jpn</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      party_jpn
 year   自民党
@@ -656,13 +648,13 @@ year   自民党
 </div>
 <p>上の操作は、パイプ <code>|&gt;</code> を使うと次のように書ける。</p>
 <div class="cell">
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LDP1996</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">1996</span>, </span>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LDP1996</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">1996</span>, </span>
 <span>           <span class="va">party_jpn</span> <span class="op">==</span> <span class="st">"自民党"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>特定の変数だけを残したい場合は、<code><a href="https://dplyr.tidyverse.org/reference/select.html">dplyr::select()</a></code> で変数を指定する。 まず、<code>myd</code> にどんな変数があるのか見てみよう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">myd</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">myd</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "year"       "ku"         "kun"        "status"     "name"      
  [6] "party"      "party_code" "previous"   "wl"         "voteshare" 
@@ -673,8 +665,8 @@ year   自民党
 </div>
 <p>この中で、<code>year</code> と <code>name</code> と <code>vs</code> だけ残してみよう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub1</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">name</span>, <span class="va">vs</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub1</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">select</span><span class="op">(</span><span class="va">year</span>, <span class="va">name</span>, <span class="va">vs</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">sub1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "year" "name" "vs"  </code></pre>
@@ -682,17 +674,17 @@ year   自民党
 </div>
 <p><code>kun</code> から<code>party</code> までの変数をすべて残したいときは、次のように書ける。</p>
 <div class="cell">
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub2</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">kun</span><span class="op">:</span><span class="va">party</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub2</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">select</span><span class="op">(</span><span class="va">kun</span><span class="op">:</span><span class="va">party</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">sub2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "kun"    "status" "name"   "party" </code></pre>
 </div>
 </div>
-<p>特定の変数だけ除外したいときは、<code>!</code>を使って指定する。<code>status</code> と <code>vs</code> だけ消してみよう。</p>
+<p>特定の変数だけ除外したいときは、<code>-</code>または<code>!</code>を使って指定する。<code>status</code> と <code>vs</code> だけ消してみよう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub3</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">status</span>, <span class="va">vs</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub3</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">status</span>, <span class="va">vs</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">sub3</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "year"       "ku"         "kun"        "name"       "party"     
@@ -701,39 +693,39 @@ year   自民党
 [16] "exp"        "expm"       "exppv"      "smd"        "party_jpn" </code></pre>
 </div>
 </div>
-<p>特定の文字から始まる変数だけ残したいときは、<code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with()</a></code> が使える。変数名が “e” から始まるものだけ残してみよう（この例には特に意味はないが、変数名が <code>x1</code>, <code>x2</code>, <code>x3</code>, <code>y1</code>, <code>y2</code>, <code>y3</code>,… のようになっていて、<code>x</code>から始まる変数だけ取り出したいときなどに便利である）。</p>
+<p>特定の文字から始まる変数だけ残したいときは、<code>starts_with()</code> が使える。変数名が “e” から始まるものだけ残してみよう（この例には特に意味はないが、変数名が <code>x1</code>, <code>x2</code>, <code>x3</code>, <code>y1</code>, <code>y2</code>, <code>y3</code>,… のようになっていて、<code>x</code>から始まる変数だけ取り出したいときなどに便利である）。</p>
 <div class="cell">
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub4</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"e"</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub4</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">select</span><span class="op">(</span><span class="fu">starts_with</span><span class="op">(</span><span class="st">"e"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">sub4</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "eligible" "exp"      "expm"     "exppv"   </code></pre>
 </div>
 </div>
-<p>同じように、特定の文字で終わるものは、<code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">ends_with()</a></code> で取り出せる。変数名が “d” で終わるものだけ残してみよう（この例には特に意味はないが、変数名が <code>x2000</code>, <code>x2001</code>, <code>x2002</code>, …, <code>y2000</code>, <code>y2001</code>, <code>y2002</code>,… のようになっていて、“2000”で終わる変数だけ取り出したいときなどに便利である）。</p>
+<p>同じように、特定の文字で終わるものは、<code>ends_with()</code> で取り出せる。変数名が “d” で終わるものだけ残してみよう（この例には特に意味はないが、変数名が <code>x2000</code>, <code>x2001</code>, <code>x2002</code>, …, <code>y2000</code>, <code>y2001</code>, <code>y2002</code>,… のようになっていて、“2000”で終わる変数だけ取り出したいときなどに便利である）。</p>
 <div class="cell">
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub5</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">ends_with</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub5</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">select</span><span class="op">(</span><span class="fu">ends_with</span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">sub5</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "nocand" "smd"   </code></pre>
 </div>
 </div>
-<p>変数名に特定の文字列を含むものは、<code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains()</a></code> で取り出せる。変数名に”te” が含まれるものだけ取り出してみよう。</p>
+<p>変数名に特定の文字列を含むものは、<code>contains()</code> で取り出せる。変数名に”te” が含まれるものだけ取り出してみよう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub6</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"te"</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sub6</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">select</span><span class="op">(</span><span class="fu">contains</span><span class="op">(</span><span class="st">"te"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">sub6</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "voteshare" "vote"     </code></pre>
 </div>
 </div>
-<p><code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>してから<code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> するなど、複数の操作を行いたいときは、パイプでつなぐ。例えば、</p>
+<p><code><a href="https://rdrr.io/r/stats/filter.html">filter()</a></code>してから<code>select()</code> するなど、複数の操作を行いたいときは、パイプでつなぐ。例えば、</p>
 <div class="cell">
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LDP1996_sub1</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">1996</span>, </span>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LDP1996_sub1</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">1996</span>, </span>
 <span>           <span class="va">party_jpn</span> <span class="op">==</span> <span class="st">"自民党"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">name</span>, <span class="va">vs</span><span class="op">)</span></span>
+<span>    <span class="fu">select</span><span class="op">(</span><span class="va">year</span>, <span class="va">name</span>, <span class="va">vs</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">LDP1996_sub1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "year" "name" "vs"  </code></pre>
@@ -742,7 +734,7 @@ year   自民党
 <p>ということができる。つまり、<code>|&gt;</code> （パイプ）は、“and then” という接続詞である考えることができる。</p>
 <p>これをパイプを使わずに実行するには、次のように書く必要がある。</p>
 <div class="cell">
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LDP1996_sub1_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">myd</span>, <span class="va">year</span> <span class="op">==</span> <span class="fl">1996</span>, <span class="va">party_jpn</span> <span class="op">==</span> <span class="st">"自民党"</span><span class="op">)</span>, <span class="va">year</span>, <span class="va">name</span>, <span class="va">vs</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LDP1996_sub1_2</span> <span class="op">&lt;-</span> <span class="fu">select</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">myd</span>, <span class="va">year</span> <span class="op">==</span> <span class="fl">1996</span>, <span class="va">party_jpn</span> <span class="op">==</span> <span class="st">"自民党"</span><span class="op">)</span>, <span class="va">year</span>, <span class="va">name</span>, <span class="va">vs</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">LDP1996_sub1_2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "year" "name" "vs"  </code></pre>
@@ -751,8 +743,8 @@ year   自民党
 <p>書くのも読むのも大変である。</p>
 <p>新しい変数を作りたいときは、<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code> を使う。例えば、パーセント（0以上100以下）で測定されている turnout（投票率）という変数を元に、0から1の範囲で投票率を測るturnout2という変数を作りたいなら、次のようにする。</p>
 <div class="cell">
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myd</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>turnout2 <span class="op">=</span> <span class="va">turnout</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myd</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>turnout2 <span class="op">=</span> <span class="va">turnout</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">myd</span><span class="op">$</span><span class="va">turnout</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">myd</span><span class="op">$</span><span class="va">turnout2</span><span class="op">)</span></span>
@@ -765,8 +757,8 @@ year   自民党
 </div>
 <p>複数の変数を同時に作ることもできる。自民党候補であることを表す <code>LDP</code> というダミー変数と、民主党候補の<code>DPJ</code>ダミーを作ろう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myd</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>LDP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">party_jpn</span> <span class="op">==</span> <span class="st">"自民党"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myd</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>LDP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">party_jpn</span> <span class="op">==</span> <span class="st">"自民党"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
 <span>           DPJ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">party_jpn</span> <span class="op">==</span> <span class="st">"民主党"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">myd</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">party_jpn</span>, <span class="va">LDP</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -801,7 +793,7 @@ party_jpn       0    1
   自由党       61    0
   自由連合    212    0</code></pre>
 </div>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">myd</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">party_jpn</span>, <span class="va">DPJ</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">myd</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">party_jpn</span>, <span class="va">DPJ</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            DPJ
 party_jpn       0    1
@@ -838,8 +830,8 @@ party_jpn       0    1
 <p>変数名を変えるには、<code><a href="https://dplyr.tidyverse.org/reference/rename.html">dplyr::rename()</a></code> を使う。</p>
 <p>例えば、<code>turnout2</code> の名前を <code>tohyoritsu</code> に変更するには、次のようにする。</p>
 <div class="cell">
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myd</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span>  </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>tohyoritsu <span class="op">=</span> <span class="va">turnout2</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myd</span> <span class="op">&lt;-</span> <span class="va">myd</span> <span class="op">|&gt;</span>  </span>
+<span>    <span class="fu">rename</span><span class="op">(</span>tohyoritsu <span class="op">=</span> <span class="va">turnout2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">myd</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "year"       "ku"         "kun"        "status"     "name"      
@@ -851,15 +843,15 @@ party_jpn       0    1
 </div>
 <p>教科書 5.3.3節 (p.78から) の例を考える。 まず、<a href="https://git.io/fAnmx">横長データ</a> を手に入れる（<code><a href="https://rdrr.io/r/utils/download.file.html">download.file()</a></code> がうまくいかないときは、リンクをクリックして保存）。</p>
 <div class="cell">
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://git.io/fAnmx"</span>,</span>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://git.io/fAnmx"</span>,</span>
 <span>              destfile <span class="op">=</span> <span class="st">"data/wide-table.csv"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>データファイルを読んで中身を確認する。</p>
 <div class="cell">
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">GDP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/wide-table.csv"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">GDP</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/wide-table.csv"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">GDP</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">GDP</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 4
   country gdp2000 gdp2005 gdp2010
@@ -871,8 +863,8 @@ party_jpn       0    1
 </div>
 <p>これを縦長に変更する。（教科書第1刷では、<code><a href="https://tidyr.tidyverse.org/reference/gather.html">tidyr::gather()</a></code> の使い方が紹介されているが、）ここでは<code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">tidyr::pivot_longer()</a></code> を使おう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">GDP_long</span> <span class="op">&lt;-</span> <span class="va">GDP</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">!</span><span class="va">country</span>,      <span class="co"># 縦長にする範囲：country 以外</span></span>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">GDP_long</span> <span class="op">&lt;-</span> <span class="va">GDP</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="op">!</span><span class="va">country</span>,      <span class="co"># 縦長にする範囲：country 以外</span></span>
 <span>                 names_to <span class="op">=</span> <span class="st">"year"</span>,    <span class="co"># 元の列がどれだっかを区別する変数：年</span></span>
 <span>                 names_prefix <span class="op">=</span> <span class="st">"gdp"</span>, <span class="co"># 元の変数名のうち、区別に不要な部分</span></span>
 <span>                 values_to <span class="op">=</span> <span class="st">"gdp"</span><span class="op">)</span>    <span class="co"># 元の値を保持する変数名</span></span>
@@ -895,8 +887,8 @@ party_jpn       0    1
 <p>このように、望んだ形式のデータに一発で変換できる。</p>
 <p>これを横長に戻してみよう。（教科書1刷で紹介されている<code><a href="https://tidyr.tidyverse.org/reference/spread.html">tidyr::spread()</a></code> の代わりに、）<code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">tidyr::pivot_wider()</a></code> を使おう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">GDP_wide</span> <span class="op">&lt;-</span> <span class="va">GDP_long</span> <span class="op">|&gt;</span>  </span>
-<span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">year</span>,    <span class="co"># 横長にした後の列を区別する変数</span></span>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">GDP_wide</span> <span class="op">&lt;-</span> <span class="va">GDP_long</span> <span class="op">|&gt;</span>  </span>
+<span>    <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">year</span>,    <span class="co"># 横長にした後の列を区別する変数</span></span>
 <span>                names_prefix <span class="op">=</span> <span class="st">"gdp"</span>, <span class="co"># 横長にした後の変数名の冒頭につける文字列（オプション）</span></span>
 <span>                values_from <span class="op">=</span> <span class="va">gdp</span><span class="op">)</span>    <span class="co"># 縦長から横長に分配する値</span></span>
 <span><span class="va">GDP_wide</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -910,19 +902,19 @@ party_jpn       0    1
 </div>
 </div>
 <p>このように、元の横長データに戻すことができる。</p>
-<p><code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a></code> と<code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a></code> を比較して、対応関係を理解しよう。</p>
+<p><code>pivot_longer()</code> と<code>pivot_wider()</code> を比較して、対応関係を理解しよう。</p>
 <p>自分でデータフレームを作りたいときは、<code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble::tibble()</a></code> を使う。</p>
 <div class="cell">
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">newd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,</span>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">newd</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,</span>
 <span>               x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fl">1.2</span> <span class="op">+</span> <span class="fl">0.8</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">newd</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="fu">mutate</span><span class="op">(</span>y <span class="op">=</span> <span class="fl">1.2</span> <span class="op">+</span> <span class="fl">0.8</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">glimpse</span><span class="op">(</span><span class="va">newd</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 100
 Columns: 3
 $ id &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, …
-$ x  &lt;dbl&gt; 8.495509, 9.819430, 12.157424, 12.179119, 13.662558, 9.438084, 13.0…
-$ y  &lt;dbl&gt; 8.746782, 7.560890, 10.073180, 10.192406, 12.855456, 8.754412, 9.86…</code></pre>
+$ x  &lt;dbl&gt; 11.560428, 13.598143, 9.913566, 12.624872, 5.959858, 9.161717, 15.0…
+$ y  &lt;dbl&gt; 11.079243, 11.405122, 9.295621, 11.844133, 5.328099, 7.323040, 13.8…</code></pre>
 </div>
 </div>
 <p>複数のデータセットを結合する方法については、教科書第5章と<a href="https://www.jaysong.net/RBook/datahandling2.html">宋・矢内『私たちのR』第14章</a>を参照されたい。</p>
@@ -963,7 +955,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -995,27 +998,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/yukiyanai\.github\.io\/metrics\/");
@@ -1023,15 +1006,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -1073,11 +1051,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1125,11 +1099,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
+      return note.innerHTML;
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1350,12 +1320,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./regression-intro.html" class="pagination-link" aria-label="回帰分析の基礎">
+      <a href="./regression-intro.html" class="pagination-link  aria-label=" &lt;span="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">回帰分析の基礎</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./regression-estimation.html" class="pagination-link" aria-label="回帰分析による統計的推定">
+      <a href="./regression-estimation.html" class="pagination-link" aria-label="<span class='chapter-number'>5</span>&nbsp; <span class='chapter-title'>回帰分析による統計的推定</span>">
         <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">回帰分析による統計的推定</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

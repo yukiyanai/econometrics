@@ -5,3 +5,4 @@ This is the repository for course materials of "Econometrics" taught in the Scho
 - Author: [Yuki Yanai](https://yukiyanai.github.io), Associate Professor, KUT
 - Course Website: [https://yukiyanai.github.io/metrics/](https://yukiyanai.github.io/metrics/)
 - First published: April 2, 2024
+- Last modified: March 31, 2026

@@ -15,11 +15,7 @@ pacman::p_load(tidyverse,
                broom)
 
 if (.Platform$OS.type == "windows") { 
-  if (require(fontregisterer)) {
-    my_font <- "Yu Gothic"
-  } else {
-    my_font <- "Japan1"
-  }
+  my_font <- "Yu Gothic"
 } else if (capabilities("aqua")) {
   my_font <- "HiraginoSans-W3"
 } else {
@@ -105,7 +101,7 @@ HR09 <- HR09 |>
   mutate(z_expm = (expm - mean(expm, na.rm = TRUE)) / sd(expm, na.rm = TRUE))
 summary(HR09$z_expm)
 ```
-これで、expm の$z$値 `z_expm` が得られた（`scale()`を使うともっと簡単に計算できる）。この変数を利用して回帰式を求める。
+これで、`expm` の$z$値 `z_expm` が得られた（`scale()`を使うともっと簡単に計算できる）。この変数を利用して回帰式を求める。
 ```{r std-fit4}
 fit_4 <- lm(voteshare ~ z_expm, 
             data = HR09)

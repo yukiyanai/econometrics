@@ -17,11 +17,7 @@ pacman::p_load(tidyverse,
                shiny)
 
 if (.Platform$OS.type == "windows") { 
-  if (require(fontregisterer)) {
-    my_font <- "Yu Gothic"
-  } else {
-    my_font <- "Japan1"
-  }
+  my_font <- "Japan1"
 } else if (capabilities("aqua")) {
   my_font <- "HiraginoSans-W3"
 } else {
@@ -232,7 +228,7 @@ mean(res_data$b0)
 ```
 であり、真の値である2に近い。
 
-同様に、$\beta_1$ の推定値である、$b_1$ (b1) をヒストグラムにしてみよう。
+同様に、$\beta_1$ の推定値である$b_1$ (b1) をヒストグラムにしてみよう。
 ```{r, message = FALSE}
 hist_b1 <- ggplot(data = res_data, aes(x = b1)) +
   geom_histogram(color = "black") +
@@ -265,11 +261,12 @@ plt <- ggplot(NULL) +
 plot(plt)
 ```
 
-この図は、推定された回帰直線をグレーで、真の回帰直線を青で描いている。回帰直線1つをランダムに選ぶと、その線は必ずしも真の関係を正しく捉えていない。しかし、平均してみると、真の直線の周りに推定された線が集まっていることがわかる。つまり、**平均的には**、回帰分析はうまくいきそうである。
+この図は、推定された回帰直線をグレーで、真の回帰直線を青で描いている。回帰直線1つをランダムに選ぶと、その線は必ずしも真の関係を正しく捉えていない。しかし、平均してみると、真の直線の周りに推定された線が集まっていることがわかる。つまり、**平均的には**回帰分析はうまくいきそうである。
 
 上の図では`r n_sims`個の回帰直線が互いに重なり合っている部分が多く、ひとつひとつの直線がよく見えないので、ランダムに10個だけ選んで同様の図を作ろう。
 ```{r}
-res_data_sub <- slice_sample(res_data, n = 10)  # データからランダムに10行選ぶ
+res_data_sub <- res_data |> 
+  slice_sample(n = 10)  # データからランダムに10行選ぶ
 plt_sub10 <- ggplot(NULL) +
   geom_abline(intercept = res_data_sub$b0, 
               slope = res_data_sub$b1, 

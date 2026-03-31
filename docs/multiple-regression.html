@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.4.542">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>7&nbsp; 重回帰分析 – KUT 計量経済学</title>
+<title>KUT 計量経済学 - 7&nbsp; 重回帰分析</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -67,10 +67,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4cf0b346808cf8b54da9051ae5af4cb2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -96,7 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -127,13 +127,13 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./multiple-regression.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">重回帰分析</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -145,17 +145,17 @@ window.Quarto = {
         <div class="sidebar-tools-main">
     <a href="https://github.com/yukiyanai/metrics/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
-      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
 <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=%7Curl%7C">
-              <i class="bi bi-twitter pe-1"></i>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
             Twitter
             </a>
           </li>
           <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=%7Curl%7C">
-              <i class="bi bi-facebook pe-1"></i>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-bi-facebook pe-1"></i>
             Facebook
             </a>
           </li>
@@ -293,11 +293,7 @@ window.Quarto = {
 <span>               <span class="va">broom</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span> <span class="op">==</span> <span class="st">"windows"</span><span class="op">)</span> <span class="op">{</span> </span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">fontregisterer</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"Yu Gothic"</span></span>
-<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"Japan1"</span></span>
-<span>  <span class="op">}</span></span>
+<span>  <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"Yu Gothic"</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/capabilities.html">capabilities</a></span><span class="op">(</span><span class="st">"aqua"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"HiraginoSans-W3"</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
@@ -346,19 +342,21 @@ V_i \sim \mbox{Normal}(\beta_0 + \beta_1 X_i + \beta_2 M_i, \sigma)
 <div class="cell">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">voteshare</span> <span class="op">~</span> <span class="va">experience</span> <span class="op">+</span> <span class="va">expm</span>, </span>
 <span>            data <span class="op">=</span> <span class="va">HR09</span><span class="op">)</span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_3</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">fit_3</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">tidy</span><span class="op">(</span>conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">!</span><span class="va">p.value</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 7
-  term        estimate std.error statistic  p.value conf.low conf.high
-  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)     7.89     0.691      11.4 1.17e-28     6.54      9.25
-2 experience     18.4      1.23       15.0 1.99e-46    16.0      20.8 
-3 expm            1.83     0.120      15.2 1.40e-47     1.59      2.07</code></pre>
+<pre><code># A tibble: 3 × 6
+  term        estimate std.error statistic conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)     7.89     0.691      11.4     6.54      9.25
+2 experience     18.4      1.23       15.0    16.0      20.8 
+3 expm            1.83     0.120      15.2     1.59      2.07</code></pre>
 </div>
 </div>
-<p><strong>課題</strong>：この結果を解釈してみよう。˙1つひとつの数字 (<code>p.value</code> を除く）は何を表しているのだろうか。</p>
+<p><strong>課題</strong>：この結果を解釈してみよう。1つひとつの数字は何を表して、どの用に読めばいいのだろうか。</p>
 <p>###　重回帰分析の係数の意味</p>
-<p>重回帰分析の結果として得られた各説明変数の係数は、偏回帰係数と呼ばれる。偏回帰係数は、どんな意味をもっているのだろうか。これには、2つの解釈がある。</p>
+<p>重回帰分析の結果として得られた各説明変数の係数は偏回帰係数 (partial regression coefficient) と呼ばれる。偏回帰係数はどんな意味をもっているのだろうか。これには、2つの解釈がある。</p>
 <ol type="1">
 <li>他の説明変数の値を一定としたとき（固定したとき）、特定の説明変数1単位の増加が、応答変数をどれだけ変化させるか。</li>
 <li>ある説明変数が応答変数に与える影響から、その他の説明変数の影響を取り除いたもの。</li>
@@ -563,7 +561,7 @@ V_i \sim \mbox{Normal}(\beta_0 + \beta_1 X_i + \beta_2 M_i, \sigma)
 </div>
 </div>
 <p><code>dif_experience</code> の値は、すべて、約18.37になっている。この値は、重回帰における<code>experience</code>の偏回帰係数である。ここから、選挙費用（このデータフレームでは<code>money</code> の値）を一定にしたとき、議員経験があると得票率の予測値が18.37 ポイント上昇することがわかる。</p>
-<p>以上の結果から、「他の説明変数の値を一定にしたとき」に、ある説明変数1単位の増加が応答変数をどれだけ変化させるかが、偏回帰係数であることがわかる。</p>
+<p>以上の結果から、「他の説明変数の値を一定にしたとき」に、ある説明変数1単位の増加が応答変数をどれだけ変化させるかが、偏回帰係数の数値の意味であることがわかる。</p>
 <p><br></p>
 <p><strong>他の変数を取り除いた、特定の説明変数の影響</strong></p>
 <p>再び、選挙費用の偏回帰係数について考えよう。 回帰モデルには「得票率」、「選挙費用」、「議員経験」という3つの変数が登場する。 選挙費用の額と得票率は、どちらも議員経験と関連しているかもしれない（関連していると想定されるので、回帰式に含められている）ので、その関連を取り除いてみよう。</p>
@@ -587,13 +585,13 @@ V_i \sim \mbox{Normal}(\beta_0 + \beta_1 X_i + \beta_2 M_i, \sigma)
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="va">reg2</span><span class="op">$</span><span class="va">residuals</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>この残差は、議員経験によっては説明できない得票率の変動だと考えられる。つまり、この残差は、得票率から議員経験の影響を取り除いたものであると考えることができる。</p>
-<p>これらの残差を使い、「得票率のうち議員経験とは関係ない部分」を「選挙費用のうち、議員経験とは関係ない部分」に回帰する。</p>
+<p>これらの残差を使い、「得票率のうち議員経験とは関係ない部分」を「選挙費用のうち議員経験とは関係ない部分」に回帰する。</p>
 <div class="cell">
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">res2</span> <span class="op">~</span> <span class="va">res1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">reg3</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> (Intercept)         res1 
-4.775712e-16 1.830675e+00 </code></pre>
+1.988473e-15 1.830675e+00 </code></pre>
 </div>
 </div>
 <p>この単回帰によって得られた係数 1.83は、重回帰によって得られた選挙費用の偏回帰係数に一致することがわかる。 ここから、偏回帰係数が、他の変数の影響を取り除いた後に、ある説明変数が応答変数に与える影響であることが読み取れる。</p>
@@ -641,7 +639,7 @@ V_i \sim \mbox{Normal}(\beta_0 + \beta_1 X_i + \beta_2 M_i, \sigma)
 </div>
 </div>
 <p>この図からわかるように、このモデルは2つの直線が平行になる（傾きが同じになる）ように<strong>設定されて</strong>いる。これは、私たちが選んだ統計モデルの仮定による。</p>
-<p>この図に95パーセント信頼区間を加えよう。 信頼区間を求めるために標準誤差を利用する。 また、標準誤差は<span class="math inline">\(t\)</span> 分布に従うので、<code><a href="https://rdrr.io/r/stats/TDist.html">qt()</a></code> で分布の95%が収まる範囲を求める （標準正規分布で近似し、<span class="math inline">\(\pm 1.96\)</span> を使っても結果に大きな違いはないが、せっかくRを使っているのだから、より正確な数値を利用したほうがよい）。</p>
+<p>この図に95パーセント信頼区間を加えよう。 信頼区間を求めるために標準誤差を利用する。 標準誤差は<span class="math inline">\(t\)</span> 分布に従うので、<code><a href="https://rdrr.io/r/stats/TDist.html">qt()</a></code> で分布の95%が収まる範囲を求める （標準正規分布で近似し、<span class="math inline">\(\pm 1.96\)</span> を使っても結果に大きな違いはないが、せっかくRを使っているのだから、より正確な数値を利用したほうがよい）。</p>
 <p>予測値と標準誤差を求める。<code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> で <code>se.fit = TRUE</code> とすると、予測値とともに標準誤差（の推定値）も計算される。</p>
 <div class="cell">
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">err</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_3</span>, </span>
@@ -670,13 +668,13 @@ V_i \sim \mbox{Normal}(\beta_0 + \beta_1 X_i + \beta_2 M_i, \sigma)
 <p><br></p>
 </section></section><section id="欠落変数バイアスと処置後変数バイアス" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="欠落変数バイアスと処置後変数バイアス">
 <span class="header-section-number">7.3</span> 欠落変数バイアスと処置後変数バイアス</h2>
-<p>重回帰分析では複数の説明変数を使う。複数の説明変数を使う理由の1つは、ある結果（応答変数）に影響を与える原因が複数あると考えられるからである。そのようなとき、原因と考えられる複数の説明変数を回帰分析に含めるというの自然な発想である。しかし、応答変数の原因の中には、必ず回帰分析に含める必要があるものもあれば、回帰分析に入れても入れなくてもよいものや、回帰分析に入れてはいけないものもある。回帰分析では主な説明変数以外の変数を統制変数 (control variables) や共変量 (covariates) と呼ぶことがあるが、回帰分析で統制 (control) すべき変数はどのようなものだろうか。</p>
+<p>重回帰分析では複数の説明変数を使う。複数の説明変数を使う理由の1つは、ある結果（応答変数）に影響を与える原因が複数あると考えられるからである。そのようなとき、原因と考えられる複数の説明変数を回帰分析に含めるというの自然な発想である。しかし、応答変数の原因の中には、必ず回帰分析に含める必要があるものもあれば、回帰分析に入れても入れなくてもよいものもあり、さらには回帰分析に入れてはいけないものもある。回帰分析では主な説明変数以外の変数を統制変数 (control variables) や共変量 (covariates) と呼ぶことがあるが、回帰分析で統制 (control) すべき変数はどのようなものだろうか。</p>
 <p><br></p>
 <section id="欠落変数バイアス" class="level3" data-number="7.3.1"><h3 data-number="7.3.1" class="anchored" data-anchor-id="欠落変数バイアス">
 <span class="header-section-number">7.3.1</span> 欠落変数バイアス</h3>
 <p>2つの変数 <span class="math inline">\(y\)</span> と<span class="math inline">\(x\)</span> があり、この2変数の間に強い相関があるとする。このとき、<span class="math inline">\(x\)</span>が<span class="math inline">\(y\)</span>の原因であるとは限らない。1つの可能性は、<span class="math inline">\(y\)</span>が<span class="math inline">\(x\)</span>の原因であるというものである。因果の向きが逆の場合は比較的見抜きやすいので、ここではその可能性はとりあえず考えない（実際の研究では、フィードバック効果などもあり、注意すべき問題である。どちらが原因でどちらが結果なのか判別できない場合もある）。</p>
-<p>もう1つの可能性は、第三の変数 <span class="math inline">\(z\)</span> が存在し、<span class="math inline">\(z\)</span>が<span class="math inline">\(x\)</span>の原因でもあると同時に、<span class="math inline">\(y\)</span>の原因でもあるという場合である。 <span class="math inline">\(x\)</span>と<span class="math inline">\(y\)</span>の相関が<span class="math inline">\(z\)</span>によって説明されてしまうとき、<span class="math inline">\(x\)</span>と<span class="math inline">\(y\)</span>の相関は、<strong>見せかけの因果関係 (spurious correlation)</strong> と呼ばれる。また、実際に<span class="math inline">\(x\)</span>が<span class="math inline">\(y\)</span>の原因だとしても、 <span class="math inline">\(z\)</span>のように<span class="math inline">\(x\)</span>と<span class="math inline">\(y\)</span>の両者に影響する変数があるかもしれない。このような<span class="math inline">\(z\)</span> は、<strong>交絡変数 (confouding variable or confounder) </strong> と呼ばれる。</p>
-<p><strong>交絡変数は、必ず統制する必要がある</strong>。交絡変数を統制しないと、推定にバイアスが生じる。このバイアスを<strong>欠落変数バイアス (omitted variable bias)</strong> と呼ぶ。経済学では、<strong>セレクションバイアス（selection bias）</strong> とも呼ばれる。</p>
+<p>もう1つの可能性は、第三の変数 <span class="math inline">\(z\)</span> が存在し、<span class="math inline">\(z\)</span>が<span class="math inline">\(x\)</span>の原因でもあると同時に、<span class="math inline">\(y\)</span>の原因でもあるという場合である。 <span class="math inline">\(x\)</span>と<span class="math inline">\(y\)</span>の相関が<span class="math inline">\(z\)</span>によって説明されてしまうとき、<span class="math inline">\(x\)</span>と<span class="math inline">\(y\)</span>の相関は、<strong>見せかけの因果関係 (spurious correlation)</strong> と呼ばれる。また、実際に<span class="math inline">\(x\)</span>が<span class="math inline">\(y\)</span>の原因だとしても、 <span class="math inline">\(z\)</span>のように<span class="math inline">\(x\)</span>と<span class="math inline">\(y\)</span>の両者に影響する変数があるかもしれない。このような<span class="math inline">\(z\)</span> は、<strong>交絡変数 (confounding variable or confounder) </strong> と呼ばれる。</p>
+<p><strong>交絡変数は、必ず統制する必要がある</strong>。交絡変数を統制しないと、推定にバイアスが生じる。このバイアスを<strong>欠落変数バイアス (omitted variable bias)</strong> と呼ぶ。</p>
 <p><span class="math inline">\(y\)</span>と<span class="math inline">\(x\)</span>の両者に影響を与える<span class="math inline">\(z\)</span>という変数があるとき、<span class="math inline">\(z\)</span>を無視して、 <span class="math display">\[y_i = \beta_0 + \beta_1 x_i + u_i\]</span> という式を考えると、<span class="math inline">\(z\)</span> は誤差項<span class="math inline">\(u\)</span>に含まれることになる。 そうすると、当然ながら、説明変数<span class="math inline">\(x\)</span>と誤差項<span class="math inline">\(u\)</span>の間に相関があるので、最小二乗法を使うための前提（「誤差の独立性」教科書 pp.245-246）が満たされず、<span class="math inline">\(\beta_1\)</span> の推定が偏ったもの（つまり、バイアスをもったもの）になってしまうのである。</p>
 <p>このことを、シミュレーションで確認してみよう。 まず、データを作る。ここでは、<code>x</code>, <code>z1</code>, <code>z2</code> という3つの変数がyの原因となっている（<code>mu</code>を計算する行を参照）。また、<code>z1</code>は<code>x</code>の原因でもあるので、<code>z1</code>は交絡変数である。したがって、<code>z1</code>を統制(（コントロール）しないと、<code>x</code>の係数が正しく推定できないはずである。<code>z3</code>は応答変数とは無関係の変数である。</p>
 <div class="cell">
@@ -793,7 +791,7 @@ V_i \sim \mbox{Normal}(\beta_0 + \beta_1 X_i + \beta_2 M_i, \sigma)
 <p>作った関数を使い、シミュレーションを実行する。<code>x</code>の係数のパラメタ（母数）は0.4に設定する。</p>
 <div class="cell">
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">0.4</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">-</span><span class="fl">11</span><span class="op">-</span><span class="fl">11</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">-</span><span class="fl">11</span><span class="op">-</span><span class="fl">11</span><span class="op">)</span> <span class="co"># この行を実行すると必ず同じ結果になる</span></span>
 <span><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu">sim_regression</span><span class="op">(</span>trials <span class="op">=</span> <span class="fl">200</span>, n <span class="op">=</span> <span class="fl">50</span>, beta <span class="op">=</span> <span class="va">beta</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>各モデルの係数の最小二乗推定値の平均値を確認する。</p>
@@ -868,7 +866,7 @@ V_i \sim \mbox{Normal}(\beta_0 + \beta_1 X_i + \beta_2 M_i, \sigma)
 </div>
 </div>
 </div>
-<p>このシミュレーションから、交絡変数ではない原因を入れ損ねたり、原因ではない変数を入れてしまうのは問題ないが、交絡変数を説明変数に加え忘れると、平均して誤った分析結果を出してしまうことがわかる。したがって、<strong>交絡変数は必ず回帰分析に加える</strong>必要がある。</p>
+<p>このシミュレーションから、交絡変数ではない原因を入れ損ねたり、原因ではない変数を入れてしまうのは（バイアスが生じないという意味では）問題ないが、交絡変数を説明変数に加え忘れると、平均して誤った分析結果を出してしまうことがわかる。したがって、<strong>交絡変数は必ず回帰分析に加える</strong>必要がある。</p>
 <p>交絡を入れ損ねるとバイアスが生じ、関係ない変数を入れても問題がないのであれば、できるだけ多くの変数を統制した方がよさそうである。実際、欠落変数バイアスを防ぐためには、できるだけたくさんの要因を統制した方がよい。ただし、手当たり次第に変数を投入すると起きる問題が、（少なくとも）2つある。</p>
 <p>まず、モデルが現実（真実）から乖離する確率が大きくなる。 この問題が起きるのは、モデルに含む説明変数が増えるにつれて、変数同士の関係のあり方のパタン（例えば、2変数以上の相互作用があるかどうか）が増えるのに対し、実際に正しいモデル（実際にデータが生成される過程）は1つしかないはずだからである。この問題は、ノンパラメトリックな方法を使えば、回避することができる（今回は考えない）。</p>
 <p>2つ目の問題は、処置後変数バイアスという異なる種類のバイアスが生じる可能性である。 この問題は、以下のシミュレーションで理解しよう。</p>
@@ -1035,7 +1033,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1067,27 +1076,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/yukiyanai\.github\.io\/metrics\/");
@@ -1095,15 +1084,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -1145,11 +1129,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1197,11 +1177,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
+      return note.innerHTML;
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1422,12 +1398,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./regression-test-inference.html" class="pagination-link" aria-label="回帰分析による統計的検定と推論">
+      <a href="./regression-test-inference.html" class="pagination-link  aria-label=" &lt;span="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">回帰分析による統計的検定と推論</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./regression-misc.html" class="pagination-link" aria-label="回帰分析の応用">
+      <a href="./regression-misc.html" class="pagination-link" aria-label="<span class='chapter-number'>8</span>&nbsp; <span class='chapter-title'>回帰分析の応用</span>">
         <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">回帰分析の応用</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
