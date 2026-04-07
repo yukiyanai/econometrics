@@ -222,7 +222,16 @@ screenreg(models, stars = NULL)
 ```
 
 HTMLに出力する場合。
+```r
+#| results: "asis"
+htmlreg(models, 
+        stars = NULL,
+        doctype = FALSE,
+        caption = "回帰分析の結果",
+        caption.above = TRUE)
+```
 ```{r}
+#| echo: false
 #| results: "asis"
 htmlreg(models, 
         stars = NULL,
@@ -231,8 +240,10 @@ htmlreg(models,
         caption.above = TRUE)
 ```
 
+
+
 PDFに render する場合には、`texreg()` を使う（出力は省略する）。
-```{r, eval=FALSE}
+```r
 #| results: "asis"
 texreg(models, 
        stars = NULL,

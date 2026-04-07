@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.542">
+<meta name="generator" content="quarto-1.3.450">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>KUT 計量経済学 - 5&nbsp; 回帰分析による統計的推定</title>
 <style>
@@ -19,7 +19,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -76,13 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -91,59 +85,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
+}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 </head>
 <body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./regression-estimation.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">回帰分析による統計的推定</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./regression-estimation.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">回帰分析による統計的推定</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">KUT 計量経済学</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/yukiyanai/metrics/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/yukiyanai/metrics/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
       <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
@@ -239,7 +207,7 @@ window.Quarto = {
 </li>
     </ul>
 </div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">このページの内容</h2>
@@ -273,7 +241,6 @@ window.Quarto = {
     
   </div>
   
-
 
 </header><p><strong>今回の目標</strong></p>
 <ul>
@@ -365,11 +332,11 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <pre><code># A tibble: 2 × 5
   term        estimate std.error statistic p.value
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-1 (Intercept)     1.87      0.62      3.02    0.06
-2 x               1.26      0.39      3.26    0.05</code></pre>
+1 (Intercept)     1.79      0.49      3.63    0.04
+2 x               0.25      0.2       1.21    0.31</code></pre>
 </div>
 </div>
-<p><span class="math inline">\(\beta_0\)</span>と<span class="math inline">\(\beta_1\)</span>の推定値をそれぞれ <span class="math inline">\(b_0\)</span>、<span class="math inline">\(b_1\)</span> とすると、<span class="math inline">\(b_0\)</span>=1.87、<span class="math inline">\(b_1\)</span>=1.26 である。推定はどれくらい正確だろうか？</p>
+<p><span class="math inline">\(\beta_0\)</span>と<span class="math inline">\(\beta_1\)</span>の推定値をそれぞれ <span class="math inline">\(b_0\)</span>、<span class="math inline">\(b_1\)</span> とすると、<span class="math inline">\(b_0\)</span>=1.79、<span class="math inline">\(b_1\)</span>=0.25 である。推定はどれくらい正確だろうか？</p>
 </section><section id="複数回のシミュレーション" class="level3" data-number="5.3.2"><h3 data-number="5.3.2" class="anchored" data-anchor-id="複数回のシミュレーション">
 <span class="header-section-number">5.3.2</span> 複数回のシミュレーション</h3>
 <p>1回だけのシミュレーションでは、その結果が偶然得られたものなのか、必然的な結果なのかの区別がつかない。そこで、上のシミュレーションを繰り返す。複数のコマンドを何度も実行するのは面倒なので、シミュレーション用の関数を <code>function()</code> で定義してしまおう。</p>
@@ -404,7 +371,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">simple_reg</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, beta0 <span class="op">=</span> <span class="fl">2</span>, beta1 <span class="op">=</span> <span class="fl">0.8</span>, sigma <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
- 3.29851949  0.03706563 </code></pre>
+  0.1339325   1.7041958 </code></pre>
 </div>
 </div>
 <p>もう1度やってみよう。</p>
@@ -412,7 +379,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">simple_reg</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, beta0 <span class="op">=</span> <span class="fl">2</span>, beta1 <span class="op">=</span> <span class="fl">0.8</span>, sigma <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
- -0.1767742   0.9094435 </code></pre>
+  2.5996615   0.8556097 </code></pre>
 </div>
 </div>
 <p>もう1度やってみよう。</p>
@@ -420,7 +387,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">simple_reg</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, beta0 <span class="op">=</span> <span class="fl">2</span>, beta1 <span class="op">=</span> <span class="fl">0.8</span>, sigma <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-   2.628143    1.009924 </code></pre>
+  1.2755716   0.6525759 </code></pre>
 </div>
 </div>
 <p>このように、実行する度に異なる結果が得られる。</p>
@@ -460,12 +427,12 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           b0        b1
-[1,] 1.421637 0.5443385
-[2,] 3.404690 0.6057768
-[3,] 1.429774 0.9418923
-[4,] 1.357347 0.1769697
-[5,] 1.751405 0.8581743</code></pre>
+<pre><code>            b0         b1
+[1,]  1.036024  0.5544181
+[2,]  1.908130  0.4672126
+[3,]  3.771165  0.4667124
+[4,] -3.811863 -1.4326090
+[5,]  2.001163  1.0165482</code></pre>
 </div>
 </div>
 <p>シミュレーションの実行結果が保存されていることがわかる。</p>
@@ -479,10 +446,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">2</span>, color <span class="op">=</span> <span class="st">"tomato"</span><span class="op">)</span>  <span class="co"># beta0 の真の値を示す</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">hist_b0</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure"><p><img src="regression-estimation_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="480"></p>
-</figure>
-</div>
+<p><img src="regression-estimation_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="480"></p>
 </div>
 </div>
 <p>ヒストグラムに加えられた赤い直線が真の値を示している。データ生成と推定を繰り返すと、推定がうまくいくこともあれば、そうでないこともあるということがわかる。分布の形に注目すると、分布の中心は真の値付近にあり、<strong>平均すると</strong>推定がうまくいっているように見える。</p>
@@ -490,7 +454,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="cell">
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">res_data</span><span class="op">$</span><span class="va">b0</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.017483</code></pre>
+<pre><code>[1] 1.979351</code></pre>
 </div>
 </div>
 <p>であり、真の値である2に近い。</p>
@@ -502,10 +466,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0.8</span>, color <span class="op">=</span> <span class="st">"tomato"</span><span class="op">)</span>  <span class="co"># beta1 の真の値を示す</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">hist_b1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure"><p><img src="regression-estimation_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="480"></p>
-</figure>
-</div>
+<p><img src="regression-estimation_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="480"></p>
 </div>
 </div>
 <p>ヒストグラムに加えられた赤い直線が真の値を示している。やはり、データ生成と推定を繰り返すと、推定がうまくいくこともあれば、そうでないこともあるということがわかる。分布の形に注目すると、分布の中心は真の値付近にあり、<strong>平均すると</strong>推定がうまくいっているように見える。</p>
@@ -513,7 +474,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="cell">
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">res_data</span><span class="op">$</span><span class="va">b1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8331887</code></pre>
+<pre><code>[1] 0.7597507</code></pre>
 </div>
 </div>
 <p>であり、真の値である0.8に近い。</p>
@@ -531,10 +492,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"x"</span>, y <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure"><p><img src="regression-estimation_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="480"></p>
-</figure>
-</div>
+<p><img src="regression-estimation_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="480"></p>
 </div>
 </div>
 <p>この図は、推定された回帰直線をグレーで、真の回帰直線を青で描いている。回帰直線1つをランダムに選ぶと、その線は必ずしも真の関係を正しく捉えていない。しかし、平均してみると、真の直線の周りに推定された線が集まっていることがわかる。つまり、<strong>平均的には</strong>回帰分析はうまくいきそうである。</p>
@@ -554,10 +512,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"x"</span>, y <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt_sub10</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure"><p><img src="regression-estimation_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="480"></p>
-</figure>
-</div>
+<p><img src="regression-estimation_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="480"></p>
 </div>
 </div>
 <p>推定された回帰直線をグレーで、真の回帰直線を青で描いている。回帰直線1つをランダムに選ぶと、その線は必ずしも真の関係を正しく捉えていないことがよくわかる。</p>
@@ -651,27 +606,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/yukiyanai\.github\.io\/metrics\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-          if (link.getAttribute("rel") === null) {
-            link.setAttribute("rel", "noopener");
-          }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -681,17 +619,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -704,120 +633,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      return note.innerHTML;
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -861,7 +676,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -887,32 +701,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -970,14 +758,28 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp("https:\/\/yukiyanai\.github\.io\/metrics\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./data-handling.html" class="pagination-link  aria-label=" &lt;span="">
+      <a href="./data-handling.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Rによるデータ操作</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./regression-test-inference.html" class="pagination-link" aria-label="<span class='chapter-number'>6</span>&nbsp; <span class='chapter-title'>回帰分析による統計的検定と推論</span>">
+      <a href="./regression-test-inference.html" class="pagination-link">
         <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">回帰分析による統計的検定と推論</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -987,9 +789,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">
       &nbsp;
     </div>   
-    <div class="nav-footer-center">
-<p>Copyright 2024, Yuki Yanai</p>
-</div>
+    <div class="nav-footer-center">Copyright 2024, Yuki Yanai</div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
