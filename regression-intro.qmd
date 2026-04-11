@@ -96,8 +96,7 @@ tidy(fit_1)
 ```
 この出力の、**estimate** の列に係数の推定値 (coefficient estimates) が示されている。
 これにより、$\hat{\beta}_1=$ `r round(coef(fit_1)[1], 2)`, 
-$\hat{\beta}_2=$ `r round(coef(fit_1)[2], 2)`, 
-$\hat{\sigma}=$ `r round(summary(fit_1)$sigma, 2)` が得られた。
+$\hat{\beta}_2=$ `r round(coef(fit_1)[2], 2)` が得られた。
 したがって、
 $$\widehat{得票率} = `r round(coef(fit_1)[1], 2)` +  `r round(coef(fit_1)[2], 2)` \cdot 議員経験$$
 と、なる。

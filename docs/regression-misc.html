@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.542">
+<meta name="generator" content="quarto-1.6.40">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>KUT 計量経済学 - 8&nbsp; 回帰分析の応用</title>
+
+
+<title>8&nbsp; 回帰分析の応用 – KUT 計量経済学</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -53,6 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -67,10 +71,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-4cf0b346808cf8b54da9051ae5af4cb2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -96,7 +101,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -122,45 +132,53 @@ window.Quarto = {
   typesetMath
 };
 </script>
+
 </head>
+
 <body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./regression-misc.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">回帰分析の応用</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">KUT 計量経済学</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/yukiyanai/metrics/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
-      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-<li>
+          <li>
             <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
-              <i class="bi bi-bi-twitter pe-1"></i>
+              <i class="bi bi-twitter pe-1"></i>
             Twitter
             </a>
           </li>
           <li>
             <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
-              <i class="bi bi-bi-facebook pe-1"></i>
+              <i class="bi bi-facebook pe-1"></i>
             Facebook
             </a>
           </li>
       </ul>
-</div>
+    </div>
 </div>
     </div>
       </div>
@@ -171,7 +189,7 @@ window.Quarto = {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">はじめに</span></span></a>
@@ -238,31 +256,33 @@ window.Quarto = {
   </div>
 </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">このページの内容</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">このページの内容</h2>
    
   <ul>
-<li><a href="#%E6%BA%96%E5%82%99" id="toc-準備" class="nav-link active" data-scroll-target="#%E6%BA%96%E5%82%99"><span class="header-section-number">8.1</span> 準備</a></li>
-  <li>
-<a href="#%E5%9B%9E%E5%B8%B0%E5%88%86%E6%9E%90%E3%81%A7%E4%BD%BF%E3%81%86%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF" id="toc-回帰分析で使うテクニック" class="nav-link" data-scroll-target="#%E5%9B%9E%E5%B8%B0%E5%88%86%E6%9E%90%E3%81%A7%E4%BD%BF%E3%81%86%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF"><span class="header-section-number">8.2</span> 回帰分析で使うテクニック</a>
+  <li><a href="#準備" id="toc-準備" class="nav-link active" data-scroll-target="#準備"><span class="header-section-number">8.1</span> 準備</a></li>
+  <li><a href="#回帰分析で使うテクニック" id="toc-回帰分析で使うテクニック" class="nav-link" data-scroll-target="#回帰分析で使うテクニック"><span class="header-section-number">8.2</span> 回帰分析で使うテクニック</a>
   <ul class="collapse">
-<li><a href="#%E7%B7%9A%E5%BD%A2%E5%A4%89%E6%8F%9B" id="toc-線形変換" class="nav-link" data-scroll-target="#%E7%B7%9A%E5%BD%A2%E5%A4%89%E6%8F%9B"><span class="header-section-number">8.2.1</span> 線形変換</a></li>
-  <li><a href="#%E6%A8%99%E6%BA%96%E5%8C%96" id="toc-標準化" class="nav-link" data-scroll-target="#%E6%A8%99%E6%BA%96%E5%8C%96"><span class="header-section-number">8.2.2</span> 標準化</a></li>
-  <li><a href="#%E4%B8%AD%E5%BF%83%E5%8C%96" id="toc-中心化" class="nav-link" data-scroll-target="#%E4%B8%AD%E5%BF%83%E5%8C%96"><span class="header-section-number">8.2.3</span> 中心化</a></li>
-  <li><a href="#%E5%AF%BE%E6%95%B0%E5%A4%89%E6%8F%9B" id="toc-対数変換" class="nav-link" data-scroll-target="#%E5%AF%BE%E6%95%B0%E5%A4%89%E6%8F%9B"><span class="header-section-number">8.2.4</span> 対数変換</a></li>
+  <li><a href="#線形変換" id="toc-線形変換" class="nav-link" data-scroll-target="#線形変換"><span class="header-section-number">8.2.1</span> 線形変換</a></li>
+  <li><a href="#標準化" id="toc-標準化" class="nav-link" data-scroll-target="#標準化"><span class="header-section-number">8.2.2</span> 標準化</a></li>
+  <li><a href="#中心化" id="toc-中心化" class="nav-link" data-scroll-target="#中心化"><span class="header-section-number">8.2.3</span> 中心化</a></li>
+  <li><a href="#対数変換" id="toc-対数変換" class="nav-link" data-scroll-target="#対数変換"><span class="header-section-number">8.2.4</span> 対数変換</a></li>
+  </ul></li>
+  <li><a href="#二次関数の推定" id="toc-二次関数の推定" class="nav-link" data-scroll-target="#二次関数の推定"><span class="header-section-number">8.3</span> 二次関数の推定</a></li>
   </ul>
-</li>
-  <li><a href="#%E4%BA%8C%E6%AC%A1%E9%96%A2%E6%95%B0%E3%81%AE%E6%8E%A8%E5%AE%9A" id="toc-二次関数の推定" class="nav-link" data-scroll-target="#%E4%BA%8C%E6%AC%A1%E9%96%A2%E6%95%B0%E3%81%AE%E6%8E%A8%E5%AE%9A"><span class="header-section-number">8.3</span> 二次関数の推定</a></li>
-  </ul></nav>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">
-<span class="chapter-number">8</span>&nbsp; <span class="chapter-title">回帰分析の応用</span>
-</h1>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">回帰分析の応用</span></h1>
 </div>
 
 
@@ -276,63 +296,66 @@ window.Quarto = {
   
 
 
-</header><p><strong>今回の目標</strong></p>
+</header>
+
+
+<p><strong>今回の目標</strong></p>
 <ul>
 <li>実データを用いた回帰分析においてよく利用される変数変換について理解する
 <ul>
 <li>変数を中心化して利用できるようになる</li>
 <li>回帰分析で対数変換した変数を使う意味を理解する</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<section id="準備" class="level2" data-number="8.1"><h2 data-number="8.1" class="anchored" data-anchor-id="準備">
-<span class="header-section-number">8.1</span> 準備</h2>
+<section id="準備" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="準備"><span class="header-section-number">8.1</span> 準備</h2>
 <p>まず、必要なパッケージを読み込む。</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyverse</span>,</span>
-<span>               <span class="va">broom</span><span class="op">)</span></span>
-<span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span> <span class="op">==</span> <span class="st">"windows"</span><span class="op">)</span> <span class="op">{</span> </span>
-<span>  <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"Yu Gothic"</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/capabilities.html">capabilities</a></span><span class="op">(</span><span class="st">"aqua"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"HiraginoSans-W3"</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="va">my_font</span> <span class="op">&lt;-</span> <span class="st">"IPAexGothic"</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="fu">theme_set</span><span class="op">(</span><span class="fu">theme_gray</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">9</span>,</span>
-<span>                     base_family <span class="op">=</span> <span class="va">my_font</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               broom)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (.Platform<span class="sc">$</span>OS.type <span class="sc">==</span> <span class="st">"windows"</span>) { </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  my_font <span class="ot">&lt;-</span> <span class="st">"Yu Gothic"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">capabilities</span>(<span class="st">"aqua"</span>)) {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  my_font <span class="ot">&lt;-</span> <span class="st">"HiraginoSans-W3"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  my_font <span class="ot">&lt;-</span> <span class="st">"IPAexGothic"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_gray</span>(<span class="at">base_size =</span> <span class="dv">9</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">base_family =</span> my_font))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 <p>説明のために『Rによる計量政治学』（浅野正彦, 矢内勇生. 2018）で使用されているデータ（<a href="https://raw.githubusercontent.com/yukiyanai/quant-methods-R/master/data/hr-data.csv">hr-data.csv</a>）を使う。</p>
 <p>データを読み込み、HRという名前のデータフレームを作る。</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">HR</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/hr-data.csv"</span><span class="op">)</span></span>
-<span><span class="co">#glimpse(HR)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>HR <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hr-data.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#glimpse(HR)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>衆議院議員経験があることを表すダミー変数を作る。</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">HR</span> <span class="op">&lt;-</span> <span class="va">HR</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>experience <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">status</span> <span class="op">==</span> <span class="st">"現職"</span> <span class="op">|</span> <span class="va">status</span> <span class="op">==</span> <span class="st">"元職"</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>HR <span class="ot">&lt;-</span> HR <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">experience =</span> <span class="fu">as.numeric</span>(status <span class="sc">==</span> <span class="st">"現職"</span> <span class="sc">|</span> status <span class="sc">==</span> <span class="st">"元職"</span>))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>2009年の結果だけ抜き出したデータフレームをHR09として保存する。 （本来は<code>mi()</code> などで欠測値を推定すべきだが、説明を単純化するために、今回は）<code><a href="https://rdrr.io/r/stats/na.fail.html">na.omit()</a></code> を使って完全データ (complete observations) だけ残す。</p>
+<p>2009年の結果だけ抜き出したデータフレームをHR09として保存する。 （本来は<code>mi()</code> などで欠測値を推定すべきだが、説明を単純化するために、今回は）<code>na.omit()</code> を使って完全データ (complete observations) だけ残す。</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">HR09</span> <span class="op">&lt;-</span> <span class="va">HR</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2009</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>HR09 <span class="ot">&lt;-</span> HR <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2009</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">na.omit</span>()</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 <p><br></p>
-</section><section id="回帰分析で使うテクニック" class="level2" data-number="8.2"><h2 data-number="8.2" class="anchored" data-anchor-id="回帰分析で使うテクニック">
-<span class="header-section-number">8.2</span> 回帰分析で使うテクニック</h2>
-<section id="線形変換" class="level3" data-number="8.2.1"><h3 data-number="8.2.1" class="anchored" data-anchor-id="線形変換">
-<span class="header-section-number">8.2.1</span> 線形変換</h3>
+</section>
+<section id="回帰分析で使うテクニック" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="回帰分析で使うテクニック"><span class="header-section-number">8.2</span> 回帰分析で使うテクニック</h2>
+<section id="線形変換" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="線形変換"><span class="header-section-number">8.2.1</span> 線形変換</h3>
 <p>選挙費用を説明変数、得票率を応答変数とする回帰式を推定する。</p>
 <p>選挙費用を1円単位で測定した <code>exp</code> を使った回帰式は、次のように求めることができる。</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">voteshare</span> <span class="op">~</span> <span class="va">exp</span>, </span>
-<span>            data <span class="op">=</span> <span class="va">HR09</span><span class="op">)</span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_1</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fit_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(voteshare <span class="sc">~</span> exp, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> HR09)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_1, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 7
   term          estimate    std.error statistic   p.value   conf.low  conf.high
@@ -344,11 +367,11 @@ window.Quarto = {
 <p>よって、 <span class="math display">\[\widehat{得票率} = 7.74  + 0.00000307 \cdot 選挙費用（1円）\]</span> である。</p>
 <p>これに対し、選挙費用を100万円単位で測定した <code>expm</code> を使うと、次のような結果になる。</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">voteshare</span> <span class="op">~</span> <span class="va">expm</span>, </span>
-<span>            data <span class="op">=</span> <span class="va">HR09</span><span class="op">)</span></span>
-<span><span class="co">## expm という変数をあらかじめ作っていないときは、次のようにする</span></span>
-<span><span class="co">#fit_3 &lt;- lm(voteshare ~ I(exp / 10^6), data = HR09)</span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_2</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(voteshare <span class="sc">~</span> expm, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> HR09)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## expm という変数をあらかじめ作っていないときは、次のようにする</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#fit_3 &lt;- lm(voteshare ~ I(exp / 10^6), data = HR09)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_2, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 7
   term        estimate std.error statistic   p.value conf.low conf.high
@@ -360,24 +383,25 @@ window.Quarto = {
 <p>よって、 <span class="math display">\[\widehat{得票率} = 7.74+ 3.07 \cdot 選挙費用（100万円）\]</span> である。</p>
 <p>これらの2つの回帰式の内容は、実質的にはまったく同じである。 どちらがわかりやすい？</p>
 <p><br></p>
-</section><section id="標準化" class="level3" data-number="8.2.2"><h3 data-number="8.2.2" class="anchored" data-anchor-id="標準化">
-<span class="header-section-number">8.2.2</span> 標準化</h3>
+</section>
+<section id="標準化" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="標準化"><span class="header-section-number">8.2.2</span> 標準化</h3>
 <p><span class="math inline">\(z\)</span>値で標準化した変数を使って回帰分析を行ってみよう。 変数<span class="math inline">\(x\)</span>の<span class="math inline">\(z\)</span>値は、 <span class="math display">\[z_x=\frac{x - \bar{x}}{u_x}\]</span> で求められる。ただし、<span class="math inline">\(u_x\)</span>は<span class="math inline">\(x\)</span>の不偏分散の平方根である。</p>
 <p>例として、選挙費用（測定単位：100万円）を標準化し、得票率を説明してみよう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">HR09</span> <span class="op">&lt;-</span> <span class="va">HR09</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>z_expm <span class="op">=</span> <span class="op">(</span><span class="va">expm</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">expm</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">expm</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">HR09</span><span class="op">$</span><span class="va">z_expm</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>HR09 <span class="ot">&lt;-</span> HR09 <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">z_expm =</span> (expm <span class="sc">-</span> <span class="fu">mean</span>(expm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">sd</span>(expm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(HR09<span class="sc">$</span>z_expm)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 -1.2221 -0.8650 -0.2624  0.0000  0.6002  3.8514 </code></pre>
 </div>
 </div>
-<p>これで、<code>expm</code> の<span class="math inline">\(z\)</span>値 <code>z_expm</code> が得られた（<code><a href="https://rdrr.io/r/base/scale.html">scale()</a></code>を使うともっと簡単に計算できる）。この変数を利用して回帰式を求める。</p>
+<p>これで、<code>expm</code> の<span class="math inline">\(z\)</span>値 <code>z_expm</code> が得られた（<code>scale()</code>を使うともっと簡単に計算できる）。この変数を利用して回帰式を求める。</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">voteshare</span> <span class="op">~</span> <span class="va">z_expm</span>, </span>
-<span>            data <span class="op">=</span> <span class="va">HR09</span><span class="op">)</span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_4</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fit_4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(voteshare <span class="sc">~</span> z_expm, </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> HR09)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_4, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 7
   term        estimate std.error statistic   p.value conf.low conf.high
@@ -387,12 +411,13 @@ window.Quarto = {
 </div>
 </div>
 <p>この結果は、選挙費用（100万円）が1標準偏差増えるごとに、得票率が平均して15.37ポイント上昇することを示している。 切片の26.52は、選挙費用が平均値をとったときの得票率の予測値（平均値）である。</p>
-</section><section id="中心化" class="level3" data-number="8.2.3"><h3 data-number="8.2.3" class="anchored" data-anchor-id="中心化">
-<span class="header-section-number">8.2.3</span> 中心化</h3>
+</section>
+<section id="中心化" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="中心化"><span class="header-section-number">8.2.3</span> 中心化</h3>
 <p>議員経験と選挙費用で得票率を説明するモデルを考える。 回帰式を求めると、</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">voteshare</span> <span class="op">~</span> <span class="va">experience</span> <span class="op">*</span> <span class="va">expm</span>, data <span class="op">=</span> <span class="va">HR09</span><span class="op">)</span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_5</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fit_5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(voteshare <span class="sc">~</span> experience <span class="sc">*</span> expm, <span class="at">data =</span> HR09)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_5, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 7
   term            estimate std.error statistic   p.value conf.low conf.high
@@ -402,7 +427,7 @@ window.Quarto = {
 3 expm                4.86     0.165     29.5  7.50e-142     4.53     5.18 
 4 experience:expm    -4.76     0.206    -23.1  1.60e- 96    -5.16    -4.35 </code></pre>
 </div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">glance</span><span class="op">(</span><span class="va">fit_5</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(fit_5)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 12
   r.squared adj.r.squared sigma statistic   p.value    df logLik   AIC   BIC
@@ -414,11 +439,11 @@ window.Quarto = {
 <p>と、なる。このとき、係数の推定値は何を表しているだろうか。 特に、相互作用（後のトピックの講義で説明する）を表す係数には注意が必要である。</p>
 <p>説明変数を中心化してから、同様の回帰式を求めてみよう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">HR09</span> <span class="op">&lt;-</span> <span class="va">HR09</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>c_experience <span class="op">=</span> <span class="va">experience</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">experience</span><span class="op">)</span>,</span>
-<span>         c_expm <span class="op">=</span> <span class="va">expm</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">expm</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fit_5_c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">voteshare</span> <span class="op">~</span> <span class="va">c_experience</span> <span class="op">*</span> <span class="va">c_expm</span>, data <span class="op">=</span> <span class="va">HR09</span><span class="op">)</span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_5_c</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>HR09 <span class="ot">&lt;-</span> HR09 <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">c_experience =</span> experience <span class="sc">-</span> <span class="fu">mean</span>(experience),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">c_expm =</span> expm <span class="sc">-</span> <span class="fu">mean</span>(expm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>fit_5_c <span class="ot">&lt;-</span> <span class="fu">lm</span>(voteshare <span class="sc">~</span> c_experience <span class="sc">*</span> c_expm, <span class="at">data =</span> HR09)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_5_c, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 7
   term                estimate std.error statistic   p.value conf.low conf.high
@@ -428,7 +453,7 @@ window.Quarto = {
 3 c_expm                  2.93     0.110      26.6 5.99e-121     2.71      3.14
 4 c_experience:c_expm    -4.76     0.206     -23.1 1.60e- 96    -5.16     -4.35</code></pre>
 </div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">glance</span><span class="op">(</span><span class="va">fit_5</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(fit_5)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 12
   r.squared adj.r.squared sigma statistic   p.value    df logLik   AIC   BIC
@@ -442,14 +467,15 @@ window.Quarto = {
 <p><code>c_experience</code> の係数は、選挙費用が平均値のとき、議員経験がある候補者のほうが、議員経験がない候補者より16.99ポイント高い得票率を得ると期待されることを示す。中心化する前のモデルでは選挙費用が0の候補者（そのような候補者は存在しない！）の傾きが示されていたのに対し、ここではデータ全体を代表する傾きが示されている。</p>
 <p><code>c_expm</code>の係数は、議員経験が平均値のとき、選挙費用を1単位（100万円）増やすごとに得票率が平均2.937ポイント上昇することが期待されることを示す。中心化する前のモデルでは議員経験がない候補者の傾きが示されていたのに対し、ここではデータ全体を代表する（平均的な候補者の）傾きが示されている。</p>
 <p>そして、<code>c_experience</code>と<code>c_expm</code>の交差項の係数は、議員経験がある候補者とない候補者の間には、選挙費用1単位が得票率に与える影響（傾き）の差が4.77であることを示す。この値は、中心化する前のモデルと同じである。</p>
-</section><section id="対数変換" class="level3" data-number="8.2.4"><h3 data-number="8.2.4" class="anchored" data-anchor-id="対数変換">
-<span class="header-section-number">8.2.4</span> 対数変換</h3>
-<p>Rで自然対数に変換するには<code><a href="https://rdrr.io/r/base/Log.html">log()</a></code> を、10を底とする対数に変換するには<code><a href="https://rdrr.io/r/base/Log.html">log10()</a></code> を使う。 その他の値<span class="math inline">\(b\)</span>を底とする<span class="math inline">\(x\)</span>の対数<span class="math inline">\(\log_b(x)\)</span>は<code>log(x, base = b)</code> で求めることができる。</p>
+</section>
+<section id="対数変換" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="対数変換"><span class="header-section-number">8.2.4</span> 対数変換</h3>
+<p>Rで自然対数に変換するには<code>log()</code> を、10を底とする対数に変換するには<code>log10()</code> を使う。 その他の値<span class="math inline">\(b\)</span>を底とする<span class="math inline">\(x\)</span>の対数<span class="math inline">\(\log_b(x)\)</span>は<code>log(x, base = b)</code> で求めることができる。</p>
 <p>対数変換した変数を回帰分析で利用するときは、事前に変数を変換してもよいが、分析と同時に変換することもできる。たとえば、次のようにする。</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">voteshare</span><span class="op">)</span> <span class="op">~</span> <span class="va">expm</span>, </span>
-<span>            data <span class="op">=</span> <span class="va">HR</span><span class="op">)</span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_6</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fit_6 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(voteshare) <span class="sc">~</span> expm, </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> HR)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_6, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 7
   term        estimate std.error statistic p.value conf.low conf.high
@@ -458,17 +484,20 @@ window.Quarto = {
 2 expm           0.134   0.00187      71.9       0    0.130     0.138</code></pre>
 </div>
 </div>
-<p>係数の値を元の測定単位に戻したいときは、<code><a href="https://rdrr.io/r/base/Log.html">exp()</a></code> で計算すればよい。対数変換していない説明変数である <code>expm</code> 1単位の増加すなわち100万円の支出増は、得票率を</p>
+<p>係数の値を元の測定単位に戻したいときは、<code>exp()</code> で計算すればよい。対数変換していない説明変数である <code>expm</code> 1単位の増加すなわち100万円の支出増は、得票率を</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_6</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(fit_6)[<span class="dv">2</span>]) <span class="sc">-</span> <span class="dv">1</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     expm 
 0.1434833 </code></pre>
 </div>
 </div>
 <p>だけ変化させる。つまり、得票率を14.3パーセント増加させる。</p>
-<hr></section></section><section id="二次関数の推定" class="level2" data-number="8.3"><h2 data-number="8.3" class="anchored" data-anchor-id="二次関数の推定">
-<span class="header-section-number">8.3</span> 二次関数の推定</h2>
+<hr>
+</section>
+</section>
+<section id="二次関数の推定" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="二次関数の推定"><span class="header-section-number">8.3</span> 二次関数の推定</h2>
 <p>教育の収益率について考えよう。労働経済学においてミンサー方程式 (Mincer equation, Mincer earnings function) と呼ばれる、次のような式がある（<a href="http://www.yuhikaku.co.jp/books/detail/9784641150287">田中 2015</a>: 第6章を参照 [<a href="https://www-opac.lib.kppuc.ac.jp/opac/urlredirect?etype=ebook&amp;url=https%3A%2F%2Felib.maruzen.co.jp%2Felib%2Fhtml%2FBookDetail%2FId%2F3000027426">電子書籍</a>]）。 <span class="math display">\[
 \log(賃金_i) = \beta_0 + \beta_1 修学年数_i + \beta_2 就業経験_i + \beta_3 就業経験_i^2 + \epsilon_i
 \]</span> ただし、「就業経験」は、 <span class="math display">\[
@@ -477,10 +506,10 @@ window.Quarto = {
 <p>このミンサー方程式を、回帰分析で推定してみよう。ここで確かめたいのは、 1. 修学年数が賃金を上昇させるか（そして、どれくらい上昇させるか） 2. 就業経験が賃金を上昇させるか（そして、どれくらい上昇させるか） であるが、就業経験の二乗項も説明変数に含まれている。これは、経験が浅いうちは、経験が賃金に与える正の効果が大きいが、年齢が上がると経験を積んでも賃金が上がりにくくなる（場合によっては下がる）ことが想定されるからである。つまり、経験が賃金に及ぼす影響は逓減すると想定されている。</p>
 <p>練習のために <a href="https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_income.csv">fake_income.csv</a> を使う（名前からわかる通り、架空のデータである）。データをダウンロードしてプロジェクト内の<strong>data</strong> ディレクトリに保存しよう。保存できたら、データを読み込む。</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span></span>
-<span>  url <span class="op">=</span> <span class="st">"https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_income.csv"</span>,</span>
-<span>  dest <span class="op">=</span> <span class="st">"data/fake_income.csv"</span><span class="op">)</span></span>
-<span><span class="va">myd</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/fake_income.csv"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"https://yukiyanai.github.io/jp/classes/econometrics1/contents/data/fake_income.csv"</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dest =</span> <span class="st">"data/fake_income.csv"</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>myd <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/fake_income.csv"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 1000 Columns: 3
 ── Column specification ────────────────────────────────────────────────────────
@@ -490,7 +519,7 @@ dbl (3): income, education, experience
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">glimpse</span><span class="op">(</span><span class="va">myd</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(myd)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 1,000
 Columns: 3
@@ -500,14 +529,14 @@ $ experience &lt;dbl&gt; 3, 18, 16, 14, 14, 11, 10, 16, 20, 18, 19, 6, 20, 19, 1
 </div>
 </div>
 <p>この回帰分析における応答変数は所得 <code>income</code> （万円）の自然対数、説明変数は修学年数 <code>education</code>、就業経験年数 <code>experience</code> と就業経験年数の二乗である。</p>
-<p>まず、<code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> を使って推定を行う。推定式の中で自然対数を計算するために <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code> を、二乗の計算を行うために、二乗した式を <code><a href="https://rdrr.io/r/base/AsIs.html">I()</a></code> で囲む。</p>
+<p>まず、<code>lm()</code> を使って推定を行う。推定式の中で自然対数を計算するために <code>log()</code> を、二乗の計算を行うために、二乗した式を <code>I()</code> で囲む。</p>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_mincer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">income</span><span class="op">)</span> <span class="op">~</span> <span class="va">education</span> <span class="op">+</span> <span class="va">experience</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">experience</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, </span>
-<span>                 data <span class="op">=</span> <span class="va">myd</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>fit_mincer <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(income) <span class="sc">~</span> education <span class="sc">+</span> experience <span class="sc">+</span> <span class="fu">I</span>(experience<span class="sc">^</span><span class="dv">2</span>), </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> myd)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>結果を確認してみよう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tidy</span><span class="op">(</span><span class="va">fit_mincer</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_mincer, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 7
   term            estimate std.error statistic  p.value conf.low conf.high
@@ -523,52 +552,54 @@ $ experience &lt;dbl&gt; 3, 18, 16, 14, 14, 11, 10, 16, 20, 18, 19, 6, 20, 19, 1
 <p>修学年数の影響とは異なり、就業経験の効果は、推定値を見ただけではわかりにくい。なぜなら、就業経験年数を動かすと、就業経験年数の二乗も一緒に動いてしまうからだ。そこで、修学年数を固定し、就業経験年数と就業経験年数の二乗を動かすと、応答変数である年収の対数がどのように動くか図示してみよう。</p>
 <p>まず、データ内の修学年数の平均値を求める。</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span><span class="va">mean_educ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">myd</span><span class="op">$</span><span class="va">education</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(mean_educ <span class="ot">&lt;-</span> <span class="fu">mean</span>(myd<span class="sc">$</span>education))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 13.832</code></pre>
 </div>
 </div>
 <p>次に、就業経験年数の最小値と最大値を求め、その範囲の値をとる長さ1,000のベクトルを作る。</p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">exper_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">myd</span>, </span>
-<span>                  <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">experience</span><span class="op">)</span>, </span>
-<span>                      to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">experience</span><span class="op">)</span>, </span>
-<span>                      length.out <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>exper_vec <span class="ot">&lt;-</span> <span class="fu">with</span>(myd, </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">min</span>(experience), </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">to =</span> <span class="fu">max</span>(experience), </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">length.out =</span> <span class="dv">1000</span>))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>修学年数を平均値に固定し、就業経験年数と就業経験年数の二乗を動かして予測値を求める。</p>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> </span>
-<span>             <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="va">mean_educ</span> <span class="op">+</span></span>
-<span>             <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">*</span> <span class="va">exper_vec</span> <span class="op">+</span></span>
-<span>             <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">*</span> <span class="va">exper_vec</span><span class="op">^</span><span class="fl">2</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pred_mean <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_mincer)[<span class="dv">1</span>] <span class="sc">+</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">coef</span>(fit_mincer)[<span class="dv">2</span>] <span class="sc">*</span> mean_educ <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>             <span class="fu">coef</span>(fit_mincer)[<span class="dv">3</span>] <span class="sc">*</span> exper_vec <span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>             <span class="fu">coef</span>(fit_mincer)[<span class="dv">4</span>] <span class="sc">*</span> exper_vec<span class="sc">^</span><span class="dv">2</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>就業経験年数の変化に応じて年収の自然対数がどのように変化するか図示してみよう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dd</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>exper <span class="op">=</span> <span class="va">exper_vec</span>,</span>
-<span>             pred_mean  <span class="op">=</span> <span class="va">pred_mean</span><span class="op">)</span>   <span class="co"># ggplot2 で使うためにデータフレームを作る</span></span>
-<span><span class="va">plt_1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">dd</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">exper</span>, y <span class="op">=</span> <span class="va">pred_mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"就業経験年数"</span>, y <span class="op">=</span> <span class="st">"対数年収の予測値"</span>, </span>
-<span>       title <span class="op">=</span> <span class="st">"修学年数が平均値（13.8年）のとき"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt_1</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">exper =</span> exper_vec,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">pred_mean  =</span> pred_mean)   <span class="co"># ggplot2 で使うためにデータフレームを作る</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>plt_1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dd, <span class="fu">aes</span>(<span class="at">x =</span> exper, <span class="at">y =</span> pred_mean)) <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"就業経験年数"</span>, <span class="at">y =</span> <span class="st">"対数年収の予測値"</span>, </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"修学年数が平均値（13.8年）のとき"</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(plt_1)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="regression-misc_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="480"></p>
+<figure class="figure">
+<p><img src="regression-misc_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>これで、就業経験年数と対数年収の間にある非線形の関係が図示できた。 対数年収はわかりにくいので、<code><a href="https://rdrr.io/r/base/Log.html">exp()</a></code> で元の単位に戻そう。</p>
+<p>これで、就業経験年数と対数年収の間にある非線形の関係が図示できた。 対数年収はわかりにくいので、<code>exp()</code> で元の単位に戻そう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plt_2</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">dd</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">exper</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">pred_mean</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"就業経験年数"</span>, </span>
-<span>       y <span class="op">=</span> <span class="st">"年収の予測値（万円）"</span>, </span>
-<span>       title <span class="op">=</span> <span class="st">"修学年数が平均値（13.8年）のとき"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt_2</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plt_2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dd, <span class="fu">aes</span>(<span class="at">x =</span> exper, <span class="at">y =</span> <span class="fu">exp</span>(pred_mean))) <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"就業経験年数"</span>, </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"年収の予測値（万円）"</span>, </span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"修学年数が平均値（13.8年）のとき"</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(plt_2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="regression-misc_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="480"></p>
+<figure class="figure">
+<p><img src="regression-misc_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
@@ -577,55 +608,57 @@ $ experience &lt;dbl&gt; 3, 18, 16, 14, 14, 11, 10, 16, 20, 18, 19, 6, 20, 19, 1
 <p>修学年数が最小値のとき、最大値のときはどうだろうか。</p>
 <p>修学年数が最小値のときは、</p>
 <div class="cell">
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span><span class="va">min_educ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">myd</span><span class="op">$</span><span class="va">education</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(min_educ <span class="ot">&lt;-</span> <span class="fu">min</span>(myd<span class="sc">$</span>education))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9</code></pre>
 </div>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred_min</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> </span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="va">min_educ</span> <span class="op">+</span></span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">*</span> <span class="va">exper_vec</span> <span class="op">+</span></span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">*</span> <span class="va">exper_vec</span><span class="op">^</span><span class="fl">2</span></span>
-<span><span class="va">dd</span><span class="op">$</span><span class="va">pred_min</span> <span class="op">&lt;-</span> <span class="va">pred_min</span></span>
-<span><span class="va">plt_3</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">dd</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">exper</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">pred_min</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"就業経験年数"</span>, </span>
-<span>       y <span class="op">=</span> <span class="st">"年収の予測値（万円）"</span>, </span>
-<span>       title <span class="op">=</span> <span class="st">"修学年数が最小値（9年）のとき"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt_3</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>pred_min <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_mincer)[<span class="dv">1</span>] <span class="sc">+</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">coef</span>(fit_mincer)[<span class="dv">2</span>] <span class="sc">*</span> min_educ <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">coef</span>(fit_mincer)[<span class="dv">3</span>] <span class="sc">*</span> exper_vec <span class="sc">+</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">coef</span>(fit_mincer)[<span class="dv">4</span>] <span class="sc">*</span> exper_vec<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>pred_min <span class="ot">&lt;-</span> pred_min</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>plt_3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dd, <span class="fu">aes</span>(<span class="at">x =</span> exper, <span class="at">y =</span> <span class="fu">exp</span>(pred_min))) <span class="sc">+</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"就業経験年数"</span>, </span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"年収の予測値（万円）"</span>, </span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"修学年数が最小値（9年）のとき"</span>)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(plt_3)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="regression-misc_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="480"></p>
+<figure class="figure">
+<p><img src="regression-misc_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>修学年数が最大値のときは、</p>
 <div class="cell">
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span><span class="va">max_educ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">myd</span><span class="op">$</span><span class="va">education</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(max_educ <span class="ot">&lt;-</span> <span class="fu">max</span>(myd<span class="sc">$</span>education))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 18</code></pre>
 </div>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> </span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="va">max_educ</span> <span class="op">+</span></span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">*</span> <span class="va">exper_vec</span> <span class="op">+</span></span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">fit_mincer</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">*</span> <span class="va">exper_vec</span><span class="op">^</span><span class="fl">2</span></span>
-<span><span class="va">dd</span><span class="op">$</span><span class="va">pred_max</span> <span class="op">&lt;-</span> <span class="va">pred_max</span></span>
-<span><span class="va">plt_4</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">dd</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">exper</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">pred_max</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"就業経験年数"</span>, </span>
-<span>       y <span class="op">=</span> <span class="st">"年収の予測値（万円）"</span>, </span>
-<span>       title <span class="op">=</span> <span class="st">"修学年数が最大値（18年）のとき"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt_4</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pred_max <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_mincer)[<span class="dv">1</span>] <span class="sc">+</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">coef</span>(fit_mincer)[<span class="dv">2</span>] <span class="sc">*</span> max_educ <span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">coef</span>(fit_mincer)[<span class="dv">3</span>] <span class="sc">*</span> exper_vec <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">coef</span>(fit_mincer)[<span class="dv">4</span>] <span class="sc">*</span> exper_vec<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>pred_max <span class="ot">&lt;-</span> pred_max</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>plt_4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dd, <span class="fu">aes</span>(<span class="at">x =</span> exper, <span class="at">y =</span> <span class="fu">exp</span>(pred_max))) <span class="sc">+</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"就業経験年数"</span>, </span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"年収の予測値（万円）"</span>, </span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"修学年数が最大値（18年）のとき"</span>)</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(plt_4)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="regression-misc_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="480"></p>
+<figure class="figure">
+<p><img src="regression-misc_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>以上の結果を1つの図にまとめたいときは、以下のようにする（やや難しい）。 まず、データを変換する。 現在のデータは、</p>
 <div class="cell" data-hold="true">
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dd</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dd)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
    exper pred_mean pred_min pred_max
@@ -637,22 +670,22 @@ $ experience &lt;dbl&gt; 3, 18, 16, 14, 14, 11, 10, 16, 20, 18, 19, 6, 20, 19, 1
 5 0.104       3.99     3.33     4.57
 6 0.130       4.00     3.33     4.57</code></pre>
 </div>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">dd</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dd)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1000    4</code></pre>
 </div>
 </div>
-<p>のように横長 (wide) になっている。これを縦長 (long) に変換する。そのために、<code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">tidyr::pivot_longer()</a></code> を使う。</p>
+<p>のように横長 (wide) になっている。これを縦長 (long) に変換する。そのために、<code>tidyr::pivot_longer()</code> を使う。</p>
 <div class="cell">
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dd_long</span> <span class="op">&lt;-</span> <span class="va">dd</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="va">pred_mean</span><span class="op">:</span><span class="va">pred_max</span>,</span>
-<span>               names_to <span class="op">=</span> <span class="st">"education"</span>,</span>
-<span>               names_prefix <span class="op">=</span> <span class="st">"pred_"</span>,</span>
-<span>               values_to <span class="op">=</span> <span class="st">"predicted"</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>dd_long <span class="ot">&lt;-</span> dd <span class="sc">|&gt;</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> pred_mean<span class="sc">:</span>pred_max,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"education"</span>,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_prefix =</span> <span class="st">"pred_"</span>,</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"predicted"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>どのように変換されたか確認してみよう。</p>
 <div class="cell" data-hold="true">
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dd_long</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dd_long)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
    exper education predicted
@@ -664,31 +697,35 @@ $ experience &lt;dbl&gt; 3, 18, 16, 14, 14, 11, 10, 16, 20, 18, 19, 6, 20, 19, 1
 5 0.0260 min            3.31
 6 0.0260 max            4.55</code></pre>
 </div>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">dd_long</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dd_long)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3000    3</code></pre>
 </div>
 </div>
 <p>1000行4列のデータが、3000行3列になったことがわかる。これで、3つの曲線を1つの図に示せる。 以下のようにする。</p>
 <div class="cell">
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plt5</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">dd_long</span>, </span>
-<span>               <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">exper</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">predicted</span><span class="op">)</span>, color <span class="op">=</span> <span class="va">education</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"就業経験年数"</span>, y <span class="op">=</span> <span class="st">"年収の予測値（万円）"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Accent"</span>,</span>
-<span>                     name <span class="op">=</span> <span class="st">"修学年数"</span>,</span>
-<span>                     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"最大値 (18年）"</span>, <span class="st">"平均値（13.8年）"</span>, <span class="st">"最小値（9年）"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">plt5</span><span class="op">)</span></span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>plt5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dd_long, </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> exper, <span class="at">y =</span> <span class="fu">exp</span>(predicted), <span class="at">color =</span> education)) <span class="sc">+</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"就業経験年数"</span>, <span class="at">y =</span> <span class="st">"年収の予測値（万円）"</span>) <span class="sc">+</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Accent"</span>,</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">"修学年数"</span>,</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"最大値 (18年）"</span>, <span class="st">"平均値（13.8年）"</span>, <span class="st">"最小値（9年）"</span>))</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(plt5)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="regression-misc_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure">
+<p><img src="regression-misc_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
 </div>
 
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -723,18 +760,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -766,7 +792,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/yukiyanai\.github\.io\/metrics\/");
@@ -774,10 +820,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -819,7 +870,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -867,7 +922,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1087,19 +1146,22 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./multiple-regression.html" class="pagination-link  aria-label=" &lt;span="">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./multiple-regression.html" class="pagination-link" aria-label="重回帰分析">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">重回帰分析</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./regression-reports.html" class="pagination-link" aria-label="<span class='chapter-number'>9</span>&nbsp; <span class='chapter-title'>分析結果の提示法</span>">
+      <a href="./regression-reports.html" class="pagination-link" aria-label="分析結果の提示法">
         <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">分析結果の提示法</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
       &nbsp;
     </div>   
@@ -1111,6 +1173,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
+
+
 
 
 </body></html>
