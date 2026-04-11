@@ -211,10 +211,7 @@ msummary(fits,
 :::
 
 
-
-
-
-結果をPDFに出力する（すなわちTeXの表にするとき）は、`ouput = "latetex"` とすればよい（この資料はPDFではないので出力は省略する)。ただし、チャンクオプションで `results: "asis"` を指定する。つまり、コードチャンクの冒頭が、
+結果をPDFに出力する（すなわちTeXの表にするとき）は、`ouput = "latetex"` と`escape = FALSE1`を加えればよい（この資料はPDFではないので出力は省略する)。ただし、チャンクオプションで `results: "asis"` を指定する。つまり、コードチャンクの冒頭が、
 ```{{r}}
 #| results: "asis"
 ```
@@ -230,11 +227,12 @@ msummary(list(`モデル 1` = fit_1,
          coef_rename = c("切片", "議員経験", "選挙費用 (百万円)",
                          "議員経験 x 選挙費用"),
          gof_map = tibble(raw = c("r.squared", "adj.r.squared", "nobs"),
-                          clean = c("R<sup>2</sup>", 
-                                    "自由度調整済みR<sup>2</sup>", 
+                          clean = c("$R^2$", 
+                                    "自由度調整済み$R^2$", 
                                     "観測数"),
-                          fmt = c(3, 3, 0))),
-         output = "latex")
+                          fmt = c(3, 3, 0)),
+         output = "latex",
+         escape = FALSE)
 ```
 
 ファイルに出力したい場合は、`ouput` に保存先のファイル名を指定すればよい。

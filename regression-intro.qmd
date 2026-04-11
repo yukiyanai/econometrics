@@ -11,7 +11,8 @@
 ```{r}
 #| message: false
 pacman::p_load(tidyverse,
-               broom, 
+               broom,
+               modelsummary,
                texreg)
 
 if (.Platform$OS.type == "windows") { 
@@ -213,43 +214,50 @@ p2_ci95 <- p2 + geom_smooth(method = "lm")
 plot(p2_ci95 + ggtitle("得票率と選挙費用の関係"))
 ```
 
-複数のモデルで回帰分析を実行し、結果を一つの表にまとめたいときは、`texreg::screenreg()` が便利である（HTMLに出力するなら `htmlreg()`、LaTeX (PDF) 用には `texreg()`を使う）。
+
+複数のモデルで回帰分析を実行し、結果を一つの表にまとめたいときは、`modelsummary::msummary()` が便利である。
+まず、モデルをまとめたリストを作っておく。
 ```{r}
 models <- list(`Model 1` = fit_1,
                `Model 2` = fit_2)
-screenreg(models, stars = NULL)
 ```
 
 HTMLに出力する場合。
 ```r
 #| results: "asis"
-htmlreg(models, 
-        stars = NULL,
-        doctype = FALSE,
-        caption = "回帰分析の結果",
-        caption.above = TRUE)
+msummary(models, 
+         title = "回帰分析の結果",
+         gof_map = tibble(raw = c("r.squared", "adj.r.squared", "nobs"),
+                          clean = c("R<sup>2</sup>", 
+                                    "自由度調整済みR<sup>2</sup>", 
+                                    "観測数"),
+                          fmt = c(3, 3, 0)))
 ```
 ```{r}
 #| echo: false
-#| results: "asis"
-htmlreg(models, 
-        stars = NULL,
-        doctype = FALSE,
-        caption = "回帰分析の結果",
-        caption.above = TRUE)
+msummary(models, 
+         title = "回帰分析の結果",
+         gof_map = tibble(raw = c("r.squared", "adj.r.squared", "nobs"),
+                          clean = c("R<sup>2</sup>", 
+                                    "自由度調整済みR<sup>2</sup>", 
+                                    "観測数"),
+                          fmt = c(3, 3, 0)))
 ```
 
 
-
-PDFに render する場合には、`texreg()` を使う（出力は省略する）。
+PDFに render する場合には、引数`output = "latex"`と`escape = FALSE` を加える。さらに、$R^2$を$\LaTeX$ の記法を使ったものに書き換える（この資料はHTMLなので、PDF出力は省略）。
 ```r
 #| results: "asis"
-texreg(models, 
-       stars = NULL,
-       caption = "回帰分析の結果",
-       caption.above = TRUE)
+msummary(models, 
+         title = "回帰分析の結果",
+         gof_map = tibble(raw = c("r.squared", "adj.r.squared", "nobs"),
+                          clean = c("$R^2$", 
+                                    "自由度調整済み$R^2$", 
+                                    "観測数"),
+                          fmt = c(3, 3, 0)),
+         output = "latex",
+         escape = FALSE)
 ```
 
-
-課題やレポートを提出する際にはQuarto文書をPDFにするので`texreg` を使う。そのとき、[チャンクオプション](https://www.jaysong.net/RBook/quarto1.html#%E3%83%81%E3%83%A3%E3%83%B3%E3%82%AF%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3)に `#| results: "asis"` を付ける（`texreg`を使うチャンクの第1行に `#| results: "asis"`と書く）。
+課題やレポートを提出する際にはQuarto文書をPDFにするので引数`output = "latex"`と`escape = FALSE`を使う。そのとき、[チャンクオプション](https://www.jaysong.net/RBook/quarto1.html#%E3%83%81%E3%83%A3%E3%83%B3%E3%82%AF%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3)に `#| results: "asis"` を付ける（`texreg`を使うチャンクの第1行に `#| results: "asis"`と書く）。
 
