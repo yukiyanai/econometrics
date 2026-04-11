@@ -12,8 +12,7 @@
 #| message: false
 pacman::p_load(tidyverse,
                broom,
-               modelsummary,
-               texreg)
+               modelsummary)
 
 if (.Platform$OS.type == "windows") { 
   my_font <- "Yu Gothic"
