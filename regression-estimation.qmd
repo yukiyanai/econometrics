@@ -17,7 +17,7 @@ pacman::p_load(tidyverse,
                shiny)
 
 if (.Platform$OS.type == "windows") { 
-  my_font <- "Japan1"
+  my_font <- "Yu Gothic"
 } else if (capabilities("aqua")) {
   my_font <- "HiraginoSans-W3"
 } else {
