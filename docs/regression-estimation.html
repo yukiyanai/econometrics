@@ -370,11 +370,11 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <pre><code># A tibble: 2 × 5
   term        estimate std.error statistic p.value
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-1 (Intercept)     2.87      1.02      2.81    0.07
-2 x               1.5       0.33      4.57    0.02</code></pre>
+1 (Intercept)     1.25      0.23      5.47    0.01
+2 x               1.5       0.07     21.7     0   </code></pre>
 </div>
 </div>
-<p><span class="math inline">\(\beta_0\)</span>と<span class="math inline">\(\beta_1\)</span>の推定値をそれぞれ <span class="math inline">\(b_0\)</span>、<span class="math inline">\(b_1\)</span> とすると、<span class="math inline">\(b_0\)</span>=2.87、<span class="math inline">\(b_1\)</span>=1.5 である。推定はどれくらい正確だろうか？</p>
+<p><span class="math inline">\(\beta_0\)</span>と<span class="math inline">\(\beta_1\)</span>の推定値をそれぞれ <span class="math inline">\(b_0\)</span>、<span class="math inline">\(b_1\)</span> とすると、<span class="math inline">\(b_0\)</span>=1.25、<span class="math inline">\(b_1\)</span>=1.5 である。推定はどれくらい正確だろうか？</p>
 </section><section id="複数回のシミュレーション" class="level3" data-number="5.3.2"><h3 data-number="5.3.2" class="anchored" data-anchor-id="複数回のシミュレーション">
 <span class="header-section-number">5.3.2</span> 複数回のシミュレーション</h3>
 <p>1回だけのシミュレーションでは、その結果が偶然得られたものなのか、必然的な結果なのかの区別がつかない。そこで、上のシミュレーションを繰り返す。複数のコマンドを何度も実行するのは面倒なので、シミュレーション用の関数を <code>function()</code> で定義してしまおう。</p>
@@ -409,7 +409,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">simple_reg</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, beta0 <span class="op">=</span> <span class="fl">2</span>, beta1 <span class="op">=</span> <span class="fl">0.8</span>, sigma <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-  0.3142220   0.8089373 </code></pre>
+   1.943120    1.195479 </code></pre>
 </div>
 </div>
 <p>もう1度やってみよう。</p>
@@ -417,7 +417,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">simple_reg</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, beta0 <span class="op">=</span> <span class="fl">2</span>, beta1 <span class="op">=</span> <span class="fl">0.8</span>, sigma <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-  2.0907860   0.9131526 </code></pre>
+  2.9348503   0.6957474 </code></pre>
 </div>
 </div>
 <p>もう1度やってみよう。</p>
@@ -425,7 +425,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">simple_reg</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, beta0 <span class="op">=</span> <span class="fl">2</span>, beta1 <span class="op">=</span> <span class="fl">0.8</span>, sigma <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-   1.240912    1.082497 </code></pre>
+   2.280359    1.350971 </code></pre>
 </div>
 </div>
 <p>このように、実行する度に異なる結果が得られる。</p>
@@ -466,11 +466,11 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span></span></code></pre></div><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            b0        b1
-[1,] 2.6455628 1.1840738
-[2,] 2.2299879 0.8818125
-[3,] 0.9729348 0.4194951
-[4,] 2.7404966 0.5391225
-[5,] 2.9572507 0.1370169</code></pre>
+[1,] 3.1495620 0.6533695
+[2,] 3.0762536 0.8114634
+[3,] 1.8809739 1.0917172
+[4,] 0.9837239 0.7048840
+[5,] 1.2990116 0.2626969</code></pre>
 </div>
 </div>
 <p>シミュレーションの実行結果が保存されていることがわかる。</p>
@@ -495,7 +495,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">res_data</span><span class="op">$</span><span class="va">b0</span><span class="op">)</span></span></code></pre></div><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.007371</code></pre>
+<pre><code>[1] 1.993534</code></pre>
 </div>
 </div>
 <p>であり、真の値である2に近い。</p>
@@ -518,7 +518,7 @@ Y_i = 2 + 0.8X_i + \varepsilon_i
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">res_data</span><span class="op">$</span><span class="va">b1</span><span class="op">)</span></span></code></pre></div><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.7952691</code></pre>
+<pre><code>[1] 0.7739317</code></pre>
 </div>
 </div>
 <p>であり、真の値である0.8に近い。</p>
